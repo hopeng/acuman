@@ -1,0 +1,132 @@
+[
+  {
+    "uri": "/fab/settlement/transfer/fab/transactionid/O388784.xml",
+    "domain": "settlement",
+    "source": "FAB",
+    "idType": "fab/transactionId",
+    "id": "O388784",
+    "dynamicFields": {
+      "sttlmDt": "2015-11-17",
+      "ccy": "EUR",
+      "id": "00064758",
+      "amnt": "152386.80"
+    }
+  },
+  {
+    "uri": "/blackbox/settlement/transfer/blackbox/settlementid/HKC_122300400.xml",
+    "domain": "settlement",
+    "source": "Blackbox",
+    "idType": "blackbox/settlementId",
+    "id": "HKC_122300400",
+    "dynamicFields": {
+      "sttlmDt": "2016-01-07",
+      "ccy": "MYR",
+      "id": "07560311",
+      "amnt": "3856044.50000"
+    }
+  },
+  {
+    "uri": "/blackbox/settlement/transfer/blackbox/settlementid/HKS_72974782.xml",
+    "domain": "settlement",
+    "source": "Blackbox",
+    "idType": "blackbox/settlementId",
+    "id": "HKS_72974782",
+    "dynamicFields": {
+      "sttlmDt": "2015-11-13",
+      "ccy": "HKD",
+      "id": "",
+      "amnt": "453703.56000"
+    }
+  },
+  {
+    "uri": "/blackbox/settlement/transfer/blackbox/settlementid/HKC_121795585.14816502186918836000.xml",
+    "domain": "settlement",
+    "source": "Blackbox",
+    "idType": "blackbox/settlementId",
+    "id": "HKC_121795585",
+    "dynamicFields": {
+      "sttlmDt": "2015-12-01",
+      "ccy": "ZAR",
+      "id": "07349343",
+      "amnt": "20260921.76000"
+    }
+  },
+  {
+    "uri": "/blackbox/settlement/transfer/blackbox/settlementid/HKC_121920329.4591270843041663048.xml",
+    "domain": "settlement",
+    "source": "Blackbox",
+    "idType": "blackbox/settlementId",
+    "id": "HKC_121920329",
+    "dynamicFields": {
+      "sttlmDt": "2015-12-10",
+      "ccy": "HKD",
+      "id": "02003069",
+      "amnt": "419988.67900"
+    }
+  },
+  {
+    "uri": "/fab/settlement/transfer/fab/transactionid/O390791.16653633257381583271.xml",
+    "domain": "settlement",
+    "source": "FAB",
+    "idType": "fab/transactionId",
+    "id": "O390791",
+    "dynamicFields": {
+      "sttlmDt": "2015-11-30",
+      "ccy": "EUR",
+      "id": "UNKNOWN",
+      "amnt": "6688521.66"
+    }
+  },
+  {
+    "uri": "/blackbox/settlement/transfer/blackbox/settlementid/HKC_121529114.xml",
+    "domain": "settlement",
+    "source": "Blackbox",
+    "idType": "blackbox/settlementId",
+    "id": "HKC_121529114",
+    "dynamicFields": {
+      "sttlmDt": "2015-11-16",
+      "ccy": "USD",
+      "id": "02003069",
+      "amnt": "42.33729"
+    }
+  },
+  {
+    "uri": "/fx-setts-mainframe/settlement/transfer/fx-setts/transactionid/XNM69908.xml",
+    "domain": "settlement",
+    "source": "FX Setts Mainframe",
+    "idType": "fx-setts/transactionId",
+    "id": "XNM69908",
+    "dynamicFields": {
+      "sttlmDt": "2016-02-01",
+      "ccy": "JPY",
+      "id": "00883348",
+      "amnt": "130032000"
+    }
+  },
+  {
+    "uri": "/fx-setts-mainframe/settlement/transfer/fx-setts/transactionid/XNL68219.xml",
+    "domain": "settlement",
+    "source": "FX Setts Mainframe",
+    "idType": "fx-setts/transactionId",
+    "id": "XNL68219",
+    "dynamicFields": {
+      "sttlmDt": "2016-01-15",
+      "ccy": "JPY",
+      "id": "05787411",
+      "amnt": "118325000"
+    }
+  },
+  {
+    "uri": "/fx-setts-mainframe/settlement/transfer/fx-setts/transactionid/XNN40829.xml",
+    "domain": "settlement",
+    "source": "FX Setts Mainframe",
+    "idType": "fx-setts/transactionId",
+    "id": "XNN40829",
+    "dynamicFields": {
+      "sttlmDt": "2016-02-11",
+      "ccy": "SEK",
+      "id": "00040477",
+      "amnt": "545676.95"
+    }
+  }
+]

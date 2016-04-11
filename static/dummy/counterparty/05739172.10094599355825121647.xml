@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<canonMessage
+        xmlns="http://www.macquarie.com/canon/v1"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <header>
+        <metadata>
+            <domain>
+                <name>legacy/central-customer</name>
+                <schemaVersion>1.0</schemaVersion>
+                <subdomain>
+                    <name>customer</name>
+                </subdomain>
+            </domain>
+            <identifier>
+                <id idScheme="central-customer/ccn">05739172</id>
+            </identifier>
+            <source>central-customer</source>
+            <messageId>C0000000000000000000000000816986</messageId>
+            <isDelete>false</isDelete>
+        </metadata>
+    </header>
+    <payload>
+        <centralCustomer
+                xmlns="http://www.macquarie.com/central-customer/v1">
+            <customer>
+                <custNum>05739172</custNum>
+                <custShortNme>PBURNSLO</custShortNme>
+                <custNme>BURNS PAUL-PAUL BURNS</custNme>
+                <townCde>LO</townCde>
+                <cntryDomCde>GB</cntryDomCde>
+                <cntryOriginCde>GB</cntryOriginCde>
+                <custStatusCde>O</custStatusCde>
+                <origDivCde>IU</origDivCde>
+                <whtExemptFlg>N</whtExemptFlg>
+                <limitReviewDte>1970-01-01</limitReviewDte>
+                <creatorCde>jsalvado</creatorCde>
+                <creatorTad>2010-12-09T02:49:58.168+11:00</creatorTad>
+                <lastUpUserCde>IFER</lastUpUserCde>
+                <lastUpTad>2010-12-09T14:15:18.113+11:00</lastUpTad>
+                <custInternalFlg>N</custInternalFlg>
+                <legalName1Txt>MR PAUL BURNS T/A PAUL BURNS</legalName1Txt>
+                <custTypeCde>O</custTypeCde>
+                <notes1>SIMON KINSEY/ROD PALMER</notes1>
+                <legalNameTxtCmb>MR PAUL BURNS T/A PAUL BURNS</legalNameTxtCmb>
+                <address>
+                    <custLinkTypeCde>D</custLinkTypeCde>
+                    <custLinkCde>00</custLinkCde>
+                    <copySeqCde>00</copySeqCde>
+                    <copiesReqNum>1</copiesReqNum>
+                    <startEffTad>2010-12-08T00:00:00.000+11:00</startEffTad>
+                    <endEffTad>3999-12-31T00:00:00.000+11:00</endEffTad>
+                    <addressLine1Txt>17 ARDENLEE PARK</addressLine1Txt>
+                    <townNme>DOWN PATRICK</townNme>
+                    <countryNme>UNITED KINGDOM</countryNme>
+                    <postCde>BT30 6LQ</postCde>
+                    <creatorCde>jsalvado</creatorCde>
+                    <creatorTad>2010-12-09T02:49:58.365+11:00</creatorTad>
+                    <lastUpUserCde>jsalvado</lastUpUserCde>
+                    <lastUpTad>2010-12-09T02:49:58.365+11:00</lastUpTad>
+                </address>
+                <division>
+                    <divisionCde>IU</divisionCde>
+                    <custDivStatus>C</custDivStatus>
+                    <lastTranDte>1970-01-01</lastTranDte>
+                    <firstActiveDte>1970-01-01</firstActiveDte>
+                    <creatorCde>CCBATCH</creatorCde>
+                    <creatorTad>2010-12-09T02:49:58.301+11:00</creatorTad>
+                    <lastUpUserCde>CCBATCH</lastUpUserCde>
+                    <lastUpTad>2010-12-09T02:49:58.301+11:00</lastUpTad>
+                </division>
+                <class>
+                    <divisionCde>AC</divisionCde>
+                    <classTypeCde>ABS</classTypeCde>
+                    <classCde>3610</classCde>
+                    <lastUpUserCde>jsalvado</lastUpUserCde>
+                    <lastUpTad>2010-12-09T02:49:58.416+11:00</lastUpTad>
+                </class>
+                <class>
+                    <divisionCde>AC</divisionCde>
+                    <classTypeCde>APRA</classTypeCde>
+                    <classCde>4235</classCde>
+                    <lastUpUserCde>jsalvado</lastUpUserCde>
+                    <lastUpTad>2010-12-09T02:49:58.417+11:00</lastUpTad>
+                </class>
+                <class>
+                    <divisionCde>AC</divisionCde>
+                    <classTypeCde>RBA</classTypeCde>
+                    <classCde>4020</classCde>
+                    <lastUpUserCde>jsalvado</lastUpUserCde>
+                    <lastUpTad>2010-12-09T02:49:58.417+11:00</lastUpTad>
+                </class>
+            </customer>
+        </centralCustomer>
+    </payload>
+    <auditRecords>
+        <sourceAuditRecord>
+            <system>central-customer</system>
+            <genericUser>CUPUSER</genericUser>
+            <timestamp>
+                <created>2016-01-19T09:41:41.417+11:00</created>
+            </timestamp>
+        </sourceAuditRecord>
+        <auditRecord>
+            <system>canon-listener</system>
+            <timestamp>
+                <received>2016-01-19T18:52:58.753+11:00</received>
+            </timestamp>
+        </auditRecord>
+    </auditRecords>
+    <ancillaryData>
+        <nds
+                xmlns="http://www.macquarie.com/nds/v1">
+            <systemStart>2016-01-19T07:52:58.780252Z</systemStart>
+            <systemEnd>2016-02-06T19:56:38.562057Z</systemEnd>
+            <validStart>0001-01-01T00:00:00</validStart>
+            <validEnd>9999-12-31T23:59:59.99</validEnd>
+        </nds>
+    </ancillaryData>
+    <trailer>
+        <checksum type="md5sum">A5220FC36AF257C58491380E20540C0062EA1F841415620D14222254E8D48619</checksum>
+    </trailer>
+</canonMessage>

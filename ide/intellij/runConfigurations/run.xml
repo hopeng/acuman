@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="run" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.macquarie.ofr.dawn.Application" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <module name="case-manager" />
+    <envs />
+    <method />
+  </configuration>
+</component>

@@ -1,0 +1,122 @@
+[
+  {
+    "uri": "/central-customer/legacy/central-customer/customer/central-customer/ccn/05739172.10094599355825121647.xml",
+    "domain": "legacy/central-customer",
+    "source": "central-customer",
+    "idType": "central-customer/ccn",
+    "id": "05739172",
+    "dynamicFields": {
+      "cntryDomCde": "GB",
+      "legalNameTxtCmb": "MR PAUL BURNS T/A PAUL BURNS",
+      "custShortNme": "PBURNSLO"
+    }
+  },
+  {
+    "uri": "/central-customer/legacy/central-customer/customer/central-customer/ccn/07150477.11722185237832331043.xml",
+    "domain": "legacy/central-customer",
+    "source": "central-customer",
+    "idType": "central-customer/ccn",
+    "id": "07150477",
+    "dynamicFields": {
+      "cntryDomCde": "AU",
+      "legalNameTxtCmb": "DR DIANE TEMPLEMAN",
+      "custShortNme": "TEMP-DAD"
+    }
+  },
+  {
+    "uri": "/central-customer/legacy/central-customer/customer/central-customer/ccn/07322241.9698202961728480839.xml",
+    "domain": "legacy/central-customer",
+    "source": "central-customer",
+    "idType": "central-customer/ccn",
+    "id": "07322241",
+    "dynamicFields": {
+      "cntryDomCde": "AU",
+      "legalNameTxtCmb": "PRESTIGE CIVIL PTY LTD",
+      "custShortNme": "PRESTIGME"
+    }
+  },
+  {
+    "uri": "/central-customer/legacy/central-customer/customer/central-customer/ccn/04320826.9933143462648105979.xml",
+    "domain": "legacy/central-customer",
+    "source": "central-customer",
+    "idType": "central-customer/ccn",
+    "id": "04320826",
+    "dynamicFields": {
+      "cntryDomCde": "GB",
+      "legalNameTxtCmb": "QUADRANT ESTATES (HERALD) LIMITED",
+      "custShortNme": "QUADHERALO"
+    }
+  },
+  {
+    "uri": "/central-customer/legacy/central-customer/customer/central-customer/ccn/02355485.15392261335778684007.xml",
+    "domain": "legacy/central-customer",
+    "source": "central-customer",
+    "idType": "central-customer/ccn",
+    "id": "02355485",
+    "dynamicFields": {
+      "cntryDomCde": "US",
+      "legalNameTxtCmb": "MASON STREET ADVISORS LLC",
+      "custShortNme": "MASONSTWC"
+    }
+  },
+  {
+    "uri": "/central-customer/legacy/central-customer/customer/central-customer/ccn/04207031.15309817142513406078.xml",
+    "domain": "legacy/central-customer",
+    "source": "central-customer",
+    "idType": "central-customer/ccn",
+    "id": "04207031",
+    "dynamicFields": {
+      "cntryDomCde": "AU",
+      "legalNameTxtCmb": "SLUSAREK TRANSPORT PTY LTD",
+      "custShortNme": "SLUSAREKME"
+    }
+  },
+  {
+    "uri": "/central-customer/legacy/central-customer/customer/central-customer/ccn/04872404.5865113964505712368.xml",
+    "domain": "legacy/central-customer",
+    "source": "central-customer",
+    "idType": "central-customer/ccn",
+    "id": "04872404",
+    "dynamicFields": {
+      "cntryDomCde": "AU",
+      "legalNameTxtCmb": "MR KEVIN & MS COLLEEN GRIGG",
+      "custShortNme": "GRIGK-CME"
+    }
+  },
+  {
+    "uri": "/central-customer/legacy/central-customer/customer/central-customer/ccn/07777030.3807167166259181138.xml",
+    "domain": "legacy/central-customer",
+    "source": "central-customer",
+    "idType": "central-customer/ccn",
+    "id": "07777030",
+    "dynamicFields": {
+      "cntryDomCde": "AU",
+      "legalNameTxtCmb": "ARTPEARL HOLDINGS PTY LTD ATF      LINEAR ARCHITECTURAL SYSTEMS U/T",
+      "custShortNme": "LINEARUTPE"
+    }
+  },
+  {
+    "uri": "/central-customer/legacy/central-customer/customer/central-customer/ccn/07364185.xml",
+    "domain": "legacy/central-customer",
+    "source": "central-customer",
+    "idType": "central-customer/ccn",
+    "id": "07364185",
+    "dynamicFields": {
+      "cntryDomCde": "ES",
+      "legalNameTxtCmb": "BP OIL ESPANA SAU",
+      "custShortNme": "BPOILESPMD"
+    }
+  },
+  {
+    "uri": "/central-customer/legacy/central-customer/customer/central-customer/ccn/00067116.5166452048206840050.xml",
+    "domain": "legacy/central-customer",
+    "source": "central-customer",
+    "idType": "central-customer/ccn",
+    "id": "00067116",
+    "dynamicFields": {
+      "cntryDomCde": "AU",
+      "legalNameTxtCmb": "MACQUARIE BANK LTD-FX-OPTIONS      STRATEGIC (STRATOP)",
+      "custShortNme": "CURSTRATSY"
+    }
+  }
+]

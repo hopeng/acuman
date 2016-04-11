@@ -1,0 +1,874 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<canonMessage
+        xmlns="http://www.macquarie.com/canon/v1"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <header>
+        <metadata>
+            <domain>
+                <name>legacy/globe</name>
+                <schemaVersion>1.19</schemaVersion>
+                <subdomain>
+                    <name>aml</name>
+                    <subdomain>
+                        <name>basic-entity-data</name>
+                    </subdomain>
+                </subdomain>
+            </domain>
+            <identifier>
+                <id idScheme="globe/parent-id_client-id">199444_128842</id>
+            </identifier>
+            <source>globe</source>
+            <messageId>ab1fb371-4737-47d2-b99f-f1885bc84fde</messageId>
+            <isDelete>false</isDelete>
+        </metadata>
+    </header>
+    <payload>
+        <entityRecord
+                xmlns="http://www.macquarie.com/globe/v1">
+            <Header>
+                <processType>Migration</processType>
+                <processTimestamp>2016-02-17T09:40:53.502Z</processTimestamp>
+                <ClientID>199444</ClientID>
+                <MessageNumber>2</MessageNumber>
+                <MessageCount>2</MessageCount>
+                <FeedType>#CORE#</FeedType>
+            </Header>
+            <Entity>
+                <ClientID>128842</ClientID>
+                <ClientStatus/>
+                <EntityType>11</EntityType>
+                <ClientName>RAIZEN ENERGIA S.A.</ClientName>
+                <EmpNumber>0</EmpNumber>
+                <AdverseNews>false</AdverseNews>
+                <SanctionedIndividual>false</SanctionedIndividual>
+                <AreaOfConcern>false</AreaOfConcern>
+                <AEAFlag>false</AEAFlag>
+                <AEACombiFlag>true</AEACombiFlag>
+                <CountryOfDomicile>BR</CountryOfDomicile>
+                <CountryOfInc>BR</CountryOfInc>
+                <ShareType>Primary</ShareType>
+                <IndustryType>28</IndustryType>
+                <ClientType>client</ClientType>
+                <MaqEntity>false</MaqEntity>
+                <SourceOfFunds>Derived from nature of business</SourceOfFunds>
+                <remediatedClientFlag>false</remediatedClientFlag>
+                <CustomerType>1</CustomerType>
+                <GreyListFlag>false</GreyListFlag>
+                <SubsidiaryFlag>false</SubsidiaryFlag>
+                <BranchFlag>false</BranchFlag>
+                <legalFormID>6</legalFormID>
+                <NatureOfBusiness>The principal business activity of RESA is the production and domestic and international trading of sugar and ethanol</NatureOfBusiness>
+                <nonUSFinancialFlag>false</nonUSFinancialFlag>
+                <CIPCustNoticeFlag>true</CIPCustNoticeFlag>
+                <clientClrPrimeBrokerFlag>false</clientClrPrimeBrokerFlag>
+                <EntityPrimaryLink>
+                    <ClientID>128842</ClientID>
+                    <ParentID>199444</ParentID>
+                    <Relationship>11</Relationship>
+                </EntityPrimaryLink>
+                <Associations>
+                    <ClientID>128842</ClientID>
+                    <AssociationID>34</AssociationID>
+                    <AssociationType>Exchanges</AssociationType>
+                </Associations>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>252760</DocumentID>
+                    <DocumentType>191</DocumentType>
+                    <DocumentName>14 - Factiva.pdf</DocumentName>
+                    <Authenticity>1</Authenticity>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2015-12-22T20:33:07.000Z</DocUpdateDate>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>252759</DocumentID>
+                    <DocumentType>190</DocumentType>
+                    <DocumentName>13 - Accuity.pdf</DocumentName>
+                    <Authenticity>1</Authenticity>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2015-12-22T20:32:50.000Z</DocUpdateDate>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>183380</DocumentID>
+                    <DocumentType>58</DocumentType>
+                    <DocumentName>30 - UK Extension Checklist.pdf</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>298056</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_lon_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2015-08-07T09:40:25.000Z</DocUpdateDate>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>183379</DocumentID>
+                    <DocumentType>191</DocumentType>
+                    <DocumentName>29 - Factiva.pdf</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>298057</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_lon_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2015-08-07T09:40:03.000Z</DocUpdateDate>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>183375</DocumentID>
+                    <DocumentType>190</DocumentType>
+                    <DocumentName>28 - Accuity.pdf</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>298058</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_lon_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2015-08-07T09:38:43.000Z</DocUpdateDate>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>183372</DocumentID>
+                    <DocumentType>62</DocumentType>
+                    <DocumentName>27 - Proof as active client.pdf</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>298059</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_lon_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2015-08-07T09:38:22.000Z</DocUpdateDate>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>183370</DocumentID>
+                    <DocumentType>62</DocumentType>
+                    <DocumentName>26 - EMS 9495 RAIZEN.pdf</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>298060</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_lon_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2015-08-07T09:37:45.000Z</DocUpdateDate>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>156843</DocumentID>
+                    <DocumentType>58</DocumentType>
+                    <DocumentName>EXT Checklist v1.0.pdf</DocumentName>
+                    <Authenticity>1</Authenticity>
+                    <SourceDocID>144882</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2015-06-19T15:17:49.000Z</DocUpdateDate>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>156805</DocumentID>
+                    <DocumentType>52</DocumentType>
+                    <DocumentName>24 EMS 7474.pdf</DocumentName>
+                    <Authenticity>1</Authenticity>
+                    <SourceDocID>144883</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2015-06-19T14:24:23.000Z</DocUpdateDate>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>111666</DocumentID>
+                    <DocumentType>58</DocumentType>
+                    <DocumentName>Global KYC Checklist.pdf</DocumentName>
+                    <Authenticity>1</Authenticity>
+                    <SourceDocID>135348</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2015-03-17T18:12:51.000Z</DocUpdateDate>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>111663</DocumentID>
+                    <DocumentType>191</DocumentType>
+                    <DocumentName>23 Factiva.pdf</DocumentName>
+                    <Authenticity>1</Authenticity>
+                    <SourceDocID>135349</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2015-03-17T18:09:37.000Z</DocUpdateDate>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>111661</DocumentID>
+                    <DocumentType>190</DocumentType>
+                    <DocumentName>22 Accuity.pdf</DocumentName>
+                    <Authenticity>1</Authenticity>
+                    <SourceDocID>135350</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2015-03-17T18:07:47.000Z</DocUpdateDate>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>111660</DocumentID>
+                    <DocumentType>148</DocumentType>
+                    <DocumentName>21 W8 BENE.pdf</DocumentName>
+                    <Authenticity>1</Authenticity>
+                    <SourceDocID>135351</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2015-03-17T18:04:10.000Z</DocUpdateDate>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>111659</DocumentID>
+                    <DocumentType>42</DocumentType>
+                    <DocumentName>20 BM&amp;F.pdf</DocumentName>
+                    <Authenticity>1</Authenticity>
+                    <SourceDocID>135352</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2015-03-17T18:03:44.000Z</DocUpdateDate>
+                    <DocumentsVerification>
+                        <ClientID>128842</ClientID>
+                        <DocumentID>111659</DocumentID>
+                        <TransactionID>176020</TransactionID>
+                        <EntityType>11</EntityType>
+                        <VerificationDocID>5</VerificationDocID>
+                    </DocumentsVerification>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>111658</DocumentID>
+                    <DocumentType>1</DocumentType>
+                    <DocumentName>19 Annual Report 2014.pdf</DocumentName>
+                    <Authenticity>1</Authenticity>
+                    <SourceDocID>135353</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2015-03-17T18:03:13.000Z</DocUpdateDate>
+                    <DocumentsVerification>
+                        <ClientID>128842</ClientID>
+                        <DocumentID>111658</DocumentID>
+                        <TransactionID>176021</TransactionID>
+                        <EntityType>11</EntityType>
+                        <VerificationDocID>55</VerificationDocID>
+                    </DocumentsVerification>
+                    <DocumentsVerification>
+                        <ClientID>128842</ClientID>
+                        <DocumentID>111658</DocumentID>
+                        <TransactionID>176022</TransactionID>
+                        <EntityType>11</EntityType>
+                        <VerificationDocID>65</VerificationDocID>
+                    </DocumentsVerification>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>111657</DocumentID>
+                    <DocumentType>41</DocumentType>
+                    <DocumentName>18 Website.pdf</DocumentName>
+                    <Authenticity>1</Authenticity>
+                    <SourceDocID>135354</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2015-03-17T17:58:09.000Z</DocUpdateDate>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>111654</DocumentID>
+                    <DocumentType>9</DocumentType>
+                    <DocumentName>17 Registry.pdf</DocumentName>
+                    <Authenticity>1</Authenticity>
+                    <SourceDocID>135355</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2015-03-17T17:57:28.000Z</DocUpdateDate>
+                    <DocumentsVerification>
+                        <ClientID>128842</ClientID>
+                        <DocumentID>111654</DocumentID>
+                        <TransactionID>176023</TransactionID>
+                        <EntityType>11</EntityType>
+                        <VerificationDocID>1</VerificationDocID>
+                    </DocumentsVerification>
+                    <DocumentsVerification>
+                        <ClientID>128842</ClientID>
+                        <DocumentID>111654</DocumentID>
+                        <TransactionID>176024</TransactionID>
+                        <EntityType>11</EntityType>
+                        <VerificationDocID>2</VerificationDocID>
+                    </DocumentsVerification>
+                    <DocumentsVerification>
+                        <ClientID>128842</ClientID>
+                        <DocumentID>111654</DocumentID>
+                        <TransactionID>176025</TransactionID>
+                        <EntityType>11</EntityType>
+                        <VerificationDocID>4</VerificationDocID>
+                    </DocumentsVerification>
+                    <DocumentsVerification>
+                        <ClientID>128842</ClientID>
+                        <DocumentID>111654</DocumentID>
+                        <TransactionID>176026</TransactionID>
+                        <EntityType>11</EntityType>
+                        <VerificationDocID>54</VerificationDocID>
+                    </DocumentsVerification>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>111652</DocumentID>
+                    <DocumentType>201</DocumentType>
+                    <DocumentName>16 Interim Risk-Low.pdf</DocumentName>
+                    <Authenticity>1</Authenticity>
+                    <SourceDocID>135356</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2015-03-17T17:55:18.000Z</DocUpdateDate>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>108002</DocumentID>
+                    <DocumentType>36</DocumentType>
+                    <DocumentName>15 EMS 4532.pdf</DocumentName>
+                    <Authenticity>1</Authenticity>
+                    <SourceDocID>135357</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2015-03-09T15:36:48.000Z</DocUpdateDate>
+                    <DocumentsVerification>
+                        <ClientID>128842</ClientID>
+                        <DocumentID>108002</DocumentID>
+                        <TransactionID>176027</TransactionID>
+                        <EntityType>11</EntityType>
+                        <VerificationDocID>80</VerificationDocID>
+                    </DocumentsVerification>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>49025</DocumentID>
+                    <DocumentType>62</DocumentType>
+                    <DocumentName>Name Change Translation.doc</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>135358</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2014-10-15T15:40:43.000Z</DocUpdateDate>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>49023</DocumentID>
+                    <DocumentType>62</DocumentType>
+                    <DocumentName>Name Change to Raizen Energia.pdf</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>135359</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2014-10-15T15:38:16.000Z</DocUpdateDate>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>387280</DocumentID>
+                    <DocumentType>145</DocumentType>
+                    <DocumentName>US Chicago Futures - Purpose of Relationship.pdf</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>135360</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2014-06-20T09:20:33.000Z</DocUpdateDate>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>387244</DocumentID>
+                    <DocumentType>57</DocumentType>
+                    <DocumentName>RMG Approval.pdf</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>135361</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2014-06-20T09:00:48.000Z</DocUpdateDate>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>387242</DocumentID>
+                    <DocumentType>16</DocumentType>
+                    <DocumentName>14.Screening all new.pdf</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>135362</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2014-06-20T09:00:00.000Z</DocUpdateDate>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>387238</DocumentID>
+                    <DocumentType>62</DocumentType>
+                    <DocumentName>13.INTERIM Non-AML Requirements Checklist.pdf</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>135363</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2014-06-20T08:59:10.000Z</DocUpdateDate>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>387235</DocumentID>
+                    <DocumentType>62</DocumentType>
+                    <DocumentName>12. Non AML Requirements Macquarie Account Opening Form.pdf</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>135364</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DocUpdateDate>2014-06-20T08:52:40.000Z</DocUpdateDate>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>386078</DocumentID>
+                    <DocumentName>US Chicago Futures - Purpose of Relationship.pdf</DocumentName>
+                    <SourceDocDB>imanage_onboarding_lon_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DBAName>Fabian Katayama</DBAName>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>183350</DocumentID>
+                    <DocumentName>26 - EMS 9495 RAIZEN.pdf</DocumentName>
+                    <SourceDocID>298061</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_lon_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DBAName>Ryan Britton</DBAName>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>180766</DocumentID>
+                    <DocumentName>5 - Purpose of Relationship.pdf</DocumentName>
+                    <SourceDocID>191848</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_lon_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DBAName>Gabriel Apsan</DBAName>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>180762</DocumentID>
+                    <DocumentType>58</DocumentType>
+                    <DocumentName>11 - Checklist.pdf</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>191849</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_lon_prd</SourceDocDB>
+                    <DocumentDescription>11 - Checklist</DocumentDescription>
+                    <DocStatus>2</DocStatus>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>180761</DocumentID>
+                    <DocumentType>93</DocumentType>
+                    <DocumentName>10 - Client Categorisation - Per Se Professional Client.pdf</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>191850</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_lon_prd</SourceDocDB>
+                    <DocumentDescription>10 - Client Categorisation - Per Se Professional Client</DocumentDescription>
+                    <DocStatus>2</DocStatus>
+                    <DocumentsVerification>
+                        <ClientID>128842</ClientID>
+                        <DocumentID>180761</DocumentID>
+                        <TransactionID>94772</TransactionID>
+                        <EntityType>11</EntityType>
+                        <VerificationDocID>45</VerificationDocID>
+                    </DocumentsVerification>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>180551</DocumentID>
+                    <DocumentType>10</DocumentType>
+                    <DocumentName>9 - RMG Approval.pdf</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>191851</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_lon_prd</SourceDocDB>
+                    <DocumentDescription>9 - RMG Approval</DocumentDescription>
+                    <DocStatus>2</DocStatus>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>179438</DocumentID>
+                    <DocumentType>16</DocumentType>
+                    <DocumentName>8 - Factiva.pdf</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>191852</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_lon_prd</SourceDocDB>
+                    <DocumentDescription>8 - Factiva</DocumentDescription>
+                    <DocStatus>2</DocStatus>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>179436</DocumentID>
+                    <DocumentType>150</DocumentType>
+                    <DocumentName>7 - Worldcheck.pdf</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>191853</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_lon_prd</SourceDocDB>
+                    <DocumentDescription>7 - Worldcheck</DocumentDescription>
+                    <DocStatus>2</DocStatus>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>179435</DocumentID>
+                    <DocumentType>47</DocumentType>
+                    <DocumentName>6 - Interim Risk.pdf</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>191854</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_lon_prd</SourceDocDB>
+                    <DocumentDescription>6 - Interim Risk</DocumentDescription>
+                    <DocStatus>2</DocStatus>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>179434</DocumentID>
+                    <DocumentType>145</DocumentType>
+                    <DocumentName>5 - Purpose of Relationship.pdf</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>191855</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_lon_prd</SourceDocDB>
+                    <DocumentDescription>5 - Purpose of Relationship</DocumentDescription>
+                    <DocStatus>2</DocStatus>
+                    <DocumentsVerification>
+                        <ClientID>128842</ClientID>
+                        <DocumentID>179434</DocumentID>
+                        <TransactionID>94773</TransactionID>
+                        <EntityType>11</EntityType>
+                        <VerificationDocID>80</VerificationDocID>
+                    </DocumentsVerification>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>179433</DocumentID>
+                    <DocumentType>119</DocumentType>
+                    <DocumentName>4 - directors &amp; Classification.pdf</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>191856</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_lon_prd</SourceDocDB>
+                    <DocumentDescription>4 - directors &amp; Classification</DocumentDescription>
+                    <DocStatus>2</DocStatus>
+                    <DocumentsVerification>
+                        <ClientID>128842</ClientID>
+                        <DocumentID>179433</DocumentID>
+                        <TransactionID>94774</TransactionID>
+                        <EntityType>11</EntityType>
+                        <VerificationDocID>76</VerificationDocID>
+                    </DocumentsVerification>
+                    <DocumentsVerification>
+                        <ClientID>128842</ClientID>
+                        <DocumentID>179433</DocumentID>
+                        <TransactionID>94775</TransactionID>
+                        <EntityType>11</EntityType>
+                        <VerificationDocID>96</VerificationDocID>
+                    </DocumentsVerification>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>179431</DocumentID>
+                    <DocumentType>1</DocumentType>
+                    <DocumentName>3 - Ownership Annual Report .pdf</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>191857</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_lon_prd</SourceDocDB>
+                    <DocumentDescription>3 - Ownership Annual Report</DocumentDescription>
+                    <DocStatus>2</DocStatus>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>179430</DocumentID>
+                    <DocumentType>41</DocumentType>
+                    <DocumentName>2 - Business Address.pdf</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>191858</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_lon_prd</SourceDocDB>
+                    <DocumentDescription>2 - Business Address</DocumentDescription>
+                    <DocStatus>2</DocStatus>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>179429</DocumentID>
+                    <DocumentType>9</DocumentType>
+                    <DocumentName>1 - Incorp dets and reg add.pdf</DocumentName>
+                    <Authenticity>6</Authenticity>
+                    <SourceDocID>191859</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_lon_prd</SourceDocDB>
+                    <DocumentDescription>1 - Incorp dets and reg add</DocumentDescription>
+                    <DocStatus>2</DocStatus>
+                    <DocumentsVerification>
+                        <ClientID>128842</ClientID>
+                        <DocumentID>179429</DocumentID>
+                        <TransactionID>94776</TransactionID>
+                        <EntityType>11</EntityType>
+                        <VerificationDocID>1</VerificationDocID>
+                    </DocumentsVerification>
+                    <DocumentsVerification>
+                        <ClientID>128842</ClientID>
+                        <DocumentID>179429</DocumentID>
+                        <TransactionID>94777</TransactionID>
+                        <EntityType>11</EntityType>
+                        <VerificationDocID>2</VerificationDocID>
+                    </DocumentsVerification>
+                    <DocumentsVerification>
+                        <ClientID>128842</ClientID>
+                        <DocumentID>179429</DocumentID>
+                        <TransactionID>94778</TransactionID>
+                        <EntityType>11</EntityType>
+                        <VerificationDocID>4</VerificationDocID>
+                    </DocumentsVerification>
+                    <DocumentsVerification>
+                        <ClientID>128842</ClientID>
+                        <DocumentID>179429</DocumentID>
+                        <TransactionID>94779</TransactionID>
+                        <EntityType>11</EntityType>
+                        <VerificationDocID>75</VerificationDocID>
+                    </DocumentsVerification>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>156841</DocumentID>
+                    <DocumentName>24 EMS 7474.pdf</DocumentName>
+                    <SourceDocID>144884</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DBAName>Nicoli Gavassa</DBAName>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>108048</DocumentID>
+                    <DocumentName>15 EMS 4532.pdf</DocumentName>
+                    <SourceDocID>135365</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_nyc_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DBAName>Fabian Katayama</DBAName>
+                </Documents>
+                <Documents>
+                    <ClientID>128842</ClientID>
+                    <DocumentID>102507</DocumentID>
+                    <DocumentName>RAIZEN ENERGIA S A .pdf</DocumentName>
+                    <SourceDocID>191860</SourceDocID>
+                    <SourceDocDB>imanage_onboarding_lon_prd</SourceDocDB>
+                    <DocStatus>2</DocStatus>
+                    <DBAName>Gabriel Apsan</DBAName>
+                </Documents>
+                <AddressDetails>
+                    <ClientID>128842</ClientID>
+                    <AddressID>1</AddressID>
+                    <Address_Type>4</Address_Type>
+                    <Address_Line1>AV PRESIDENTE JUSCELINO KUBITSCHEK 1327</Address_Line1>
+                    <Address_Line2>ANDAR 5 SALA 1 VILA NOVA CONCEICAO</Address_Line2>
+                    <City>SAO PAULO</City>
+                    <State>SP</State>
+                    <PostCode>04.543-011</PostCode>
+                    <Country>BR</Country>
+                </AddressDetails>
+                <AddressDetails>
+                    <ClientID>128842</ClientID>
+                    <AddressID>2</AddressID>
+                    <Address_Type>3</Address_Type>
+                    <Address_Line1>Av. Juscelino Kubitschek</Address_Line1>
+                    <Address_Line2>1327 7th floor Itaim Bibi</Address_Line2>
+                    <City>Sao Paulo</City>
+                    <State>SP</State>
+                    <PostCode>04543-011</PostCode>
+                    <Country>BR</Country>
+                </AddressDetails>
+                <CentralCustID>
+                    <ClientID>128842</ClientID>
+                    <CCNID>1</CCNID>
+                    <CCN>05835723</CCN>
+                </CentralCustID>
+                <CustomerIDs>
+                    <ClientID>128842</ClientID>
+                    <IdentificationID>1</IdentificationID>
+                    <ID>08.070.508/0001-78</ID>
+                    <IDType>CREG</IDType>
+                </CustomerIDs>
+                <CustomerIDs>
+                    <ClientID>128842</ClientID>
+                    <IdentificationID>2</IdentificationID>
+                    <ID>RESA</ID>
+                    <IDType>ExchangeID</IDType>
+                </CustomerIDs>
+                <MaqRelationshipCat>
+                    <ClientID>128842</ClientID>
+                    <Relationship_CatCd>1</Relationship_CatCd>
+                </MaqRelationshipCat>
+                <MaqRelationshipCat>
+                    <ClientID>128842</ClientID>
+                    <Relationship_CatCd>2</Relationship_CatCd>
+                </MaqRelationshipCat>
+                <MaqRelationships>
+                    <ClientID>128842</ClientID>
+                    <TransactionID>94780</TransactionID>
+                    <Group>FICC</Group>
+                    <OriginatingGroup>FICC</OriginatingGroup>
+                    <PurposeOfRelationship>COUNTERPARTY HAS BEEN TRADING AG OTC AND NON DELIVERABLE FORWARD FUTURES THROUGH THE AG DESK, HOWEVER THEY HAVE REQUESTED TO TRADE FUTURES OPENLY THROUGH THE EXECUTION DESK. TRADES WILL BE DELIVERABLE FUTURES ON GRAINS AND OTHER SOFTS</PurposeOfRelationship>
+                    <CurrentDeskLoc>London</CurrentDeskLoc>
+                    <Requestor>Gurvinder Sohal</Requestor>
+                    <Division>SO</Division>
+                    <DesignatedBusinessApprover>HELENA WENTWORTH-FISHER</DesignatedBusinessApprover>
+                    <MacStatus>true</MacStatus>
+                    <DateRequested>2012-12-18T13:00:00.000Z</DateRequested>
+                    <primeBrokerageFlag>false</primeBrokerageFlag>
+                    <ProductList>
+                        <ClientID>128842</ClientID>
+                        <TransactionID>94780</TransactionID>
+                        <ProductCode>229</ProductCode>
+                        <MaqRelGroup>FICC</MaqRelGroup>
+                        <ProductName>OTC and Index Linked Derivatives (including associated collateral &amp; settlement accounts)</ProductName>
+                    </ProductList>
+                </MaqRelationships>
+                <MaqRelationships>
+                    <ClientID>128842</ClientID>
+                    <TransactionID>153886</TransactionID>
+                    <Group>FICC</Group>
+                    <OriginatingGroup>FICC</OriginatingGroup>
+                    <PurposeOfRelationship>Futures Broking - Clearing</PurposeOfRelationship>
+                    <CurrentDeskLoc>US</CurrentDeskLoc>
+                    <Requestor>Rodney Kaing</Requestor>
+                    <Division>FC</Division>
+                    <DesignatedBusinessApprover>HELENA WENTWORTH-FISHER</DesignatedBusinessApprover>
+                    <MacStatus>true</MacStatus>
+                    <DateRequested>2014-06-18T14:00:00.000Z</DateRequested>
+                    <primeBrokerageFlag>false</primeBrokerageFlag>
+                    <ProductList>
+                        <ClientID>128842</ClientID>
+                        <TransactionID>153886</TransactionID>
+                        <ProductCode>368</ProductCode>
+                        <MaqRelGroup>FICC</MaqRelGroup>
+                        <ProductName>OTC Derivatives - Futures - DO NOT USE</ProductName>
+                    </ProductList>
+                </MaqRelationships>
+                <MaqRelationships>
+                    <ClientID>128842</ClientID>
+                    <TransactionID>176028</TransactionID>
+                    <Group>FICC</Group>
+                    <OriginatingGroup>FICC</OriginatingGroup>
+                    <ReportingEntity>4</ReportingEntity>
+                    <PurposeOfRelationship>USD 60m physical ethanol transaction with Czarnikow/Raizen. Closing expected for Mar’15</PurposeOfRelationship>
+                    <CurrentDeskLoc>BR</CurrentDeskLoc>
+                    <Requestor>Princess Flancia</Requestor>
+                    <Division>MAST</Division>
+                    <DesignatedBusinessApprover>HELENA WENTWORTH-FISHER</DesignatedBusinessApprover>
+                    <MacStatus>true</MacStatus>
+                    <DateRequested>2015-03-09T13:00:00.000Z</DateRequested>
+                    <primeBrokerageFlag>false</primeBrokerageFlag>
+                    <ProductList>
+                        <ClientID>128842</ClientID>
+                        <TransactionID>176028</TransactionID>
+                        <ProductCode>280</ProductCode>
+                        <MaqRelGroup>FICC</MaqRelGroup>
+                        <ProductName>Physical Commodities Trading</ProductName>
+                    </ProductList>
+                    <ProductList>
+                        <ClientID>128842</ClientID>
+                        <TransactionID>176028</TransactionID>
+                        <ProductCode>600</ProductCode>
+                        <MaqRelGroup>FICC</MaqRelGroup>
+                        <ProductName>Lending - Secured Loan</ProductName>
+                    </ProductList>
+                    <ProductList>
+                        <ClientID>128842</ClientID>
+                        <TransactionID>176028</TransactionID>
+                        <ProductCode>670</ProductCode>
+                        <MaqRelGroup>FICC</MaqRelGroup>
+                        <ProductName>Lending - Secured Loan (US Only)</ProductName>
+                    </ProductList>
+                </MaqRelationships>
+                <MaqRelationships>
+                    <ClientID>128842</ClientID>
+                    <TransactionID>183935</TransactionID>
+                    <Group>FICC</Group>
+                    <OriginatingGroup>FICC</OriginatingGroup>
+                    <PurposeOfRelationship>300,000mT physical sugar transaction involving Raizen Energia SA (“Raizen”) and Olam International (“Olam”). Notional of this transaction will not exceed US$80m</PurposeOfRelationship>
+                    <CurrentDeskLoc>BR</CurrentDeskLoc>
+                    <Requestor>Kenneth Non</Requestor>
+                    <Division>MAST</Division>
+                    <DesignatedBusinessApprover>HELENA WENTWORTH-FISHER</DesignatedBusinessApprover>
+                    <MacStatus>true</MacStatus>
+                    <DateRequested>2015-06-19T14:00:00.000Z</DateRequested>
+                    <primeBrokerageFlag>false</primeBrokerageFlag>
+                    <ProductList>
+                        <ClientID>128842</ClientID>
+                        <TransactionID>183935</TransactionID>
+                        <ProductCode>1545</ProductCode>
+                        <MaqRelGroup>FICC</MaqRelGroup>
+                        <ProductName>Physical Commodities Trading</ProductName>
+                    </ProductList>
+                </MaqRelationships>
+                <MaqRelationships>
+                    <ClientID>128842</ClientID>
+                    <TransactionID>187323</TransactionID>
+                    <Group>FICC</Group>
+                    <OriginatingGroup>FICC</OriginatingGroup>
+                    <PurposeOfRelationship>TRADING SUGAR CONTRACTS</PurposeOfRelationship>
+                    <CurrentDeskLoc>London</CurrentDeskLoc>
+                    <Requestor>Kenneth Non</Requestor>
+                    <Division>FC</Division>
+                    <DesignatedBusinessApprover>HELENA WENTWORTH-FISHER</DesignatedBusinessApprover>
+                    <MacStatus>true</MacStatus>
+                    <DateRequested>2015-08-06T14:00:00.000Z</DateRequested>
+                    <primeBrokerageFlag>false</primeBrokerageFlag>
+                    <ProductList>
+                        <ClientID>128842</ClientID>
+                        <TransactionID>187323</TransactionID>
+                        <ProductCode>285</ProductCode>
+                        <MaqRelGroup>FICC</MaqRelGroup>
+                        <ProductName>Give Up - Executing</ProductName>
+                    </ProductList>
+                </MaqRelationships>
+                <FATCA>
+                    <ClientID>128842</ClientID>
+                    <ClientType>1</ClientType>
+                    <FATCACategory>5</FATCACategory>
+                    <FATCAEntity>3</FATCAEntity>
+                    <IsEntityRecalcitrant>false</IsEntityRecalcitrant>
+                    <IsEntityFinancialInst>false</IsEntityFinancialInst>
+                    <DoesEntityHaveUSIndicia>false</DoesEntityHaveUSIndicia>
+                    <IsEntityBeTreatedAsUSPerson>false</IsEntityBeTreatedAsUSPerson>
+                    <USWAReciprocityFlag>Yes</USWAReciprocityFlag>
+                    <FATCATriggerReq>true</FATCATriggerReq>
+                    <FATCATriggerReason>FATCA Override Approval attached to docs tab.</FATCATriggerReason>
+                </FATCA>
+                <FATCAAttributes>
+                    <ClientID>128842</ClientID>
+                    <FATCAAttributeID>1757</FATCAAttributeID>
+                    <FATCAAttributeReference>CountryOfTaxResidence</FATCAAttributeReference>
+                    <FATCAAttributeValue>BR</FATCAAttributeValue>
+                    <RefDataType>CountryISO</RefDataType>
+                </FATCAAttributes>
+            </Entity>
+        </entityRecord>
+    </payload>
+    <auditRecords>
+        <sourceAuditRecord>
+            <system>globe</system>
+            <genericUser>batch_globe</genericUser>
+            <timestamp>
+                <timeCreated>2016-02-17T09:40:54.328Z</timeCreated>
+            </timestamp>
+        </sourceAuditRecord>
+        <auditRecord>
+            <system>canon-listener-globe-entity</system>
+            <timestamp>
+                <received>2016-02-17T20:40:54.409+11:00</received>
+            </timestamp>
+        </auditRecord>
+    </auditRecords>
+    <ancillaryData>
+        <nds
+                xmlns="http://www.macquarie.com/nds/v1">
+            <systemStart>2016-02-17T09:40:54.418873Z</systemStart>
+            <systemEnd>9999-12-31T23:59:59Z</systemEnd>
+            <validStart>0001-01-01T00:00:00</validStart>
+            <validEnd>9999-12-31T23:59:59.99</validEnd>
+            <sem:triples
+                    xmlns:sem="http://marklogic.com/semantics">
+                <sem:triple>
+                    <sem:subject>/globe/legacy/globe/aml/basic-entity-data/globe/parent-id_client-id/199444_128842.xml</sem:subject>
+                    <sem:predicate>http://www.macquarie.com/canon/aml/has-parent-entity</sem:predicate>
+                    <sem:object>/globe/legacy/globe/aml/basic-entity-data/globe/parent-id_client-id/199444_199444.xml</sem:object>
+                </sem:triple>
+                <sem:triple>
+                    <sem:subject>/globe/legacy/globe/aml/basic-entity-data/globe/parent-id_client-id/199444_128842.xml</sem:subject>
+                    <sem:predicate>http://www.macquarie.com/canon/aml/has-customer</sem:predicate>
+                    <sem:object>/central-customer/legacy/central-customer/customer/central-customer/ccn/05835723.xml</sem:object>
+                </sem:triple>
+            </sem:triples>
+        </nds>
+    </ancillaryData>
+    <trailer>
+        <checksum>1a8367488a4235792e5bcb0628a2865c</checksum>
+    </trailer>
+</canonMessage>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="idea-settings-sync" basedir="../../" default="apply-settings-to-project">
+    <property name="idea.working.dir" value="${basedir}/.idea"/>
+    <property name="idea.scm.dir" value="${basedir}/ide/intellij"/>
+
+    <target name="apply-settings-to-project"
+            description="copy launchers and codeStyle to project working dir, need to reopen project after this task is executed">
+
+        <copy todir="${idea.working.dir}" overwrite="true">
+            <fileset dir="${idea.scm.dir}">
+                <exclude name="build.xml"/>
+                <exclude name="*.txt"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="save-settings-to-scm"
+            description="copy launchers from Intellij working dir to ./ide directory, you can then commit launchers to SCM">
+
+        <copy todir="${idea.scm.dir}" overwrite="true">
+            <fileset dir="${idea.working.dir}">
+                <include name="runConfigurations/**"/>
+                <include name="codeStyleSettings.xml"/>
+            </fileset>
+        </copy>
+    </target>
+
+</project>

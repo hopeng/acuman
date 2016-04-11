@@ -1,0 +1,49 @@
+<md-card>
+    <md-card-content layout="row" layout-align="space-between">
+        <!--todo show progress bar while case being created-->
+        <md-button class="md-raised md-primary" ng-click="caseCtrl.onNewCase($event)">New Case</md-button>
+        <md-content layout-padding>
+            {{caseCtrl.newCaseResult}}
+        </md-content>
+    </md-card-content>
+</md-card>
+
+
+<md-card>
+    <md-card-title>
+        <md-card-title-text>
+            <span class="md-headline">Existing Cases</span>
+            <!--<span class="md-subhead"></span>-->
+        </md-card-title-text>
+        <!--<div flex></div>-->
+        <md-button class="md-icon-button" ng-click="caseCtrl.onRefresh()">
+            <md-icon>refresh</md-icon>
+        </md-button>
+    </md-card-title>
+    <md-card-content ng-if="!caseCtrl.newCaseInProgress">
+    <md-table-container>
+        <table md-table md-progress="caseCtrl.caseList.$promise">
+            <thead md-head>
+            <tr md-row>
+                <th md-column><strong>Case Id</strong></th>
+                <th md-column><strong>Description</strong></th>
+                <th md-column><strong>Created User</strong></th>
+                <th md-column><strong>Created Date</strong></th>
+                <th md-column><strong>Actions</strong></th>
+            </tr>
+            </thead>
+            <tbody md-body>
+            <tr md-row ng-repeat="case in caseCtrl.caseList">
+                <td md-cell>{{case.caseId}}</td>
+                <td md-cell>{{case.description}}</td>
+                <td md-cell>{{case.createdUser}}</td>
+                <td md-cell>{{case.createdDate}}</td>
+                <td md-cell>
+                    <md-button class="md-primary md-small" ng-href="#/search-doc/{{case.caseId}}">View</md-button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+</md-card-content>
+</md-card>

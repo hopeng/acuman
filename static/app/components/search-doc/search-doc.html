@@ -1,0 +1,85 @@
+<md-card ng-if="!searchCtrl.docListInCase.length > 0">
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">There are no documents for {{searchCtrl.caseId}}</span>
+      <!--<span class="md-subhead">{{subDesc}}</span>-->
+    </md-card-title-text>
+    <md-button class="md-icon-button" ng-click="searchCtrl.searchDocByCase()">
+      <md-icon>refresh</md-icon>
+    </md-button>
+  </md-card-title>
+</md-card>
+
+<!--search results-->
+<div ng-if="searchCtrl.docListInCase.length > 0" ng-include="'app/components/search-doc/case-doc-result.html'"
+     ng-init="resultData=searchCtrl.docListInCase; tableDesc='Documents Tagged in ' + searchCtrl.caseId;"></div>
+
+<md-divider></md-divider>
+
+
+<!--search domain selection-->
+<md-card>
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">Choose Document Domain</span>
+      <!--<span class="md-subhead">Extra Large</span>-->
+    </md-card-title-text>
+  </md-card-title>
+  <md-card-content layout="row" layout-align="space-between">
+    <md-list flex>
+      <md-list-item ng-repeat="domain in searchCtrl.domains" ng-click="searchCtrl.onSelect(domain)">
+        <div>{{domain.description}}</div>
+      </md-list-item>
+    </md-list>
+
+    <!--todo use radio button-->
+    <!--<md-radio-group ng-model="searchCtrl.selectedDomain">-->
+    <!--<md-radio-button ng-repeat="domain in searchCtrl.domains" ng-value="domain" class="md-primary">{{domain.description}}</md-radio-button>-->
+    <!--</md-radio-group>-->
+  </md-card-content>
+</md-card>
+
+<!--<md-divider></md-divider>-->
+
+<!--search filters-->
+<md-card ng-if="searchCtrl.selectedDomain">
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">Refine {{searchCtrl.selectedDomain.description}} Search With Filters</span>
+    </md-card-title-text>
+  </md-card-title>
+  <md-card-content layout-align="space-between">
+    <div layout="row" ng-repeat="qFilter in searchCtrl.filterValues">
+      <md-input-container>
+        <input aria-label="x" ng-model="qFilter.name" ng-disabled="true">
+      </md-input-container>
+      <md-input-container>
+        <md-select aria-label="x" ng-model="qFilter.operator">
+          <md-option ng-repeat="op in qFilter.operatorList" value="{{op.code}}">
+            {{op.symbol}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+      <md-input-container>
+        <input aria-label="x" ng-model="qFilter.value" type="{{qFilter.type}}">
+      </md-input-container>
+      <md-input-container ng-show="qFilter.operator == 'BT'">
+        <input aria-label="x" ng-model="qFilter.anotherValue" type="{{qFilter.type}}">
+      </md-input-container>
+    </div>
+
+    <md-button
+        id="searchBtn"
+        class="md-raised md-primary"
+        ng-click="searchCtrl.onSearch()">Search</md-button>
+  </md-card-content>
+</md-card>
+
+<md-divider id="searchArea"></md-divider>
+
+
+<!--search results-->
+<div ng-if="searchCtrl.searchResult.length > 0" ng-include="'app/components/search-doc/search-result.html'"
+     ng-init="resultData=searchCtrl.searchResult; tableDesc='Search Result';"></div>
+
+<!--todo case-doc-result.html and search-result.html should be merged as one-->
