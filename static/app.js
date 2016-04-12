@@ -17,17 +17,17 @@ caseManagerApp.config(
       .accentPalette('pink');
 
     $routeProvider
-      .when('/manage-case', {
-        templateUrl: 'app/components/manage-case/manage-case.html',
-        controller: 'CaseController as caseCtrl'
+      .when('/patients', {
+        templateUrl: 'app/components/patients/patients.html',
+        controller: 'PatientsController as patientsCtrl'
       })
-      .when('/search-doc', {
-        templateUrl: 'app/components/search-doc/search-doc.html',
+      .when('/consultations', {
+        templateUrl: 'app/components/consultations/consults.html',
+        controller: 'ConsultsController as consultsCtrl'
+      })
+      .when('/searches', {
+        templateUrl: 'app/components/searches/search.html',
         controller: 'SearchController as searchCtrl'
       })
-      .when('/search-doc/:caseId', {
-        templateUrl: 'app/components/search-doc/search-doc.html',
-        controller: 'SearchController as searchCtrl'
-      })
-      .otherwise({redirectTo: '/manage-case'});
+      .otherwise({redirectTo: '/patients'});
   });

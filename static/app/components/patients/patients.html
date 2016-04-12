@@ -1,0 +1,44 @@
+<md-card>
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">Enter New Patient Details</span>
+    </md-card-title-text>
+  </md-card-title>
+
+  <md-card-content layout-align="space-between">
+    <!--<div layout="row" ng-repeat="qFilter in searchCtrl.filterValues">-->
+      <md-input-container>
+        <input aria-label="x" ng-model="patientsCtrl.name" ng-disabled="true">
+      </md-input-container>
+      <md-input-container>
+        <md-select aria-label="x" ng-model="qFilter.operator">
+          <md-option ng-repeat="op in qFilter.operatorList" value="{{op.code}}">
+            {{op.symbol}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+      <md-input-container>
+        <input aria-label="x" ng-model="qFilter.value" type="{{qFilter.type}}">
+      </md-input-container>
+      <md-input-container ng-show="qFilter.operator == 'BT'">
+        <input aria-label="x" ng-model="qFilter.anotherValue" type="{{qFilter.type}}">
+      </md-input-container>
+    <!--</div>-->
+
+    <md-button
+        id="searchBtn"
+        class="md-raised md-primary"
+        ng-click="searchCtrl.onSearch()">Search</md-button>
+  </md-card-content>
+</md-card>
+
+<md-card>
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">There are no documents for {{searchCtrl.caseId}}</span>
+    </md-card-title-text>
+    <md-button class="md-icon-button" ng-click="searchCtrl.searchDocByCase()">
+      <md-icon>refresh</md-icon>
+    </md-button>
+  </md-card-title>
+</md-card>
