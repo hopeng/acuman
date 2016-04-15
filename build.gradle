@@ -1,27 +1,24 @@
 buildscript {
 	ext {
-		springBootVersion = '1.3.3.RELEASE'
+//		springBootVersion = '1.3.3.RELEASE'
 	}
 	repositories {
 	 	mavenLocal()
-		maven {
-			name "nexus-public"
-            url "https://nexus.internal.macquarie.com/content/groups/public/"
-            credentials {
-				username mavenUser
-				password mavenPassword
-            }
-		}
+		mavenCentral()
 	}
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+//		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	}
 }
+
+
+
+
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: 'spring-boot'
+//apply plugin: 'spring-boot'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -32,32 +29,14 @@ jar {
 }
 
 repositories {
-	maven {
-		name "nexus-public"
-		url "https://nexus.internal.macquarie.com/content/groups/public/"
-		credentials {
-			username mavenUser
-			password mavenPassword
-		}
-	}
-
-	maven {
-		name "ofr-release"
-		url "https://nexus.internal.macquarie.com/content/repositories/ofr-releases/"
-		credentials {
-			username mavenUser
-			password mavenPassword
-		}
-	}
+	mavenCentral()
 }
 
 dependencies {
-    compile ('org.springframework.boot:spring-boot-starter-web')
 	compile('org.apache.commons:commons-lang3:3.4')
 	compile('com.couchbase.client:couchbase-client:1.4.11')
-	compile("org.springframework.boot:spring-boot-devtools")
-
-	testCompile("org.springframework.boot:spring-boot-starter-test")
+	compile('com.sparkjava:spark-core:2.3')
+	compile('com.fasterxml.jackson.core:jackson-databind:2.7.3')
 }
 
 task wrapper(type: Wrapper) {
