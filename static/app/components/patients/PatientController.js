@@ -1,22 +1,22 @@
 'use strict';
 
-angular.module('caseManagerApp.manageCase', ['ngResource'])
+angular.module('caseManagerApp.patients', ['ngResource'])
 
-  .controller('CaseController',
+  .controller('PatientController',
     function ($window, $resource, $mdDialog) {
 
-      var thisInstance = this;
+      var self = this;
       this.newCaseInProgress = false;
       this.newCaseResult = null;
 
 
       this.onRefresh = function() {
-        this.caseList = $resource(CONF.URL.ALL_CASES).query();
+        this.caseList = $resource(CONF.URL.PATIENTS).query();
       };
 
       this.onRefresh();
 
-      this.onNewCase = function(ev) {
+      this.onNewPatient = function(ev) {
         // Appending dialog to document.body to cover sidenav in docs app
         var confirm = $mdDialog.prompt()
           .title('Please Describe Your Case')
@@ -41,5 +41,4 @@ angular.module('caseManagerApp.manageCase', ['ngResource'])
           );
         });
       };
-
     });

@@ -14,8 +14,5 @@
     "angular-messages": "1.5.x",
     "angular-material": "1.1.x",
     "angular-material-data-table": "^0.10.3",
-    "sprintf": "1.0.2",
-    "google-code-prettify": "^1.0.4",
-    "vkBeautify": "vkbeautify#*"
-  }
+    "sprintf": "1.0.2"}
 }

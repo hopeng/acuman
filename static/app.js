@@ -6,8 +6,8 @@ var caseManagerApp = angular.module('caseManagerApp', [
   'ngRoute',
   'ngMaterial',
   'md.data.table',
-  'caseManagerApp.searchDoc',
-  'caseManagerApp.manageCase'
+  'caseManagerApp.patients',
+  'caseManagerApp.consults'
 ]);
 
 caseManagerApp.config(
@@ -17,17 +17,17 @@ caseManagerApp.config(
       .accentPalette('pink');
 
     $routeProvider
-      .when('/patients', {
+      .when('/manage-patients', {
         templateUrl: 'app/components/patients/patients.html',
-        controller: 'PatientsController as patientsCtrl'
+        controller: 'PatientController as patientCtrl'
       })
-      .when('/consultations', {
-        templateUrl: 'app/components/consultations/consults.html',
-        controller: 'ConsultsController as consultsCtrl'
+      .when('/manage-patients/:id', {
+        templateUrl: 'app/components/patients/patients.html',
+        controller: 'PatientController as patientCtrl'
       })
-      .when('/searches', {
-        templateUrl: 'app/components/searches/search.html',
-        controller: 'SearchController as searchCtrl'
+      .when('/manage-consults', {
+        templateUrl: 'app/components/consults/consults.html',
+        controller: 'ConsultController as consultCtrl'
       })
-      .otherwise({redirectTo: '/patients'});
+      .otherwise({redirectTo: '/manage-patients'});
   });

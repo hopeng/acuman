@@ -1,10 +1,4 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>
-<html lang="en" ng-app="caseManagerApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>
-<html lang="en" ng-app="caseManagerApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>
-<html lang="en" ng-app="caseManagerApp" class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html lang="en" ng-app="caseManagerApp" class="no-js"> <!--<![endif]-->
 <head>
@@ -19,10 +13,6 @@
   <link rel="stylesheet" href="app.css">
 </head>
 <body>
-<a class="menu" href="#/manage-case">Case Management</a>
-&nbsp;&nbsp;&nbsp;
-<a class="menu" href="#/search-doc">Search Documents</a>
-<p>
 <p>
 <p>
 
@@ -31,6 +21,22 @@
   your browser</a> to improve your experience.</p>
 <![endif]-->
 
+<!--<div ng-cloak>-->
+  <!--<div ui-view="menu"></div>-->
+
+  <!--&lt;!&ndash; body &ndash;&gt;-->
+  <!--<div>-->
+    <!--<div>-->
+
+      <!--&lt;!&ndash; content view begin &ndash;&gt;-->
+      <!--<div ui-view="content"></div>-->
+      <!--&lt;!&ndash; content view end &ndash;&gt;-->
+
+      <!--<div ui-view="footer"></div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+
 <div ng-cloak ng-view></div>
 
 <!--bower dependencies-->
@@ -38,7 +44,8 @@
 <script src="app/bower_components/vkBeautify/vkbeautify.js"></script>
 <script src="app/bower_components/sprintf/dist/sprintf.min.js"></script>
 <script src="app/bower_components/angular/angular.js"></script>
-<script src="app/bower_components/angular-route/angular-route.js"></script>
+<script src="app/bower_components/angular-route/angular-route.min.js"></script>
+<!--<script src="app/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>-->
 <script src="app/bower_components/angular-resource/angular-resource.js"></script>
 <script src="app/bower_components/angular-messages/angular-messages.min.js"></script>
 <script src="app/bower_components/angular-animate/angular-animate.min.js"></script>
@@ -48,9 +55,8 @@
 
 <!--in-house sources-->
 <script src="app/components/common/Constants.js"></script>
-<script src="app/components/common/scrollToItem-directive.js"></script>
 <script src="app.js"></script>
-<script src="app/components/search-doc/SearchController.js"></script>
-<script src="app/components/manage-case/CaseController.js"></script>
+<script src="app/components/patients/PatientController.js"></script>
+<script src="app/components/consults/ConsultController.js"></script>
 </body>
 </html>
