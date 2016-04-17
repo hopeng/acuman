@@ -1,6 +1,9 @@
+<div ng-init="svc = consultCtrl"></div>
+
 <md-card>
     <md-card-content layout="row" layout-align="space-between">
-        <md-button class="md-raised md-primary" ng-click="patientCtrl.onNewPatient($event)">New Patient</md-button>
+        <!--only support consultation view on specific patient-->
+        <label>Consultation for Patient xxx</label>
     </md-card-content>
 </md-card>
 
@@ -8,34 +11,31 @@
 <md-card>
     <md-card-title>
         <md-card-title-text>
-            <span class="md-headline">Existing Patients</span>
+            <span class="md-headline">Consultation History</span>
             <!--<span class="md-subhead"></span>-->
         </md-card-title-text>
-        <!--<div flex></div>-->
-        <md-button class="md-icon-button" ng-click="patientCtrl.onRefresh()">
-            <md-icon>refresh</md-icon>
-        </md-button>
     </md-card-title>
     <md-card-content>
         <md-table-container>
-            <table md-table md-progress="patientCtrl.patientList.$promise">
+            <table md-table md-progress="svc.patientList.$promise">
                 <thead md-head>
                 <tr md-row>
-                    <th md-column><strong>Client ID</strong></th>
-                    <th md-column><strong>First Name</strong></th>
-                    <th md-column><strong>Last Name</strong></th>
-                    <th md-column><strong>Date Of Birth</strong></th>
-                    <th md-column><strong>Gender</strong></th>
-                    <th md-column><strong>Health Fund</strong></th>
-                    <th md-column><strong>Address</strong></th>
-                    <th md-column><strong>Occupation</strong></th>
-                    <th md-column><strong>Initial Visit</strong></th>
-                    <th md-column><strong>Phone</strong></th>
-                    <th md-column><strong>Email</strong></th>
+                    <th md-column><strong>Chief Complaint</strong></th>
+                    <th md-column><strong>Symptoms</strong></th>
+                    <th md-column><strong>Tongue</strong></th>
+                    <th md-column><strong>Pulse</strong></th>
+                    <th md-column><strong>TCM diagnosis</strong></th>
+                    <th md-column><strong>TCM syndrome differentiation</strong></th>
+                    <th md-column><strong>Aetiology & Pathogenesis</strong></th>
+                    <th md-column><strong>Western Medicine Diagnosis</strong></th>
+                    <th md-column><strong>Principle of treatment</strong></th>
+                    <th md-column><strong>Treatment</strong></th>
+                    <th md-column><strong>Herbs</strong></th>
+                    <th md-column><strong>Advice</strong></th>
                 </tr>
                 </thead>
                 <tbody md-body>
-                <tr md-row ng-repeat="p in patientCtrl.patientList">
+                <tr md-row ng-repeat="p in svc.patientList">
                     <td md-cell>{{p.id}}</td>
                     <td md-cell>{{p.firstName}}</td>
                     <td md-cell>{{p.lastName}}</td>

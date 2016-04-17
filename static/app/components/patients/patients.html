@@ -32,6 +32,7 @@
                     <th md-column><strong>Initial Visit</strong></th>
                     <th md-column><strong>Phone</strong></th>
                     <th md-column><strong>Email</strong></th>
+                    <th md-column><strong>Allergies</strong></th>
                 </tr>
                 </thead>
                 <tbody md-body>
@@ -46,8 +47,9 @@
                     <td md-cell>{{p.initialVisit}}</td>
                     <td md-cell>{{p.phone}}</td>
                     <td md-cell>{{p.email}}</td>
+                    <td md-cell>{{p.allergies}}</td>
                     <td md-cell>
-                        <md-button class="md-primary md-small" ng-href="#/search-doc/{{p.id}}">View</md-button>
+                        <md-button class="md-primary md-small" ng-href="#/manage-consults/{{p.id}}">View</md-button>
                     </td>
                 </tr>
                 </tbody>

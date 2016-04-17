@@ -21,11 +21,7 @@ caseManagerApp.config(
         templateUrl: 'app/components/patients/patients.html',
         controller: 'PatientController as patientCtrl'
       })
-      .when('/manage-patients/:id', {
-        templateUrl: 'app/components/patients/patients.html',
-        controller: 'PatientController as patientCtrl'
-      })
-      .when('/manage-consults', {
+      .when('/manage-consults/:patientId', {
         templateUrl: 'app/components/consults/consults.html',
         controller: 'ConsultController as consultCtrl'
       })
