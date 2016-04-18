@@ -17,13 +17,13 @@ caseManagerApp.config(
       .accentPalette('pink');
 
     $routeProvider
-      .when('/manage-patients', {
+      .when('/patients', {
         templateUrl: 'app/components/patients/patients.html',
         controller: 'PatientController as patientCtrl'
       })
-      .when('/manage-consults/:patientId', {
+      .when('/consults/:patientId', {
         templateUrl: 'app/components/consults/consults.html',
         controller: 'ConsultController as consultCtrl'
       })
-      .otherwise({redirectTo: '/manage-patients'});
+      .otherwise({redirectTo: '/patients'});
   });

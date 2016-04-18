@@ -1,6 +1,11 @@
+<div ng-init="svc = patientCtrl"></div>
+
 <md-card>
     <md-card-content layout="row" layout-align="space-between">
-        <md-button class="md-raised md-primary" ng-click="patientCtrl.onNewPatient($event)">New Patient</md-button>
+        <!--<md-button class="md-raised md-primary" ng-click="patientCtrl.onNewPatient($event)">New Patient</md-button>-->
+        <md-button class="md-fab" aria-label="Add" ng-click="svc.onNewPatient($event)">
+            <md-icon>add</md-icon>
+        </md-button>
     </md-card-content>
 </md-card>
 
@@ -11,10 +16,6 @@
             <span class="md-headline">Existing Patients</span>
             <!--<span class="md-subhead"></span>-->
         </md-card-title-text>
-        <!--<div flex></div>-->
-        <md-button class="md-icon-button" ng-click="patientCtrl.onRefresh()">
-            <md-icon>refresh</md-icon>
-        </md-button>
     </md-card-title>
     <md-card-content>
         <md-table-container>
