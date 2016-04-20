@@ -7,4 +7,6 @@
   padding: 0;
 }
 
-/*todo remove select dropdown arrow*/
+md-input-container {
+  margin: 0;
+}
