@@ -3,7 +3,7 @@
 angular.module('caseManagerApp.patients', ['ngResource'])
 
   .controller('PatientController',
-    function ($window, $resource) {
+    function ($resource) {
 
       var self = this;
       this.newCaseInProgress = false;
@@ -71,6 +71,7 @@ angular.module('caseManagerApp.patients', ['ngResource'])
       
       this.onSubmitPatient = function (event) {
         console.log("onSubmitPatient", this.currentPatient);
+        $resource(CONF.URL.PATIENTS).save(this.currentPatient);
         this.upSertMode = false;
         resetCurrent();
       };

@@ -3,6 +3,8 @@ package com.acuman;
 import com.couchbase.client.java.Bucket;
 import com.couchbase.client.java.Cluster;
 import com.couchbase.client.java.CouchbaseCluster;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +16,10 @@ import static spark.Spark.*;
 public class Application {
 
     private static Map<String, Book> books = new HashMap<String, Book>();
+    private static final Logger log = LogManager.getLogger(Application.class);
 
+    private static final String API_VERSION = "/v1";
+    private static final String API_PATIENTS = API_VERSION + "/patients";
 
     public static void main(String[] args) {
         final Random random = new Random();
@@ -24,7 +29,10 @@ public class Application {
         // Creates a new book resource, will return the ID to the created resource
         // author and title are sent in the post body as x-www-urlencoded values e.g. author=Foo&title=Bar
         // you get them by using request.queryParams("valuename")
-        post("/books", (request, response) -> {
+        post(API_PATIENTS, (request, response) -> {
+            String patientJson = request.body();
+            log.info("received patient {}", patientJson);
+
             String author = request.queryParams("author");
             String title = request.queryParams("title");
             Book book = new Book(author, title);
@@ -32,7 +40,7 @@ public class Application {
             int id = random.nextInt(Integer.MAX_VALUE);
             books.put(String.valueOf(id), book);
 
-            response.status(201); // 201 Created
+            response.status(200);
             return id;
         });
 
