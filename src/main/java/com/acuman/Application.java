@@ -26,10 +26,7 @@ public class Application {
 
         externalStaticFileLocation("static/");
 
-        // Creates a new book resource, will return the ID to the created resource
-        // author and title are sent in the post body as x-www-urlencoded values e.g. author=Foo&title=Bar
-        // you get them by using request.queryParams("valuename")
-        post(API_PATIENTS, (request, response) -> {
+       post(API_PATIENTS, (request, response) -> {
             String patientJson = request.body();
             log.info("received patient {}", patientJson);
 
