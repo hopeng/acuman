@@ -21,6 +21,10 @@ import java.util.Map;
 
 import static com.couchbase.client.java.query.Select.select;
 
+/**
+ * Create index before query: CREATE PRIMARY INDEX on acuman using VIEW
+ *
+ */
 public class AcuService {
     private static final Logger log = LogManager.getLogger(AcuService.class);
 
@@ -55,8 +59,25 @@ public class AcuService {
         return result.content();
     }
 
-    public String getPatient(String id) {
-        return bucket.get(id, RawJsonDocument.class).content();
+    public JsonObject updatePatient(String json) {
+        JsonObject patient = JsonObject.fromJson(json);
+        Assert.notNull(patient.getString("doctor"));
+        Assert.notNull(patient.getString("type"));
+        String id = patient.getString("id");
+        Assert.notNull(id);
+        Assert.notNull(getPatient(id));
+
+        JsonDocument result = bucket.upsert(JsonDocument.create(id, patient));
+
+        return result.content();
+    }
+
+    public JsonObject getPatient(String id) {
+        return bucket.get(id, JsonDocument.class).content();
+    }
+
+    public JsonObject deletePatient(String id) {
+        return bucket.remove(id).content();
     }
 
     public List<JsonObject> getPatients(String doctor) {
@@ -72,7 +93,7 @@ public class AcuService {
     public static void main(String args[]) {
         AcuService acuService = new AcuService();
         JsonObject p = acuService.newPatient("{\"initialVisit\":\"2016-04-21T11:21:10.430Z\",\"dob\":null}");
-        String retrievedP = acuService.getPatient(p.getString("id"));
+        JsonObject retrievedP = acuService.getPatient(p.getString("id"));
         log.info(p);
         log.info(retrievedP);
         Assert.isTrue(p.toString().equals(retrievedP.toString()), "not the same?!");
