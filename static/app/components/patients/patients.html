@@ -12,10 +12,13 @@
 <md-card ng-show="svc.upSertMode">
   <md-card-content>
     <form name="userForm" ng-submit="userForm.$valid && svc.onSubmitPatient($event)">
-      <md-input-container class="md-block">
-        <label>ID</label>
-        <input ng-model="svc.currentPatient.patientId" disabled>
-      </md-input-container>
+      <div layout-gt-xs="row">
+        <md-input-container class="md-block">
+          <label>ID</label>
+          <input ng-model="svc.currentPatient.patientId" disabled>
+        </md-input-container>
+        <md-button id="deletePatient" ng-click="svc.onDeletePatient()" style="margin: 0 0 20px 0;" ng-if="svc.currentPatient.patientId" class="md-raised md-warn">Delete This Patient</md-button>
+      </div>
 
       <div layout-gt-xs="row">
         <md-input-container class="md-block">
@@ -47,12 +50,15 @@
         </md-input-container>
       </div>
 
-      <md-input-container class="md-block">
-        <label>Address</label>
-        <input ng-model="svc.currentPatient.address">
-      </md-input-container>
-
       <div layout="row">
+        <md-input-container class="md-block">
+          <label>Gender</label>
+          <md-select ng-model="svc.currentPatient.gender">
+            <md-option ng-repeat="g in ['Male', 'Female']" value="{{g}}">
+              {{g}}
+            </md-option>
+          </md-select>
+        </md-input-container>
         <md-input-container class="md-block">
           <label>Heal Fund Provider</label>
           <md-select ng-model="svc.currentPatient.healthFund">
@@ -62,7 +68,14 @@
           </md-select>
         </md-input-container>
       </div>
+
       <br>
+
+      <md-input-container class="md-block">
+        <label>Address</label>
+        <input ng-model="svc.currentPatient.address">
+      </md-input-container>
+
       <md-input-container class="md-block">
         <label>allergies</label>
         <input ng-model="svc.currentPatient.allergies">
@@ -84,7 +97,7 @@
   </md-card-title>
   <md-card-content>
     <md-table-container>
-      <table md-table md-progress="patientCtrl.patientList.$promise">
+      <table md-table>
         <thead md-head>
         <tr md-row>
           <th md-column><strong>Patient ID</strong></th>
@@ -95,27 +108,30 @@
           <th md-column><strong>Health Fund</strong></th>
           <th md-column><strong>Address</strong></th>
           <th md-column><strong>Occupation</strong></th>
-          <th md-column><strong>Initial Visit</strong></th>
           <th md-column><strong>Phone</strong></th>
           <th md-column><strong>Email</strong></th>
           <th md-column><strong>Allergies</strong></th>
         </tr>
         </thead>
         <tbody md-body>
-        <tr md-row ng-repeat="p in patientCtrl.patientList">
+        <tr md-row ng-repeat="p in svc.patientList">
+        <!--<tr md-row ng-repeat="p in svc.plist">-->
           <td md-cell>{{p.patientId}}</td>
           <td md-cell>{{p.firstName}}</td>
           <td md-cell>{{p.lastName}}</td>
           <td md-cell>{{p.dob}}</td>
+          <td md-cell>{{p.gender}}</td>
           <td md-cell>{{p.healthFund}}</td>
           <td md-cell>{{p.address}}</td>
           <td md-cell>{{p.occupation}}</td>
-          <td md-cell>{{p.initialVisit}}</td>
           <td md-cell>{{p.phone}}</td>
           <td md-cell>{{p.email}}</td>
           <td md-cell>{{p.allergies}}</td>
           <td md-cell>
-            <md-button class="md-primary md-small" ng-href="#/manage-consults/{{p.id}}">View</md-button>
+            <md-button class="md-primary md-small" ng-click="svc.onEditPatient(p)">Edit</md-button>
+          </td>
+          <td md-cell>
+            <md-button class="md-primary md-small" ng-href="#/manage-consults/{{p.id}}">Consults</md-button>
           </td>
         </tr>
         </tbody>

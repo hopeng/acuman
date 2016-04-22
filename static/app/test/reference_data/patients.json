@@ -1,0 +1,23 @@
+[
+  {
+    "doctor": "HFANG",
+    "initialVisit": "2016-04-21T11:21:10.430Z",
+    "type": "PATIENT",
+    "patientId": "HFANG-PATIENT-16",
+    "dob": null
+  },
+  {
+    "doctor": "HFANG",
+    "initialVisit": "2016-04-21T11:21:10.430Z",
+    "type": "PATIENT",
+    "patientId": "HFANG-PATIENT-15",
+    "dob": null
+  },
+  {
+    "doctor": "HFANG",
+    "initialVisit": "2016-04-21T11:21:10.430Z",
+    "type": "PATIENT",
+    "patientId": "HFANG-PATIENT-14",
+    "dob": null
+  }
+]

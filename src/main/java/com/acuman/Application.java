@@ -1,18 +1,13 @@
 package com.acuman;
 
-import com.couchbase.client.java.Bucket;
-import com.couchbase.client.java.Cluster;
-import com.couchbase.client.java.CouchbaseCluster;
+import com.acuman.service.AcuService;
 import com.couchbase.client.java.document.json.JsonObject;
 import com.couchbase.client.java.error.DocumentDoesNotExistException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.print.Book;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import static spark.Spark.*;
 
@@ -32,6 +27,7 @@ public class Application {
         });
 
         externalStaticFileLocation("static/");
+
         post(API_PATIENTS, (request, response) -> {
             String patientJson = request.body();
             log.info("creating new patient {}", patientJson);
@@ -74,16 +70,18 @@ public class Application {
 
             JsonObject result;
             try {
-                return acuService.deletePatient(id);
+                acuService.deletePatient(id);
+                response.status(204);
+
             } catch (DocumentDoesNotExistException e) {
                 response.status(404);
-                return "Cannot find patient by ID " + id;
             }
+            return "";
         });
 
         get(API_PATIENTS, (request, response) -> {
-            String doctor = request.queryParams("doctor");
-            List<JsonObject> result = acuService.getPatients(doctor);
+//            String doctor = request.queryParams("doctor");
+            List<JsonObject> result = acuService.getPatients(AcuService.DOCTOR);
             return result;
         });
     }
