@@ -3,7 +3,7 @@
 angular.module('caseManagerApp.patients', ['ngResource'])
 
   .controller('PatientController',
-    function ($resource, $mdMedia, $mdDialog) {
+    function ($resource, $mdMedia, $mdDialog, $mdToast) {
 
       var self = this;
       this.newCaseInProgress = false;
@@ -18,16 +18,54 @@ angular.module('caseManagerApp.patients', ['ngResource'])
         console.log("onSubmitPatient", patient);
         var patientId = patient.patientId;
         if (patientId) {
-          patientUpdator.update({ id: patientId }, patient);
+          patientUpdator.update({ id: patientId }, patient).$promise.then(
+            function (response) {
+              showToast('Successfully updated patient ' + patientId);
+
+            },
+            function (response) {
+              showToast('Failed to update patient ' + patientId);
+            }
+          );
 
         } else {
-          patientResource.save(patient);
+          patientResource.save(patient).$promise.then(
+            function (response) {
+              self.patientList.unshift(response);
+              showToast('Successfully created new patient ' + response.id);
+            },
+            function () {
+              showToast('Failed to created new patient');
+            }
+          );
         }
       };
 
       this.deletePatient = function (patient) {
         var id = patient.patientId;
-        patientResource.delete({ id: id});
+        patientResource.delete({ id: id}).$promise.then(
+          function () {
+            var index = self.patientList.indexOf(patient);
+            self.patientList.splice(index, 1);
+            showToast('Successfully deleted patient ' + id);
+          },
+          function (response) {
+            showToast('Failed to delete patient ' + id);
+          }
+        );
+      };
+
+      var showToast = function (message) {
+        $mdToast.hide().then(
+          function () {
+            var simpleToast = $mdToast.simple()
+              .textContent(message)
+              .action('OK')
+              .position('top right')
+              .hideDelay(5000);
+            $mdToast.show(simpleToast);
+          }
+        );
       };
 
       this.onPatientEdit = function(ev, patient) {

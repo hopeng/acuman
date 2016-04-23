@@ -1,6 +1,7 @@
 package com.acuman;
 
 import com.acuman.service.AcuService;
+import com.acuman.service.AcuCouchbaseService;
 import com.couchbase.client.java.document.json.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,12 +10,12 @@ import spark.utils.Assert;
 
 import java.util.List;
 
-import static com.acuman.service.AcuService.DOCTOR;
+import static com.acuman.service.AcuCouchbaseService.DOCTOR;
 
-public class AcuServiceTest {
-    private static final Logger log = LogManager.getLogger(AcuServiceTest.class);
+public class AcuCouchbaseServiceTest {
+    private static final Logger log = LogManager.getLogger(AcuCouchbaseServiceTest.class);
 
-    AcuService acuService = new AcuService();
+    AcuService acuService = new AcuCouchbaseService();
 
     @Test
     public void testFindPatients() throws Exception {
@@ -27,7 +28,7 @@ public class AcuServiceTest {
 
     @Test
     public void test() {
-        AcuService acuService = new AcuService();
+        AcuCouchbaseService acuService = new AcuCouchbaseService();
         JsonObject p = acuService.newPatient("{\"initialVisit\":\"2016-04-21T11:21:10.430Z\",\"dob\":null}");
         JsonObject retrievedP = acuService.getPatient(p.getString("patientId"));
         log.info(p);

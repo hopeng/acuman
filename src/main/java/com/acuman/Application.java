@@ -1,13 +1,12 @@
 package com.acuman;
 
-import com.acuman.service.AcuService;
+import com.acuman.service.AcuCouchbaseService;
 import com.couchbase.client.java.document.json.JsonObject;
 import com.couchbase.client.java.error.DocumentDoesNotExistException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
-import java.util.Map;
 
 import static spark.Spark.*;
 
@@ -19,7 +18,7 @@ public class Application {
     private static final String API_PATIENTS = API_VERSION + "/patients";
 
     public static void main(String[] args) {
-        AcuService acuService = new AcuService();
+        AcuCouchbaseService acuService = new AcuCouchbaseService();
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
                 acuService.destroy();
@@ -81,7 +80,7 @@ public class Application {
 
         get(API_PATIENTS, (request, response) -> {
 //            String doctor = request.queryParams("doctor");
-            List<JsonObject> result = acuService.getPatients(AcuService.DOCTOR);
+            List<JsonObject> result = acuService.getPatients(AcuCouchbaseService.DOCTOR);
             return result;
         });
     }

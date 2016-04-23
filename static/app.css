@@ -2,11 +2,6 @@
   min-width: 1%;
 }
 
-/*todo doesnt work*/
-.md-input-container.md-small {
-  padding: 0;
-}
-
 md-input-container {
   margin: 0;
 }
