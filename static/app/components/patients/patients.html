@@ -1,92 +1,14 @@
-<div ng-init="svc = patientCtrl"></div>
+<div ng-init="svc = patientCtrl" style="max-width: 768px">
 
 <md-card>
   <md-card-content layout="row" layout-align="space-between">
-    <!--<md-button class="md-raised md-primary" ng-click="patientCtrl.onNewPatient($event)">New Patient</md-button>-->
-    <md-button class="md-fab" aria-label="Add" ng-click="svc.onNewPatient($event)">
+    <md-button class="md-fab" aria-label="Add" ng-click="svc.onPatientEdit($event)">
       <md-icon>add</md-icon>
     </md-button>
   </md-card-content>
 </md-card>
 
-<md-card ng-show="svc.upSertMode">
-  <md-card-content>
-    <form name="userForm" ng-submit="userForm.$valid && svc.onSubmitPatient($event)">
-      <div layout-gt-xs="row">
-        <md-input-container class="md-block">
-          <label>ID</label>
-          <input ng-model="svc.currentPatient.patientId" disabled>
-        </md-input-container>
-        <md-button id="deletePatient" ng-click="svc.onDeletePatient()" style="margin: 0 0 20px 0;" ng-if="svc.currentPatient.patientId" class="md-raised md-warn">Delete This Patient</md-button>
-      </div>
-
-      <div layout-gt-xs="row">
-        <md-input-container class="md-block">
-          <label>First Name</label>
-          <input ng-model="svc.currentPatient.firstName">
-        </md-input-container>
-        <md-input-container class="md-block">
-          <label>Last Name</label>
-          <input ng-model="svc.currentPatient.lastName">
-        </md-input-container>
-        <md-input-container class="md-block">
-          <label>Date Of Birth</label>
-          <input ng-model="svc.currentPatient.dob" type="date">
-        </md-input-container>
-      </div>
-
-      <div layout="row">
-        <md-input-container class="md-block">
-          <label>Phone</label>
-          <input ng-model="svc.currentPatient.phone">
-        </md-input-container>
-        <md-input-container class="md-block">
-          <label>Email</label>
-          <input ng-model="svc.currentPatient.email" type="email">
-        </md-input-container>
-        <md-input-container class="md-block">
-          <label>Occupation</label>
-          <input ng-model="svc.currentPatient.occupation">
-        </md-input-container>
-      </div>
-
-      <div layout="row">
-        <md-input-container class="md-block">
-          <label>Gender</label>
-          <md-select ng-model="svc.currentPatient.gender">
-            <md-option ng-repeat="g in ['Male', 'Female']" value="{{g}}">
-              {{g}}
-            </md-option>
-          </md-select>
-        </md-input-container>
-        <md-input-container class="md-block">
-          <label>Heal Fund Provider</label>
-          <md-select ng-model="svc.currentPatient.healthFund">
-            <md-option ng-repeat="h in svc.healthFundList" value="{{h.code}}">
-              {{h.desc}}
-            </md-option>
-          </md-select>
-        </md-input-container>
-      </div>
-
-      <br>
-
-      <md-input-container class="md-block">
-        <label>Address</label>
-        <input ng-model="svc.currentPatient.address">
-      </md-input-container>
-
-      <md-input-container class="md-block">
-        <label>allergies</label>
-        <input ng-model="svc.currentPatient.allergies">
-      </md-input-container>
-
-      <md-button type="submit" class="md-raised md-primary" id="submit">Submit</md-button>
-      <md-button class="md-raised md-primary" ng-click="svc.onClearPatientForm($event)">Clear</md-button>
-      <md-button class="md-raised md-primary" ng-click="svc.onCancelPatientForm($event)">Cancel</md-button>
-    </form>
-  </md-card-content>
-</md-card>
+</div>
 
 <md-card>
   <md-card-title>
@@ -97,7 +19,7 @@
   </md-card-title>
   <md-card-content>
     <md-table-container>
-      <table md-table>
+      <table md-table md-progress="svc.patientList.$promise">
         <thead md-head>
         <tr md-row>
           <th md-column><strong>Patient ID</strong></th>
@@ -128,10 +50,10 @@
           <td md-cell>{{p.email}}</td>
           <td md-cell>{{p.allergies}}</td>
           <td md-cell>
-            <md-button class="md-primary md-small" ng-click="svc.onEditPatient(p)">Edit</md-button>
+            <md-button class="md-primary md-small" ng-click="svc.onPatientEdit($event, p)">Edit</md-button>
           </td>
           <td md-cell>
-            <md-button class="md-primary md-small" ng-href="#/manage-consults/{{p.id}}">Consults</md-button>
+            <md-button class="md-primary md-small" ng-href="#/consults/{{p.patientId}}">Consults</md-button>
           </td>
         </tr>
         </tbody>

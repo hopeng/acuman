@@ -3,7 +3,7 @@
 angular.module('caseManagerApp.patients', ['ngResource'])
 
   .controller('PatientController',
-    function ($resource) {
+    function ($resource, $mdMedia, $mdDialog) {
 
       var self = this;
       this.newCaseInProgress = false;
@@ -12,52 +12,74 @@ angular.module('caseManagerApp.patients', ['ngResource'])
 
       var patientUpdator = $resource(CONF.URL.PATIENTS + '/:id', null, { 'update': { method:'PUT' } });
       var patientResource = $resource(CONF.URL.PATIENTS + '/:id');
-
-      // source from http://www.privatehealth.gov.au/dynamic/healthfundlist.aspx, todo save in DB
-      this.healthFundList = $resource(CONF.URL.HEALTH_FUNDS).query();
       this.patientList = patientResource.query();
 
-      var resetCurrent = function () {
-        self.currentPatient = {};
-        // self.currentPatient.initialVisit = new Date();
-      };
-
-      resetCurrent();
-
-      this.onNewPatient = function (event) {
-        this.upSertMode = true;
-        resetCurrent();
-      };
-
-      this.onClearPatientForm = function (event) {
-        resetCurrent();
-      };
-      
-      this.onCancelPatientForm = function (event) {
-        this.upSertMode = false;
-        resetCurrent();
-      };
-
-      this.onSubmitPatient = function (event) {
-        console.log("onSubmitPatient", this.currentPatient);
-        var id = this.currentPatient.patientId;
-        if (id) {
-          patientUpdator.update({ id: id }, this.currentPatient);
+      this.upsertPatient = function (patient) {
+        console.log("onSubmitPatient", patient);
+        var patientId = patient.patientId;
+        if (patientId) {
+          patientUpdator.update({ id: patientId }, patient);
 
         } else {
-          patientResource.save(this.currentPatient);
+          patientResource.save(patient);
         }
-        this.upSertMode = false;
-        resetCurrent();
       };
 
-      this.onEditPatient = function (p) {
-        this.upSertMode = true;
-        this.currentPatient = p;
-      };
-
-      this.onDeletePatient = function () {
-        var id = this.currentPatient.patientId;
+      this.deletePatient = function (patient) {
+        var id = patient.patientId;
         patientResource.delete({ id: id});
+      };
+
+      this.onPatientEdit = function(ev, patient) {
+        var useFullScreen = $mdMedia('sm') || $mdMedia('xs');
+        $mdDialog.show({
+          controller: EditPatientController,
+          controllerAs: 'svc',
+          templateUrl: 'app/components/patients/edit-patient.html',
+          parent: angular.element(document.body),
+          targetEvent: ev,
+          fullscreen: useFullScreen,
+          locals: {
+            currentPatient: patient
+          }
+        })
+          .then(function(response) {
+            if (response.action === 'insert') {
+              self.upsertPatient(response.patient);
+
+            } else if (response.action === 'delete') {
+              self.deletePatient(response.patient);
+
+            } else {
+              console.log('unknown action ', response.action, '. patient ', response.patient);
+            }
+
+          }, function() {
+            // 'You cancelled the dialog.'
+          });
+      };
+
+      function EditPatientController ($resource, $mdDialog, currentPatient) {
+        var editCtrlSelf = this;
+        editCtrlSelf.currentPatient = currentPatient;
+
+        // sourced from http://www.privatehealth.gov.au/dynamic/healthfundlist.aspx, todo save in DB
+        editCtrlSelf.healthFundList = $resource(CONF.URL.HEALTH_FUNDS).query();
+
+        editCtrlSelf.onSubmitEditPatient = function() {
+          $mdDialog.hide({ patient: editCtrlSelf.currentPatient, action: 'insert' });
+        };
+
+        editCtrlSelf.onCancelDialog = function() {
+          $mdDialog.cancel();
+        };
+        
+        editCtrlSelf.onClearPatientForm = function () {
+          editCtrlSelf.currentPatient = {};
+        };
+
+        editCtrlSelf.onDeletePatient = function () {
+          $mdDialog.hide({ patient: editCtrlSelf.currentPatient, action: 'delete' });
+        };
       }
     });

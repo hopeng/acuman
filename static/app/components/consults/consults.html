@@ -2,9 +2,13 @@
 
 <md-card>
   <md-card-content layout="row" layout-align="space-between">
-    <!--only support consultation view on specific patient-->
-    <label>Consultation for Patient xxx</label>
+    <!--Consultations view for specific patient-->
+    <label>Consultation for Patient {{svc.patient.lastName}}, {{svc.patient.firstName}} {{svc.patient.dob}}</label>
   </md-card-content>
+
+  <md-button class="md-fab" aria-label="Add" ng-click="svc.onNewConsult($event)">
+    <md-icon>add</md-icon>
+  </md-button>
 </md-card>
 
 
@@ -48,8 +52,8 @@
           <td md-cell>{{c.herbs}}</td>
           <td md-cell>{{c.advice}}</td>
           <td md-cell>
-            <md-button class="md-primary md-small" ng-href="#/search-doc/{{c.id}}">Edit</md-button>
-            <md-button class="md-primary md-small" ng-href="#/search-doc/{{c.id}}">Delete</md-button>
+            <md-button class="md-primary md-small" ng-click="svc.onEditConsult()">Edit</md-button>
+            <md-button class="md-primary md-small" ng-href="svc.onDeleteConsult()">Delete</md-button>
           </td>
         </tr>
         </tbody>

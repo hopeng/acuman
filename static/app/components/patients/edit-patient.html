@@ -1,0 +1,81 @@
+<md-dialog aria-label="Edit Patient" ng-cloak>
+
+  <div flex="100">
+      <form name="userForm" ng-submit="userForm.$valid && svc.onSubmitEditPatient($event)">
+        <div layout-gt-xs="row">
+          <md-input-container class="md-block">
+            <label>ID</label>
+            <input ng-model="svc.currentPatient.patientId" disabled>
+          </md-input-container>
+          <md-button id="deletePatient" ng-click="svc.onDeletePatient()" style="margin: 0 0 20px 0;"
+                     ng-if="svc.currentPatient.patientId" class="md-raised md-warn">Delete This Patient
+          </md-button>
+        </div>
+
+        <div layout-gt-xs="row">
+          <md-input-container class="md-block">
+            <label>First Name</label>
+            <input ng-model="svc.currentPatient.firstName">
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Last Name</label>
+            <input ng-model="svc.currentPatient.lastName">
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Date Of Birth</label>
+            <input ng-model="svc.currentPatient.dob" type="date">
+          </md-input-container>
+        </div>
+
+        <div layout="row">
+          <md-input-container class="md-block">
+            <label>Phone</label>
+            <input ng-model="svc.currentPatient.phone">
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Email</label>
+            <input ng-model="svc.currentPatient.email" type="email">
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Occupation</label>
+            <input ng-model="svc.currentPatient.occupation">
+          </md-input-container>
+        </div>
+
+        <div layout="row">
+          <md-input-container class="md-block">
+            <label>Gender</label>
+            <md-select ng-model="svc.currentPatient.gender">
+              <md-option ng-repeat="g in ['Male', 'Female']" value="{{g}}">
+                {{g}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Heal Fund Provider</label>
+            <md-select ng-model="svc.currentPatient.healthFund">
+              <md-option ng-repeat="h in svc.healthFundList" value="{{h.code}}">
+                {{h.desc}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+
+        <br>
+
+        <md-input-container class="md-block">
+          <label>Address</label>
+          <input ng-model="svc.currentPatient.address">
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label>allergies</label>
+          <input ng-model="svc.currentPatient.allergies">
+        </md-input-container>
+
+        <md-button type="submit" class="md-raised md-primary" id="submit">Submit</md-button>
+        <md-button class="md-raised md-primary" ng-click="svc.onClearPatientForm($event)">Clear</md-button>
+        <md-button class="md-raised md-primary" ng-click="svc.onCancelDialog($event)">Cancel</md-button>
+      </form>`
+  </div>
+</md-dialog>
