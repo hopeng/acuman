@@ -1,21 +1,26 @@
-<div ng-init="svc = patientCtrl" style="max-width: 768px">
+<div ng-init="svc = patientCtrl"></div>
 
-<md-card>
-  <md-card-content layout="row" layout-align="space-between">
-    <md-button class="md-fab" aria-label="Add" ng-click="svc.onPatientEdit($event)">
-      <md-icon>add</md-icon>
-    </md-button>
-  </md-card-content>
-</md-card>
-
-</div>
-
-<md-card>
+<!--todo use this for slide effect https://github.com/EricWVGG/AngularSlideables-->
+<md-card ng-show="svc.upserting">
   <md-card-title>
     <md-card-title-text>
-      <span class="md-headline">Existing Patients</span>
+      <span class="md-headline">Patient Detail</span>
       <!--<span class="md-subhead"></span>-->
     </md-card-title-text>
+  </md-card-title>
+  <ng-include src="'app/components/patients/edit-patient.html'"></ng-include>
+</md-card>
+
+<md-card ng-show="!svc.upserting">
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">Doctor {{svc.doctor}}'s Patients</span>
+      <!--<span class="md-subhead"></span>-->
+    </md-card-title-text>
+    <div flex></div>
+    <md-button class="md-fab" ng-click="svc.onPatientEdit($event)">
+      <md-icon>add</md-icon>
+    </md-button>
   </md-card-title>
   <md-card-content>
     <md-table-container>
@@ -33,7 +38,6 @@
         </thead>
         <tbody md-body>
         <tr md-row ng-repeat="p in svc.patientList">
-        <!--<tr md-row ng-repeat="p in svc.plist">-->
           <td md-cell>{{p.patientId}}</td>
           <td md-cell>{{p.firstName}}</td>
           <td md-cell>{{p.lastName}}</td>
@@ -41,10 +45,12 @@
           <td md-cell>{{p.gender}}</td>
           <td md-cell>{{p.phone}}</td>
           <td md-cell>{{p.allergies}}</td>
-          <td md-cell>
-            <md-button class="md-primary md-small" ng-click="svc.onPatientEdit($event, p)">Edit</md-button>
+          <td md-cell class="no-padding">
+            <md-button class="md-icon-button" ng-click="svc.onPatientEdit($event, p)">
+              <md-icon>edit</md-icon>
+            </md-button>
           </td>
-          <td md-cell>
+          <td md-cell class="no-padding">
             <md-button class="md-primary md-small" ng-href="#/consults/{{p.patientId}}">Visits</md-button>
           </td>
         </tr>
