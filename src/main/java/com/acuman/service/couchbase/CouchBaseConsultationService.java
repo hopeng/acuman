@@ -87,7 +87,7 @@ public class CouchBaseConsultationService implements ConsultationService {
     @Override
     public List<JsonObject> getConsultations(String patientId) {
         List<JsonObject> result;
-        String condition = String.format("type='CONSULT' and patientId='%s' order by createdDate desc", patientId);
+        String condition = String.format("type='CONSULTATION' and patientId='%s' order by createdDate desc", patientId);
         N1qlQueryResult query = bucket.query(select("*").from(BUCKET_NAME).where(condition).limit(1000)); // todo paging
 
         result = query.allRows().stream()

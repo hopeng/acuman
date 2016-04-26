@@ -2,12 +2,13 @@
   <md-card-title>
     <md-card-title-text>
       <span class="md-headline">Consultation Detail</span>
-      <!--<span class="md-subhead"></span>-->
+      <span class="md-subhead">ID: {{svc.currentConsult.consultId}}</span>
     </md-card-title-text>
   </md-card-title>
   <md-card-content>
     <form name="userForm" ng-submit="userForm.$valid && svc.onSubmitConsult($event)">
       <div>
+        <br>
         <md-input-container class="md-block">
           <label>Chief Complaint</label>
           <input ng-model="svc.currentConsult.chiefComplaint">

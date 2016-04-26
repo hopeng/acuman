@@ -6,7 +6,7 @@
   <md-card-title>
     <md-card-title-text>
       <span class="md-headline">Consultation History for Patient {{svc.patient.lastName}}, {{svc.patient.firstName}} {{svc.patient.dob}}</span>
-      <!--<span class="md-subhead"></span>-->
+      <span class="md-subhead">Patient ID: {{svc.patient.patientId}}</span>
     </md-card-title-text>
     <div flex></div>
     <md-button class="md-fab" ng-click="svc.onConsultEdit($event)">

@@ -5,6 +5,7 @@ angular.module('caseManagerApp.consults', ['ngResource'])
   .controller('ConsultController',
     function ($window, $resource, $mdDialog, $routeParams, $log, $mdToast) {
 
+      // region local var
       var self = this;
       var currentPatientId = $routeParams.patientId;
 
@@ -31,7 +32,7 @@ angular.module('caseManagerApp.consults', ['ngResource'])
           consultResource.save({patientId: currentPatientId}, consult).$promise.then(
             function (response) {
               self.consultsList.unshift(response);
-              showToast('Successfully created new consultation ' + response.id);
+              showToast('Successfully created new consultation ' + response.consultId);
             },
             function () {
               showToast('Failed to created new patient');
@@ -68,13 +69,13 @@ angular.module('caseManagerApp.consults', ['ngResource'])
           }
         );
       };
+      // endregion local var
 
+      // region scope var
       this.upserting = false;
       this.currentConsult = {};
-
       this.patient = patientResource.get({ id: currentPatientId });
-      
-      this.consultsList = [];
+      this.consultsList = consultResource.query({ patientId: currentPatientId });
 
       this.onConsultEdit = function (ev, consult) {
         this.currentConsult = consult;
@@ -96,7 +97,7 @@ angular.module('caseManagerApp.consults', ['ngResource'])
           .textContent('You cannot undo this action')
           .ariaLabel('Lucky day')
           .targetEvent(ev)
-          .ok('DELETE THIS CONSULTATION')
+          .ok('DELETE CONSULTATION')
           .cancel('CANCEL');
 
         $mdDialog.show(confirm).then(
@@ -105,5 +106,7 @@ angular.module('caseManagerApp.consults', ['ngResource'])
             self.upserting = false;
           });
       };
+
+      // endregion scope var
 
     });

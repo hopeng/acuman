@@ -2,18 +2,13 @@
   <md-card-title>
     <md-card-title-text>
       <span class="md-headline">Patient Detail</span>
-      <!--<span class="md-subhead"></span>-->
+      <span class="md-subhead">ID: {{svc.currentPatient.patientId}}</span>
     </md-card-title-text>
   </md-card-title>
 
   <md-card-content>
     <form name="userForm" ng-submit="userForm.$valid && svc.onSubmitPatient($event)">
       <br/>
-      <md-input-container class="md-block">
-        <label>ID</label>
-        <input ng-model="svc.currentPatient.patientId" disabled>
-      </md-input-container>
-
       <div layout-gt-xs="row">
         <md-input-container class="md-block">
           <label>First Name</label>
