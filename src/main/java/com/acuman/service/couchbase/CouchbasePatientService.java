@@ -1,22 +1,18 @@
-package com.acuman.service;
+package com.acuman.service.couchbase;
 
+import com.acuman.service.PatientService;
 import com.couchbase.client.java.Bucket;
-import com.couchbase.client.java.Cluster;
-import com.couchbase.client.java.CouchbaseCluster;
 import com.couchbase.client.java.document.JsonDocument;
 import com.couchbase.client.java.document.json.JsonObject;
 import com.couchbase.client.java.query.N1qlQueryResult;
-import javafx.util.converter.LocalDateStringConverter;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import spark.utils.Assert;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.acuman.service.couchbase.CouchBaseClient.BUCKET_NAME;
 import static com.couchbase.client.java.query.Select.select;
 import static com.couchbase.client.java.query.dsl.Expression.x;
 import static java.time.LocalDate.now;
@@ -26,31 +22,19 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 /**
  * Create index before query: CREATE PRIMARY INDEX on acuman using VIEW
  */
-public class AcuCouchbaseService implements AcuService {
-    private static final Logger log = LogManager.getLogger(AcuCouchbaseService.class);
+public class CouchbasePatientService implements PatientService {
+    private static final Logger log = LogManager.getLogger(CouchbasePatientService.class);
 
     public static final String DOCTOR = "HFANG";   // todo should come from session user
-    private static final String PATIENT_PREFIX = DOCTOR + "-PATIENT-";
+
+    private static final String PATIENT_PREFIX = "-PATIENT-";
     private static final String PATIENT_ID_SEQ = "patientIdSeq";
-    private static final String BUCKET_NAME = "acuman";
 
-    private Cluster cluster;
-    private Bucket bucket;
-
-    public AcuCouchbaseService() {
-        cluster = CouchbaseCluster.create();
-        bucket = cluster.openBucket(BUCKET_NAME);
-    }
-
-    public void destroy() {
-        log.info("closing couchbase client");
-        cluster.disconnect();
-    }
+    private Bucket bucket = CouchBaseClient.getInstance().getBucket();
 
     @Override
     public JsonObject newPatient(String json) {
-        long nextSquence = bucket.counter(PATIENT_ID_SEQ, 1, 1).content();
-        String id = PATIENT_PREFIX + nextSquence;
+        String id = generateId(DOCTOR);
 
         JsonObject patient = JsonObject.fromJson(json);
         patient.put("doctor", DOCTOR);
@@ -65,13 +49,20 @@ public class AcuCouchbaseService implements AcuService {
         return result.content();
     }
 
+    private String generateId(String doctor) {
+        long nextSquence = bucket.counter(PATIENT_ID_SEQ, 1, 1).content();
+        String id = doctor + PATIENT_PREFIX + nextSquence;
+
+        return id;
+    }
+
     @Override
-    public JsonObject updatePatient(String json) {
+    public JsonObject updatePatient(String id, String json) {
         JsonObject patient = JsonObject.fromJson(json);
         Assert.isTrue(isNotEmpty(patient.getString("doctor")), "doctor cannot be updated to empty");
         Assert.isTrue(isNotEmpty(patient.getString("type")), "type cannot be updated to empty");
-        String id = patient.getString("patientId");
-        Assert.notNull(id);
+        String patientId = patient.getString("patientId");
+        Assert.isTrue(id.equals(patientId), "provided id does not match json patientId");
         Assert.notNull(getPatient(id));
 
         patient.put("lastUpdatedDate", now().format(ISO_LOCAL_DATE));

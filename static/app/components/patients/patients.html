@@ -1,15 +1,7 @@
 <div ng-init="svc = patientCtrl"></div>
 
-<!--todo use this for slide effect https://github.com/EricWVGG/AngularSlideables-->
-<md-card ng-show="svc.upserting">
-  <md-card-title>
-    <md-card-title-text>
-      <span class="md-headline">Patient Detail</span>
-      <!--<span class="md-subhead"></span>-->
-    </md-card-title-text>
-  </md-card-title>
-  <ng-include src="'app/components/patients/edit-patient.html'"></ng-include>
-</md-card>
+<!--todo use this for slide effect https://github.com/EricWVGG/AngularSlideables, or ng-animate-->
+<ng-include ng-show="svc.upserting" src="'app/components/patients/edit-patient.html'"></ng-include>
 
 <md-card ng-show="!svc.upserting">
   <md-card-title>

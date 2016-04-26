@@ -1,7 +1,7 @@
 package com.acuman;
 
-import com.acuman.service.AcuService;
-import com.acuman.service.AcuCouchbaseService;
+import com.acuman.service.PatientService;
+import com.acuman.service.couchbase.CouchbasePatientService;
 import com.couchbase.client.java.document.json.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,25 +10,25 @@ import spark.utils.Assert;
 
 import java.util.List;
 
-import static com.acuman.service.AcuCouchbaseService.DOCTOR;
+import static com.acuman.service.couchbase.CouchbasePatientService.DOCTOR;
 
 public class AcuCouchbaseServiceTest {
     private static final Logger log = LogManager.getLogger(AcuCouchbaseServiceTest.class);
 
-    AcuService acuService = new AcuCouchbaseService();
+    PatientService patientService = new CouchbasePatientService();
 
     @Test
     public void testFindPatients() throws Exception {
-        JsonObject result = acuService.getPatient("HFANG-PATIENT-14");
+        JsonObject result = patientService.getPatient("HFANG-PATIENT-14");
         log.info("one: " + result);
 
-        List<JsonObject> searchResult = acuService.getPatients(DOCTOR);
+        List<JsonObject> searchResult = patientService.getPatients(DOCTOR);
         log.info("search: " + searchResult);
     }
 
     @Test
     public void test() {
-        AcuCouchbaseService acuService = new AcuCouchbaseService();
+        CouchbasePatientService acuService = new CouchbasePatientService();
         JsonObject p = acuService.newPatient("{\"initialVisit\":\"2016-04-21T11:21:10.430Z\",\"dob\":null}");
         JsonObject retrievedP = acuService.getPatient(p.getString("patientId"));
         log.info(p);
@@ -37,6 +37,5 @@ public class AcuCouchbaseServiceTest {
         List<JsonObject> result = acuService.getPatients(DOCTOR);
 
         log.info("search: " + result);
-        acuService.destroy();
     }
 }

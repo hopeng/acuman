@@ -4,14 +4,11 @@ import com.couchbase.client.java.document.json.JsonObject;
 
 import java.util.List;
 
-/**
- * Created by hopeng on 23/04/2016.
- */
-public interface AcuService {
+public interface PatientService {
 
     JsonObject newPatient(String json);
 
-    JsonObject updatePatient(String json);
+    JsonObject updatePatient(String id, String json);
 
     JsonObject getPatient(String id);
 

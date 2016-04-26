@@ -1,85 +1,17 @@
 <div ng-init="svc = consultCtrl"></div>
 
-<md-card style="max-width: 1024px">
+<ng-include ng-show="svc.upserting" src="'app/components/consults/edit-consults.html'"></ng-include>
+
+<md-card ng-show="!svc.upserting">
   <md-card-title>
     <md-card-title-text>
-      <span class="md-headline">Consultations for Patient {{svc.patient.lastName}}, {{svc.patient.firstName}} {{svc.patient.dob}}</span>
+      <span class="md-headline">Consultation History for Patient {{svc.patient.lastName}}, {{svc.patient.firstName}} {{svc.patient.dob}}</span>
       <!--<span class="md-subhead"></span>-->
     </md-card-title-text>
-  </md-card-title>
-
-  <!--<md-button class="md-fab" aria-label="Add" ng-click="svc.onNewConsult($event)">-->
-    <!--<md-icon>add</md-icon>-->
-  <!--</md-button>-->
-
-  <div>
-    <md-input-container class="md-block">
-      <label>Chief Complaint</label>
-      <input ng-model="svc.currentConsult.chiefComplaint">
-    </md-input-container>
-    <md-input-container class="md-block">
-      <label>Symptoms</label>
-      <input ng-model="svc.currentConsult.symptoms">
-    </md-input-container>
-    <div layout="row">
-    <md-input-container class="md-block">
-      <label>Tongue</label>
-      <input ng-model="svc.currentConsult.tongue">
-    </md-input-container>
-      <md-input-container class="md-block">
-        <label>Pulse</label>
-        <input ng-model="svc.currentConsult.pulse">
-      </md-input-container>
-      <md-input-container class="md-block">
-        <label>Visit Date</label>
-        <input ng-model="svc.currentConsult.visitDate" type="date">
-      </md-input-container>
-    </div>
-
-    <md-input-container class="md-block">
-      <label>TCM diagnosis</label>
-      <input ng-model="svc.currentConsult.tcmDiagnosis">
-    </md-input-container>
-    <md-input-container class="md-block">
-      <label>TCM syndrome differentiation</label>
-      <input ng-model="svc.currentConsult.tcmSyndromeDiff">
-    </md-input-container>
-    <md-input-container class="md-block">
-      <label>Western Medicine Diagnosis</label>
-      <input ng-model="svc.currentConsult.dob">
-    </md-input-container>
-    <md-input-container class="md-block">
-      <label>Principle of treatment</label>
-      <input ng-model="svc.currentConsult.dob">
-    </md-input-container>
-    <md-input-container class="md-block">
-      <label>Treatment</label>
-      <input ng-model="svc.currentConsult.dob">
-    </md-input-container>
-    <md-input-container class="md-block">
-      <label>Herbs</label>
-      <input ng-model="svc.currentConsult.dob">
-    </md-input-container>
-    <md-input-container class="md-block">
-      <label>Advice</label>
-      <input ng-model="svc.currentConsult.dob">
-    </md-input-container>
-  </div>
-
-  <div layout="row">
-    <md-button type="submit" class="md-raised md-primary" id="submit">Submit</md-button>
-    <md-button class="md-raised md-primary" ng-click="svc.onClearPatientForm($event)">Clear</md-button>
-    <md-button class="md-raised md-primary" ng-click="svc.onCancelDialog($event)">Cancel</md-button>
-  </div>
-</md-card>
-
-
-<md-card>
-  <md-card-title>
-    <md-card-title-text>
-      <span class="md-headline">Consultation History</span>
-      <!--<span class="md-subhead"></span>-->
-    </md-card-title-text>
+    <div flex></div>
+    <md-button class="md-fab" ng-click="svc.onConsultEdit($event)">
+      <md-icon>add</md-icon>
+    </md-button>
   </md-card-title>
   <md-card-content>
     <md-table-container>
@@ -107,9 +39,10 @@
           <td md-cell>{{c.treatment}}</td>
           <td md-cell>{{c.herbs}}</td>
           <td md-cell>{{c.advice}}</td>
-          <td md-cell>
-            <md-button class="md-primary md-small" ng-click="svc.onEditConsult()">Edit</md-button>
-            <md-button class="md-primary md-small" ng-href="svc.onDeleteConsult()">Delete</md-button>
+          <td md-cell class="no-padding">
+            <md-button class="md-icon-button" ng-click="svc.onConsultEdit($event, c)">
+              <md-icon>edit</md-icon>
+            </md-button>
           </td>
         </tr>
         </tbody>

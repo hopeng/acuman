@@ -1,87 +1,33 @@
 package com.acuman;
 
-import com.acuman.service.AcuCouchbaseService;
-import com.couchbase.client.java.document.json.JsonObject;
-import com.couchbase.client.java.error.DocumentDoesNotExistException;
+import com.acuman.api.ConsultationsApi;
+import com.acuman.api.PatientsApi;
+import com.acuman.service.ConsultationService;
+import com.acuman.service.couchbase.CouchBaseConsultationService;
+import com.acuman.service.couchbase.CouchbasePatientService;
+import com.acuman.service.PatientService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
-
-import static spark.Spark.*;
+import static spark.Spark.delete;
+import static spark.Spark.externalStaticFileLocation;
+import static spark.Spark.get;
+import static spark.Spark.post;
+import static spark.Spark.put;
 
 
 public class Application {
     private static final Logger log = LogManager.getLogger(Application.class);
 
-    private static final String API_VERSION = "/v1";
-    private static final String API_PATIENTS = API_VERSION + "/patients";
 
     public static void main(String[] args) {
-        AcuCouchbaseService acuService = new AcuCouchbaseService();
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run() {
-                acuService.destroy();
-            }
-        });
-
         externalStaticFileLocation("static/");
 
-        post(API_PATIENTS, (request, response) -> {
-            String patientJson = request.body();
-            log.info("creating new patient {}", patientJson);
-            JsonObject result = acuService.newPatient(patientJson);
+        PatientService patientService = new CouchbasePatientService();
+        PatientsApi.configure(patientService);
 
-            response.status(201);
-            return result;
-        });
+        ConsultationService consultationService = new CouchBaseConsultationService();
+        ConsultationsApi.configure(consultationService);
 
-        // Gets the book resource for the provided id
-        get(API_PATIENTS + "/:id", (request, response) -> {
-            String id = request.params(":id");
-            JsonObject result = acuService.getPatient(id);
-
-            if (result == null) {
-                response.status(404);
-                return "Cannot find patient by ID " + id;
-
-            } else {
-                return result;
-            }
-        });
-
-        put(API_PATIENTS + "/:id", (request, response) -> {
-            String id = request.params(":id");
-            String json = request.body();
-            JsonObject result = acuService.getPatient(id);
-
-            if (result == null) {
-                response.status(404);
-                return "Cannot find patient by ID " + id;
-
-            } else {
-                return acuService.updatePatient(json);
-            }
-        });
-
-        delete(API_PATIENTS + "/:id", (request, response) -> {
-            String id = request.params(":id");
-
-            JsonObject result;
-            try {
-                acuService.deletePatient(id);
-                response.status(204);
-
-            } catch (DocumentDoesNotExistException e) {
-                response.status(404);
-            }
-            return "";
-        });
-
-        get(API_PATIENTS, (request, response) -> {
-//            String doctor = request.queryParams("doctor");
-            List<JsonObject> result = acuService.getPatients(AcuCouchbaseService.DOCTOR);
-            return result;
-        });
     }
 }
