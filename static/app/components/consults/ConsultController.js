@@ -84,6 +84,12 @@ angular.module('caseManagerApp.consults', ['ngResource'])
       });
 
       this.onConsultEdit = function (ev, consult) {
+        var isInsertion = !consult || !consult.consultId;
+        if (isInsertion) {
+          // init the record with default value
+          consult = { visitedOn: new Date() };
+        }
+
         this.currentConsult = consult;
         this.upserting = true;
       };

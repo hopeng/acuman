@@ -12,15 +12,15 @@
       <div layout-gt-xs="row">
         <md-input-container class="md-block">
           <label>First Name</label>
-          <input ng-model="svc.currentPatient.firstName">
+          <input ng-model="svc.currentPatient.firstName" required>
         </md-input-container>
         <md-input-container class="md-block">
           <label>Last Name</label>
-          <input ng-model="svc.currentPatient.lastName">
+          <input ng-model="svc.currentPatient.lastName" required>
         </md-input-container>
         <md-input-container class="md-block">
           <label>Date Of Birth</label>
-          <input ng-model="svc.currentPatient.dob" type="date">
+          <input ng-model="svc.currentPatient.dob" type="date" required>
         </md-input-container>
       </div>
 
@@ -42,8 +42,8 @@
       <div layout="row">
         <md-input-container class="md-block">
           <label>Gender</label>
-          <md-select ng-model="svc.currentPatient.gender">
-            <md-option ng-repeat="g in ['Male', 'Female']" value="{{g}}">
+          <md-select ng-model="svc.currentPatient.gender" required>
+            <md-option ng-repeat="g in ['', 'Male', 'Female']" value="{{g}}">
               {{g}}
             </md-option>
           </md-select>
