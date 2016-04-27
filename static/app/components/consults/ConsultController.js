@@ -75,7 +75,13 @@ angular.module('caseManagerApp.consults', ['ngResource'])
       this.upserting = false;
       this.currentConsult = {};
       this.patient = patientResource.get({ id: currentPatientId });
-      this.consultsList = consultResource.query({ patientId: currentPatientId });
+      this.consultsList = [];
+      consultResource.query({ patientId: currentPatientId }).$promise.then(function (data) {
+        for (var i=0; i<data.length; i++) {
+          util.convertStringFieldToDate(data[i], 'visitedOn');
+        }
+        self.consultsList = data;
+      });
 
       this.onConsultEdit = function (ev, consult) {
         this.currentConsult = consult;

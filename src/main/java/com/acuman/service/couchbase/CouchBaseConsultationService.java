@@ -1,5 +1,6 @@
 package com.acuman.service.couchbase;
 
+import com.acuman.Utils;
 import com.acuman.service.ConsultationService;
 import com.couchbase.client.java.Bucket;
 import com.couchbase.client.java.document.JsonDocument;
@@ -9,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import spark.utils.Assert;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,8 +38,9 @@ public class CouchBaseConsultationService implements ConsultationService {
         consultation.put("patientId", patientId);
         consultation.put("consultId", id);
         consultation.put("type", "CONSULTATION");
-        consultation.put("createdDate", now().format(ISO_LOCAL_DATE));
+        consultation.put("createdDate", LocalDateTime.now().toString());
         consultation.put("createdBy", DOCTOR);
+        Utils.convertISODateToLocalDateString(consultation, "visitedOn");
         JsonDocument result = bucket.insert(JsonDocument.create(id, consultation));
 
         log.info("inserted consultation: " + result.content());
@@ -61,8 +64,9 @@ public class CouchBaseConsultationService implements ConsultationService {
         Assert.isTrue(id.equals(consultId), "provided id does not match json consultId");
         Assert.notNull(getConsultation(id));
 
-        consultation.put("lastUpdatedDate", now().format(ISO_LOCAL_DATE));
+        consultation.put("lastUpdatedDate", LocalDateTime.now().toString());
         consultation.put("lastUpdatedBy", DOCTOR);
+        Utils.convertISODateToLocalDateString(consultation, "visitedOn");
         JsonDocument result = bucket.upsert(JsonDocument.create(id, consultation));
 
         log.info("updated consultation: " + result.content());

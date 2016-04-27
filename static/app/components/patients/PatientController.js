@@ -3,14 +3,21 @@
 angular.module('caseManagerApp.patients', ['ngResource'])
 
   .controller('PatientController',
-    function ($resource, $mdMedia, $mdDialog, $mdToast, $log) {
+    function ($resource, $mdMedia, $mdDialog, $mdToast, $log, $filter) {
 
       var self = this;
       this.upserting = false;
 
       var patientUpdator = $resource(CONF.URL.PATIENTS + '/:id', null, {'update': {method: 'PUT'}});
       var patientResource = $resource(CONF.URL.PATIENTS + '/:id');
-      this.patientList = patientResource.query();
+      this.patientList = [];
+      patientResource.query().$promise.then(function (data) {
+        for (var i=0; i<data.length; i++) {
+          util.convertStringFieldToDate(data[i], 'dob');
+        }
+        self.patientList = data;
+      });
+
       // sourced from http://www.privatehealth.gov.au/dynamic/healthfundlist.aspx, todo save in DB
       this.healthFundList = $resource(CONF.URL.HEALTH_FUNDS).query();
 
