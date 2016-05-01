@@ -1,6 +1,7 @@
 package com.acuman.api;
 
 import com.acuman.service.ConsultationService;
+import com.acuman.service.couchbase.CouchBaseConsultationService;
 import com.couchbase.client.java.document.json.JsonObject;
 import com.couchbase.client.java.error.DocumentDoesNotExistException;
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +20,9 @@ import static spark.Spark.put;
 public class ConsultationsApi {
     private static final Logger log = LogManager.getLogger(ConsultationsApi.class);
 
-    public static void configure(ConsultationService service) {
+    public static void configure() {
+        ConsultationService service = new CouchBaseConsultationService();
+
         post(API_CONSULTATIONS, (request, response) -> {
             String patientId = request.queryParams("patientId");
             Assert.isTrue(StringUtils.isNotEmpty(patientId), "patientId query param is required");

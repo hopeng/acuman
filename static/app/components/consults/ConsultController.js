@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('caseManagerApp.consults', ['ngResource'])
+angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
 
   .controller('ConsultController',
-    function ($window, $resource, $mdDialog, $routeParams, $log, $mdToast) {
+    function ($window, $resource, $mdDialog, $routeParams, $log, $mdToast, $timeout, $mdSidenav) {
 
       // region local var
       var self = this;
@@ -71,9 +71,10 @@ angular.module('caseManagerApp.consults', ['ngResource'])
       };
       // endregion local var
 
+
       // region scope var
       this.upserting = false;
-      this.currentConsult = {};
+      this.currentConsult = {chiefComplaintChips: []};
       this.patient = patientResource.get({ id: currentPatientId });
       this.consultsList = [];
       consultResource.query({ patientId: currentPatientId }).$promise.then(function (data) {
@@ -91,10 +92,14 @@ angular.module('caseManagerApp.consults', ['ngResource'])
         }
 
         this.currentConsult = consult;
+        this.currentConsult.chiefComplaintChips = [];
         this.upserting = true;
       };
 
-      this.onSubmitConsult = function (ev) {
+      this.onSubmitConsult = function (ev, form) {
+        if (!form.$valid) {
+          return;
+        }
         upsertConsult(this.currentConsult);
         this.upserting = false;
       };
@@ -118,6 +123,55 @@ angular.module('caseManagerApp.consults', ['ngResource'])
             self.upserting = false;
           });
       };
+
+      //mentio specific clean up later
+      this.words = [];
+      var queryDebounce = $timeout(function(){});
+      var queryDebounceTime = 1500;
+
+      var tcmDictSearchResource = $resource('/v1/tcm-words');
+
+      this.lookupWord = function(term) {
+        $log.debug("lookupWord called");
+
+        $timeout.cancel(queryDebounce); //cancel the last timeout
+        queryDebounce = $timeout(function() {
+          tcmDictSearchResource.query({ q: term }).$promise.then(function (response) {
+            self.words = response;
+          })
+        }, queryDebounceTime);
+      };
+
+      this.displayWord = function(item) {
+        return item.cc + ' ' + item.eng1;
+      };
+      //mentio specific clean up later
+
+      this.editedInputName = null;
+      this.onOpenSearchDictPane = function (ev, editedInputName) {
+        this.editedInputName = editedInputName;
+        $mdSidenav('searchDictPane').open();
+      };
+      this.onCloseSearchDictPane = function (ev, editedInputName) {
+        this.editedInputName = editedInputName;
+        this.tchDictSearchResult = [];
+        $mdSidenav('searchDictPane').close();
+      };
+
+      this.tchDictSearchResult = [];
+      this.onSearchDict = function (ev, searchTerm, searchPageSize) {
+        $log.debug('received search term: ', searchTerm);
+        this.tchDictSearchResult = tcmDictSearchResource.query({ q: searchTerm, p: searchPageSize });
+      };
+
+      this.appendToInput = function (word) {
+        this.currentConsult[this.editedInputName] += word.cs + ' ' + word.eng1 + "\n";
+      };
+
+      this.dictTabs = [
+        {title: "症状", wordList: ["couch", "tou tong"]},
+        {title: "治疗", wordList: ["acu", "tong"]}
+      ];
 
       // endregion scope var
 

@@ -11,15 +11,10 @@ import org.apache.logging.log4j.Logger;
 import spark.utils.Assert;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.acuman.service.couchbase.CouchBaseClient.BUCKET_NAME;
 import static com.couchbase.client.java.query.Select.select;
-import static com.couchbase.client.java.query.dsl.Expression.x;
-import static java.time.LocalDate.now;
-import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
@@ -97,10 +92,10 @@ public class CouchbasePatientService implements PatientService {
     public List<JsonObject> getPatients(String doctor) {
         List<JsonObject> result;
         String condition = String.format("type='PATIENT' and doctor='%s' order by createdDate desc", doctor);
-        N1qlQueryResult query = bucket.query(select("*").from(BUCKET_NAME).where(condition).limit(1000)); // todo paging
+        N1qlQueryResult query = bucket.query(select("*").from(bucket.name()).where(condition).limit(1000)); // todo paging
 
         result = query.allRows().stream()
-                .map(row -> row.value().getObject(BUCKET_NAME))
+                .map(row -> row.value().getObject(bucket.name()))
                 .collect(Collectors.toList());
 
         return result;

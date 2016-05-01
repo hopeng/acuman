@@ -18,7 +18,8 @@ import static spark.Spark.put;
 public class PatientsApi {
     private static final Logger log = LogManager.getLogger(PatientsApi.class);
 
-    public static void configure(PatientService patientService) {
+    public static void configure() {
+        PatientService patientService = new CouchbasePatientService();
         post(API_PATIENTS, (request, response) -> {
             String patientJson = request.body();
             log.info("creating new patient {}", patientJson);

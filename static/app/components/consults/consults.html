@@ -5,8 +5,11 @@
 <md-card ng-show="!svc.upserting">
   <md-card-title>
     <md-card-title-text>
-      <span class="md-headline">Consultation History for Patient {{svc.patient.lastName}}, {{svc.patient.firstName}} {{svc.patient.dob}}</span>
-      <span class="md-subhead">Patient ID: {{svc.patient.patientId}}</span>
+      <span class="md-headline">Consultation history for {{svc.patient.lastName}},{{svc.patient.firstName}}</span>
+      <span class="md-subhead">
+        Patient ID: {{svc.patient.patientId}}&nbsp;&nbsp;&nbsp;
+        Date Of Birth: {{svc.patient.dob}}
+      </span>
     </md-card-title-text>
     <div flex></div>
     <md-button class="md-fab" ng-click="svc.onConsultEdit($event)">
@@ -21,11 +24,8 @@
           <th md-column><strong>Visited On</strong></th>
           <th md-column><strong>Chief Complaint</strong></th>
           <th md-column><strong>Symptoms</strong></th>
-          <th md-column><strong>Pulse</strong></th>
           <th md-column><strong>TCM diagnosis</strong></th>
           <th md-column><strong>Principle of treatment</strong></th>
-          <th md-column><strong>Treatment</strong></th>
-          <th md-column><strong>Herbs</strong></th>
           <th md-column><strong>Advice</strong></th>
         </tr>
         </thead>
@@ -34,11 +34,8 @@
           <td md-cell>{{c.visitedOn | date:'dd/MM/yyyy'}}</td>
           <td md-cell>{{c.chiefComplaint}}</td>
           <td md-cell>{{c.symptoms}}</td>
-          <td md-cell>{{c.pulse}}</td>
           <td md-cell>{{c.tcmDiagnosis}}</td>
           <td md-cell>{{c.principleOfTreatment}}</td>
-          <td md-cell>{{c.treatment}}</td>
-          <td md-cell>{{c.herbs}}</td>
           <td md-cell>{{c.advice}}</td>
           <td md-cell class="no-padding">
             <md-button class="md-icon-button" ng-click="svc.onConsultEdit($event, c)">

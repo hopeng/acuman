@@ -9,11 +9,13 @@ import org.apache.logging.log4j.Logger;
 public final class CouchBaseClient {
     private static final Logger log = LogManager.getLogger(CouchBaseClient.class);
 
-    public static final String BUCKET_NAME = "acuman";
+    private static final String BUCKET_NAME = "acuman";
+    private static final String DICT_BUCKET_NAME = "tcmdict";
     private static CouchBaseClient INSTANCE;
 
     private Cluster cluster;
     private Bucket bucket;
+    private Bucket tcmDictBucket;
 
     public synchronized static CouchBaseClient getInstance() {
         if (INSTANCE == null) {
@@ -26,6 +28,7 @@ public final class CouchBaseClient {
     private CouchBaseClient() {
         cluster = CouchbaseCluster.create();
         bucket = cluster.openBucket(BUCKET_NAME);
+        tcmDictBucket = cluster.openBucket(DICT_BUCKET_NAME);
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
@@ -37,5 +40,9 @@ public final class CouchBaseClient {
 
     public Bucket getBucket() {
         return bucket;
+    }
+
+    public Bucket getTcmDictBucket() {
+        return tcmDictBucket;
     }
 }

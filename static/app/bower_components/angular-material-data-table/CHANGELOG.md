@@ -1,5 +1,61 @@
 ## Change Log
 
+#### Version 0.10.9
+###### April 26, 2016
+
+**Bug Fix**
+
+* Removing one time binding from pagination limit options.
+
+#### Version 0.10.8
+###### April 23, 2016
+
+**New Feature**
+
+* You can now map language to limit options using the `label` and `value` properties, e.g.
+
+  ```javascript
+  ctrl.limitOptions = [5, 10, 15, {
+    label: 'All',
+    value: function () {
+      return collection.length;
+    }
+  }];
+  ```
+
+#### Version 0.10.7
+###### April 19, 2016
+
+**Bug Fixes**
+
+* Fix bug where pagination page number would disappear.
+
+#### Version 0.10.6
+###### April 19, 2016
+
+**Bug Fixes**
+
+* Fixing bug where changing the `orderBy` property of a column would add an additional sort icon.
+
+#### Version 0.10.5
+###### April 9, 2016
+
+**Bug Fixes**
+
+* Fixing bug in pagination directive where the number of pages was always equal to the number of rows in the table.
+
+#### Version 0.10.4
+###### April 5, 2016
+
+**Improvements**
+
+* Pagination is now usable on mobile.
+* More safeguards in pagination directive against performing calculations on `NaN`.
+
+**Bug Fixes**
+
+* Fixing issue where errors would be thrown if row selection was not enabled.
+
 #### Version 0.10.3
 ###### April 1, 2016
 

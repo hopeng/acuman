@@ -669,16 +669,16 @@ button.md-button::-moz-focus-inner {
   box-sizing: border-box;
   color: currentColor;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   position: relative;
   outline: none;
   border: 0;
   display: inline-block;
   -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   padding: 0 6px;
   margin: 6px 8px;
   line-height: 36px;
@@ -696,7 +696,8 @@ button.md-button::-moz-focus-inner {
   text-decoration: none;
   cursor: pointer;
   overflow: hidden;
-  transition: box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
+  transition: box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
   .md-button:focus {
     outline: none; }
   .md-button:hover, .md-button:focus {
@@ -2221,8 +2222,8 @@ md-input-container {
     color: transparent; }
   md-input-container .md-input {
     -webkit-order: 2;
-        -ms-flex-order: 2;
-            order: 2;
+    -ms-flex-order: 2;
+    order: 2;
     display: block;
     margin-top: 0;
     background: none;
@@ -2238,7 +2239,8 @@ md-input-container {
     border-style: solid;
     width: 100%;
     box-sizing: border-box;
-    float: left; }
+    float: left;
+    }
     [dir=rtl] md-input-container .md-input {
       float: right; }
     md-input-container .md-input:focus {

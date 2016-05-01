@@ -1,3 +1,11 @@
+<script type="text/ng-template" id="/words-mentions.tpl">
+  <ul class="list-group user-search">
+    <li mentio-menu-item="word" ng-repeat="word in items" class="list-group-item">
+      <span>{{word.cc}} {{word.eng1}}</span>
+    </li>
+  </ul>
+</script>
+
 <md-card>
   <md-card-title>
     <md-card-title-text>
@@ -10,17 +18,95 @@
     </md-card-title-text>
   </md-card-title>
   <md-card-content>
-    <form name="userForm" ng-submit="userForm.$valid && svc.onSubmitConsult($event)">
+    <form name="userForm">
       <div>
-        <br>
-        <md-input-container class="md-block">
-          <label>Chief Complaint</label>
-          <textarea ng-model="svc.currentConsult.chiefComplaint" required></textarea>
-        </md-input-container>
-        <md-input-container class="md-block">
-          <label>Symptoms</label>
-          <input ng-model="svc.currentConsult.symptoms">
-        </md-input-container>
+        <!--todo we may not need this clean up later-->
+         <mentio-menu
+             mentio-for="'theTextArea'"
+             mentio-trigger-char="'@'"
+             mentio-items="svc.words"
+             mentio-template-url="/words-mentions.tpl"
+             mentio-search="svc.lookupWord(term)"
+             mentio-select="svc.displayWord(item)"
+         ></mentio-menu>
+
+         <textarea ng-hide="true" mentio
+                   class="editor form-control"
+                   mentio-id="'theTextArea'"
+                   ng-model="svc.currentConsult.chiefComplaint"
+                   ng-trim="false"
+                   rows="6">
+         </textarea>
+
+        <!--dictionary search pane-->
+        <!--todo use angular typeahead, remove search button-->
+        <md-sidenav md-component-id="searchDictPane" class="md-sidenav-right">
+          <br>
+          <div layout="row">
+            <md-button ng-click="svc.onCloseSearchDictPane()" style="margin-bottom: 20px">
+              <md-icon>close</md-icon>
+            </md-button>
+            <md-input-container>
+              <label>Search TCM Keywords</label>
+              <input type="text" ng-model="searchTerm" md-autofocus>
+            </md-input-container>
+            <md-button ng-click="svc.onSearchDict($event, searchTerm, searchPageSize)" style="margin-bottom: 20px">
+              <md-icon>search</md-icon>
+            </md-button>
+          </div>
+
+          <div ng-show="svc.tchDictSearchResult.length > 0">
+            <md-list-item ng-repeat="word in svc.tchDictSearchResult" ng-click="svc.appendToInput(word)">
+              <p> {{word.cc}} {{word.eng1}} </p>
+            </md-list-item>
+
+            <div>
+              <label>Set Page Size: </label>
+              <select ng-model="searchPageSize"
+                      ng-change="svc.onSearchDict($event, searchTerm, searchPageSize)" style="margin-top: 15px">
+                <option ng-repeat="s in [10, 20, 50]" value="{{s}}">
+                  {{s}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <md-content class="md-padding">
+            <md-tabs md-selected="selectedIndex" md-border-bottom md-autoselect>
+              <md-tab ng-repeat="tab in svc.dictTabs" label="{{tab.title}}">
+                  <md-list-item ng-repeat="word in tab.wordList" ng-click="svc.appendToInput(word)">
+                    <p> {{word.cc}} {{word.eng1}} </p>
+                  </md-list-item>
+              </md-tab>
+            </md-tabs>
+          </md-content>
+
+        </md-sidenav>
+
+        <!--consultation input fields-->
+         <br>
+        <div layout="row">
+          <div flex>
+            <md-input-container class="md-block">
+              <label>Chief Complaint</label>
+              <textarea ng-model="svc.currentConsult.chiefComplaint" required></textarea>
+            </md-input-container>
+          </div>
+          <md-button ng-click="svc.onOpenSearchDictPane($event, 'chiefComplaint')" style="margin-bottom: 20px">
+            <md-icon>search</md-icon>
+          </md-button>
+        </div>
+        <div layout="row">
+          <div flex>
+            <md-input-container class="md-block">
+              <label>Symptoms</label>
+              <textarea ng-model="svc.currentConsult.symptoms"></textarea>
+            </md-input-container>
+          </div>
+          <md-button ng-click="svc.onOpenSearchDictPane($event, 'symptoms')" style="margin-bottom: 20px">
+            <md-icon>search</md-icon>
+          </md-button>
+        </div>
       </div>
       <div layout="row">
         <md-input-container class="md-block">
@@ -38,10 +124,17 @@
       </div>
 
       <div>
-        <md-input-container class="md-block">
-          <label>TCM diagnosis</label>
-          <input ng-model="svc.currentConsult.tcmDiagnosis">
-        </md-input-container>
+        <div layout="row">
+          <div flex>
+            <md-input-container class="md-block">
+              <label>TCM diagnosis</label>
+              <textarea ng-model="svc.currentConsult.tcmDiagnosis"></textarea>
+            </md-input-container>
+          </div>
+          <md-button ng-click="svc.onOpenSearchDictPane($event, 'tcmDiagnosis')" style="margin-bottom: 20px">
+            <md-icon>search</md-icon>
+          </md-button>
+        </div>
         <md-input-container class="md-block">
           <label>TCM syndrome differentiation</label>
           <input ng-model="svc.currentConsult.tcmSyndromeDiff">
@@ -54,13 +147,31 @@
           <label>Principle of treatment</label>
           <input ng-model="svc.currentConsult.principleOfTreatment">
         </md-input-container>
-        <md-input-container class="md-block">
-          <label>Treatment</label>
-          <textarea ng-model="svc.currentConsult.treatment"></textarea>
-        </md-input-container>
+        <div layout="row">
+          <div flex>
+            <md-input-container class="md-block">
+              <label>Treatment</label>
+              <textarea ng-model="svc.currentConsult.treatment"></textarea>
+            </md-input-container>
+          </div>
+          <md-button ng-click="svc.onOpenSearchDictPane($event, 'treatment')" style="margin-bottom: 20px">
+            <md-icon>search</md-icon>
+          </md-button>
+        </div>
+        <div layout="row">
+          <div flex>
+            <md-input-container class="md-block">
+              <label>Acupoints</label>
+              <textarea ng-model="svc.currentConsult.acupoints"></textarea>
+            </md-input-container>
+          </div>
+          <md-button ng-click="svc.onOpenSearchDictPane($event, 'acupoints')" style="margin-bottom: 20px">
+            <md-icon>search</md-icon>
+          </md-button>
+        </div>
         <md-input-container class="md-block">
           <label>Herbs</label>
-          <input ng-model="svc.currentConsult.herbs">
+          <textarea ng-model="svc.currentConsult.herbs"></textarea>
         </md-input-container>
         <md-input-container class="md-block">
           <label>Advice</label>
@@ -68,7 +179,7 @@
         </md-input-container>
       </div>
 
-      <md-button type="submit" class="md-raised md-primary" id="submit">Submit</md-button>
+      <md-button class="md-raised md-primary" ng-click="svc.onSubmitConsult($event, userForm)">Submit</md-button>
       <md-button class="md-raised md-primary" ng-click="svc.onCancelConsultForm($event)">Cancel</md-button>
       <md-button id="deletePatient" ng-click="svc.onDeleteConsult()"
                  ng-if="svc.currentConsult.consultId" class="md-raised md-warn">Delete Consultation
