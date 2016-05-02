@@ -9,9 +9,9 @@ angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
       var self = this;
       var currentPatientId = $routeParams.patientId;
 
-      var patientResource = $resource(CONF.URL.PATIENTS + '/:id');
-      var consultUpdator = $resource(CONF.URL.CONSULTS + '/:id', null, {'update': {method: 'PUT'}});
-      var consultResource = $resource(CONF.URL.CONSULTS + '/:id');
+      var patientResource = $resource(CONF.URL.PATIENTS);
+      var consultUpdator = $resource(CONF.URL.CONSULTS, null, {'update': {method: 'PUT'}});
+      var consultResource = $resource(CONF.URL.CONSULTS);
 
       var upsertConsult = function (consult) {
         $log.debug('upserting cosultation: ', consult);
@@ -74,7 +74,7 @@ angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
 
       // region scope var
       this.upserting = false;
-      this.currentConsult = {chiefComplaintChips: []};
+      this.currentConsult = null;
       this.patient = patientResource.get({ id: currentPatientId });
       this.consultsList = [];
       consultResource.query({ patientId: currentPatientId }).$promise.then(function (data) {
@@ -92,7 +92,6 @@ angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
         }
 
         this.currentConsult = consult;
-        this.currentConsult.chiefComplaintChips = [];
         this.upserting = true;
       };
 
@@ -143,7 +142,7 @@ angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
       };
 
       this.displayWord = function(item) {
-        return item.cc + ' ' + item.eng1;
+        return item.cc + ' | ' + item.sc + ' | ' + item.eng1;
       };
       //mentio specific clean up later
 
@@ -155,15 +154,10 @@ angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
       this.onCloseSearchDictPane = function (ev, editedInputName) {
         this.editedInputName = editedInputName;
         this.tchDictSearchResult = [];
+        
         $mdSidenav('searchDictPane').close();
       };
-
-      this.tchDictSearchResult = [];
-      this.onSearchDict = function (ev, searchTerm, searchPageSize) {
-        $log.debug('received search term: ', searchTerm);
-        this.tchDictSearchResult = tcmDictSearchResource.query({ q: searchTerm, p: searchPageSize });
-      };
-
+      
       this.appendToInput = function (word) {
         this.currentConsult[this.editedInputName] += word.cs + ' ' + word.eng1 + "\n";
       };

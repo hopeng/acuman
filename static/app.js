@@ -7,7 +7,8 @@ var caseManagerApp = angular.module('caseManagerApp', [
   'ngMaterial',
   'md.data.table',
   'caseManagerApp.patients',
-  'caseManagerApp.consults'
+  'caseManagerApp.consults',
+  'caseManagerApp.tcmdict'
 ]);
 
 caseManagerApp.config(
@@ -27,6 +28,10 @@ caseManagerApp.config(
       .when('/consults/:patientId', {
         templateUrl: 'app/components/consults/consults.html',
         controller: 'ConsultController as consultCtrl'
+      })
+      .when('/tcmdict', {
+        templateUrl: 'app/components/tcmdict/tcmdict.html',
+        controller: 'TcmDictController as tcmDictCtrl'
       })
       .otherwise({redirectTo: '/patients'});
   });

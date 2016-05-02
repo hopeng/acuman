@@ -21,9 +21,9 @@ public interface TcmDictService {
 
     List<JsonObject> lookupWord(String word, int limit);
 
-    void addTag(String id, JsonObject jsonObject, String tag);
+    void addTag(String id, String tag);
 
-    void removeTag(String id, JsonObject jsonObject, String tag);
+    void removeTag(String id, String tag);
 
     List<JsonObject> searchByTag(String tag);
 

@@ -9,25 +9,23 @@ import com.mashape.unirest.http.Unirest;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import spark.Spark;
 
 import java.util.Collections;
 import java.util.List;
 
-import static com.acuman.ApiConstants.API_PATIENTS;
-import static com.acuman.ApiConstants.API_TCM_WORDS;
+import static com.acuman.ApiConstants.API_TCM_DICT;
+import static spark.Spark.delete;
 import static spark.Spark.get;
+import static spark.Spark.post;
 import static spark.Spark.put;
 
-public class TcmWordLookupApi {
-    private static final Logger log = LogManager.getLogger(TcmWordLookupApi.class);
-
-    private enum TCM_WORD_ACTION {tag, untag};
+public class TcmDictLookupApi {
+    private static final Logger log = LogManager.getLogger(TcmDictLookupApi.class);
 
     public static void configure() {
         TcmDictService tcmDictService = new CouchbaseTcmDictService();
 
-        get(API_TCM_WORDS, (request, response) -> {
+        get(API_TCM_DICT, (request, response) -> {
             String word = request.queryParams("q");
             boolean noRemoteSearch = Boolean.valueOf(request.queryParams("noRemoteSearch"));
             String pageSize = request.queryParams("p");
@@ -62,31 +60,32 @@ public class TcmWordLookupApi {
             }
         });
 
-//        tag / untag word against a category
-        put(API_TCM_WORDS + "/:id", (request, response) -> {
-            String id = request.params(":id");
-            String tag = request.queryParams("tag");
-            TCM_WORD_ACTION action = TCM_WORD_ACTION.valueOf(request.queryParams("action"));
+//        add tag to a word
+        post(API_TCM_DICT + "/:id", (request, response) -> {
+            String mid = request.params(":id");
+            String tag = request.queryParams("tagName");
 
-            JsonObject result = tcmDictService.getWord(id);
-
-            if (result == null) {
+            if (tcmDictService.getWord(mid) == null) {
                 response.status(404);
-                return "Cannot find patient by ID " + id;
+                return "Cannot find patient by ID " + mid;
 
             } else {
-                switch (action) {
-                    case tag:
-                        tcmDictService.addTag(id, result, tag);
-                        break;
+                tcmDictService.addTag(mid, tag);
+                return "";
+            }
+        });
 
-                    case untag:
-                        tcmDictService.removeTag(id, result, tag);
-                        break;
+        // remove tag from a word
+        delete(API_TCM_DICT + "/:id", (request, response) -> {
+            String mid = request.params(":id");
+            String tag = request.queryParams("tagName");
 
-                    default:
-                }
+            if (tcmDictService.getWord(mid) == null) {
+                response.status(404);
+                return "Cannot find patient by ID " + mid;
 
+            } else {
+                tcmDictService.removeTag(mid, tag);
                 return "";
             }
         });

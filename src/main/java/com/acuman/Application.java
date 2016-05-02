@@ -2,7 +2,7 @@ package com.acuman;
 
 import com.acuman.api.ConsultationsApi;
 import com.acuman.api.PatientsApi;
-import com.acuman.api.TcmWordLookupApi;
+import com.acuman.api.TcmDictLookupApi;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,6 +18,6 @@ public class Application {
 
         PatientsApi.configure();
         ConsultationsApi.configure();
-        TcmWordLookupApi.configure();
+        TcmDictLookupApi.configure();
     }
 }

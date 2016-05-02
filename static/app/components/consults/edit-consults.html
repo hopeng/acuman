@@ -38,49 +38,17 @@
                    rows="6">
          </textarea>
 
-        <!--dictionary search pane-->
-        <!--todo use angular typeahead, remove search button-->
+        <!--dictionary selection pane-->
         <md-sidenav md-component-id="searchDictPane" class="md-sidenav-right">
-          <br>
-          <div layout="row">
-            <md-button ng-click="svc.onCloseSearchDictPane()" style="margin-bottom: 20px">
-              <md-icon>close</md-icon>
-            </md-button>
-            <md-input-container>
-              <label>Search TCM Keywords</label>
-              <input type="text" ng-model="searchTerm" md-autofocus>
-            </md-input-container>
-            <md-button ng-click="svc.onSearchDict($event, searchTerm, searchPageSize)" style="margin-bottom: 20px">
-              <md-icon>search</md-icon>
-            </md-button>
-          </div>
-
-          <div ng-show="svc.tchDictSearchResult.length > 0">
-            <md-list-item ng-repeat="word in svc.tchDictSearchResult" ng-click="svc.appendToInput(word)">
-              <p> {{word.cc}} {{word.eng1}} </p>
-            </md-list-item>
-
-            <div>
-              <label>Set Page Size: </label>
-              <select ng-model="searchPageSize"
-                      ng-change="svc.onSearchDict($event, searchTerm, searchPageSize)" style="margin-top: 15px">
-                <option ng-repeat="s in [10, 20, 50]" value="{{s}}">
-                  {{s}}
-                </option>
-              </select>
-            </div>
-          </div>
-
           <md-content class="md-padding">
-            <md-tabs md-selected="selectedIndex" md-border-bottom md-autoselect>
-              <md-tab ng-repeat="tab in svc.dictTabs" label="{{tab.title}}">
-                  <md-list-item ng-repeat="word in tab.wordList" ng-click="svc.appendToInput(word)">
-                    <p> {{word.cc}} {{word.eng1}} </p>
-                  </md-list-item>
+            <md-tabs md-selected="selectedIndex" md-border-bottom md-autoselect flex layout="column" >
+              <md-tab ng-repeat="tab in svc.dictTabs" label="{{tab.title}}" layout-fill flex>
+                <md-list-item ng-repeat="word in tab.wordList" ng-click="svc.appendToInput(word)">
+                  <p> {{word.cc}} {{word.eng1}} </p>
+                </md-list-item>
               </md-tab>
             </md-tabs>
           </md-content>
-
         </md-sidenav>
 
         <!--consultation input fields-->
@@ -110,17 +78,21 @@
       </div>
       <div layout="row">
         <md-input-container class="md-block">
-          <label>Tongue</label>
-          <input ng-model="svc.currentConsult.tongue">
-        </md-input-container>
-        <md-input-container class="md-block">
-          <label>Pulse</label>
-          <input ng-model="svc.currentConsult.pulse">
-        </md-input-container>
-        <md-input-container class="md-block">
           <label>Visited On</label>
           <input ng-model="svc.currentConsult.visitedOn" type="date">
         </md-input-container>
+        <div flex>
+          <md-input-container class="md-block">
+            <label>Tongue</label>
+            <input ng-model="svc.currentConsult.tongue">
+          </md-input-container>
+        </div>
+        <div flex>
+          <md-input-container class="md-block">
+            <label>Pulse</label>
+            <input ng-model="svc.currentConsult.pulse">
+          </md-input-container>
+        </div>
       </div>
 
       <div>
