@@ -26,6 +26,11 @@ public class TcmDictLookupApi {
         TcmDictService tcmDictService = new CouchbaseTcmDictService();
 
         get(API_TCM_DICT, (request, response) -> {
+            String tags = request.queryParams("allTags");
+            if (Boolean.valueOf(tags)) {
+                return tcmDictService.listTags();
+            }
+
             String word = request.queryParams("q");
             boolean noRemoteSearch = Boolean.valueOf(request.queryParams("noRemoteSearch"));
             String pageSize = request.queryParams("p");

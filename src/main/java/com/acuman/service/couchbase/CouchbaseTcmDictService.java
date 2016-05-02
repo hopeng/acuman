@@ -23,7 +23,6 @@ public class CouchbaseTcmDictService implements TcmDictService {
 
     private static final String WORD_TAG_TYPE = "WORD-TAG";
     private static final String WORD_TYPE = "WORD";
-    private static final String WORD_TAG_ID_SEQ = "wordTagIdSeq";
 
     private Bucket bucket = CouchBaseClient.getInstance().getTcmDictBucket();
 
@@ -80,41 +79,32 @@ public class CouchbaseTcmDictService implements TcmDictService {
         return result;
     }
 
-    private String generateWordTagId() {
-        long nextSquence = bucket.counter(WORD_TAG_ID_SEQ, 1, 1).content();
-        String id = WORD_TAG_TYPE + "-" + nextSquence;
-
-        return id;
-    }
-
     @Override
-    public void addTag(String id, String tag) {
+    public void addTag(String wordId, String tag) {
         JsonObject wordTag = JsonObject.create();
-        String wordTagId = generateWordTagId();
+        String wordTagId = toWordTagId(wordId, tag);
         wordTag.put("wordTagId", wordTagId);
         wordTag.put("type", WORD_TAG_TYPE);
-        wordTag.put("wordId", id);
+        wordTag.put("wordId", wordId);
         wordTag.put("tagName", tag);
         wordTag.put("createdDate", LocalDateTime.now().toString());
         wordTag.put("createdBy", DOCTOR);
 
         bucket.insert(JsonDocument.create(wordTagId, wordTag));
 
-        log.info("added tag {} for word {}", tag, id);
+        log.info("added tag {} for word {}", tag, wordId);
+    }
+
+    private String toWordTagId(String wordId, String tagName) {
+        return WORD_TAG_TYPE + "-" + wordId + "-" + tagName;
     }
 
     @Override
-    public void removeTag(String id, String tag) {
-        String condition = String.format("type='%s' and wordId='%s' and tagName='%s'", WORD_TAG_TYPE, id, tag);
-        N1qlQueryResult query = bucket.query(select("*").from(bucket.name()).where(condition));
-        List<JsonObject> queryResult = query.allRows().stream()
-                .map(row -> row.value().getObject(bucket.name()))
-                .collect(Collectors.toList());
-        Assert.isTrue(queryResult.size() <=1, "more than one wordTag for " + id + " and " + tag);
+    public void removeTag(String wordId, String tag) {
+        String wordTagId = toWordTagId(wordId, tag);
+        bucket.remove(wordTagId);
 
-        bucket.remove(queryResult.get(0).getString("wordTagId"));
-
-        log.info("removed word {} from tag {}", id, tag);
+        log.info("removed word {} from tag {}", wordId, tag);
     }
 
     @Override

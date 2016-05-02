@@ -11,7 +11,7 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
 
       var getAllTags = function () {
         $log.debug('getting all tags ');
-        self.allTags = [];
+        self.allTags = tcmDictResource.query({ allTags: true });
       };
 
       var showToast = function (message) {  // todo merge the same method in other service
@@ -50,7 +50,7 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
         var tagName = this.allTags[this.selectedTabIndex].tagName;
         $log.debug('tagging ' + wordId + ' ' + tagName);
 
-        tcmDictResource.save({id: wordId, tagName: tagName}).$promise.then(
+        tcmDictResource.save({id: wordId, tagName: tagName}, '').$promise.then(
           function (data) {
             showToast("tagged " + tagName);
           },
@@ -64,7 +64,7 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
         var tagName = this.allTags[this.selectedTabIndex].tagName;
         $log.debug('un-tagging ' + word + ' ' + tagName);
 
-        tcmDictResource.delete({id: wordId, tagName: tagName}).$promise.then(
+        tcmDictResource.delete({id: wordId, tagName: tagName}, '').$promise.then(
           function (data) {
             showToast("un-tagged " + tagName);
           },
