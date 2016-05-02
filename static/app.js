@@ -28,5 +28,9 @@ caseManagerApp.config(
         templateUrl: 'app/components/consults/consults.html',
         controller: 'ConsultController as consultCtrl'
       })
+      .when('/consults/:patientId/:consultId', {
+        templateUrl: 'app/components/consults/edit-consults.html',
+        controller: 'EditConsultController as editConsultCtrl'
+      })
       .otherwise({redirectTo: '/patients'});
   });

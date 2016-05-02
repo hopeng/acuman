@@ -8,8 +8,8 @@ angular.module('caseManagerApp.patients', ['ngResource'])
       var self = this;
       this.upserting = false;
 
-      var patientUpdator = $resource(CONF.URL.PATIENTS + '/:id', null, {'update': {method: 'PUT'}});
-      var patientResource = $resource(CONF.URL.PATIENTS + '/:id');
+      var patientUpdator = $resource(CONF.URL.PATIENTS, null, {'update': {method: 'PUT'}});
+      var patientResource = $resource(CONF.URL.PATIENTS);
       this.patientList = [];
       patientResource.query().$promise.then(function (data) {
         for (var i=0; i<data.length; i++) {
@@ -35,6 +35,12 @@ angular.module('caseManagerApp.patients', ['ngResource'])
 
       this.onCancelPatientForm = function (ev) {
         this.upserting = false;
+        patientResource.query().$promise.then(function (data) {
+          for (var i=0; i<data.length; i++) {
+            util.convertStringFieldToDate(data[i], 'dob');
+          }
+          self.patientList = data;
+        });
       };
 
       this.onDeletePatient = function (ev) {

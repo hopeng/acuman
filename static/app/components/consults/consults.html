@@ -1,8 +1,8 @@
 <div ng-init="svc = consultCtrl"></div>
 
-<ng-include ng-show="svc.upserting" src="'app/components/consults/edit-consults.html'"></ng-include>
+`<!--<ng-include ng-show="svc.upserting" src="'app/components/consults/edit-consults.html'"></ng-include>-->
 
-<md-card ng-show="!svc.upserting">
+<md-card>
   <md-card-title>
     <md-card-title-text>
       <span class="md-headline">Consultation history for {{svc.patient.lastName}},{{svc.patient.firstName}}</span>
