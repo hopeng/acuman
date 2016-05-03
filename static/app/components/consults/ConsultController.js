@@ -157,16 +157,27 @@ angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
         
         $mdSidenav('searchDictPane').close();
       };
-      
+
       this.appendToInput = function (word) {
-        this.currentConsult[this.editedInputName] += word.cs + ' ' + word.eng1 + "\n";
+        var appendedContent = '';
+        if (this.currentConsult[this.editedInputName]) {
+            appendedContent += '\n';
+        }
+        appendedContent += word.cs + ' ' + word.eng1;
+        this.currentConsult[this.editedInputName] += appendedContent;
       };
 
-      this.dictTabs = [
-        {title: "症状", wordList: ["couch", "tou tong"]},
-        {title: "治疗", wordList: ["acu", "tong"]}
-      ];
+      this.allTags = [];
+      var getAllTags = function () {
+        // todo move to a service and share
+        var tcmDictResource = $resource(CONF.URL.TCMDICT);
+        tcmDictResource.get({ allTags: true }).$promise.then(function (response) {
+          self.allTags = Object.keys(response).map(function (key) {
+            return response[key];
+          });
+        });
+      };
+      getAllTags();
 
       // endregion scope var
-
     });

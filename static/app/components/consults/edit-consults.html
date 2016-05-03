@@ -41,17 +41,17 @@
         <!--dictionary selection pane-->
         <md-sidenav md-component-id="searchDictPane" class="md-sidenav-right">
           <md-content class="md-padding">
-            <md-tabs md-selected="selectedIndex" md-border-bottom md-autoselect flex layout="column" >
-              <md-tab ng-repeat="tab in svc.dictTabs" label="{{tab.title}}" layout-fill flex>
-                <md-list-item ng-repeat="word in tab.wordList" ng-click="svc.appendToInput(word)">
-                  <p> {{word.cc}} {{word.eng1}} </p>
+            <md-tabs md-selected="svc.selectedTabIndex">
+              <md-tab ng-repeat="tagAndWords in svc.allTags" label="{{tagAndWords.tagName}}">
+                <md-list-item ng-repeat="word in tagAndWords.words" ng-click="svc.appendToInput(word)">
+                  <p> {{word.cc}} | {{word.cs}} | {{word.eng1}} </p>
                 </md-list-item>
               </md-tab>
-            </md-tabs>
           </md-content>
         </md-sidenav>
 
         <!--consultation input fields-->
+        <!--todo textarea somethimes not expand to show full text-->
          <br>
         <div layout="row">
           <div flex>
