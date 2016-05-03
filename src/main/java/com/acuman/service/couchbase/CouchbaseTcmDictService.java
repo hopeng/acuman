@@ -1,30 +1,44 @@
 package com.acuman.service.couchbase;
 
+import com.acuman.CouchBaseQuery;
+import com.acuman.domain.TagAndWords;
 import com.acuman.service.TcmDictService;
 import com.couchbase.client.java.Bucket;
 import com.couchbase.client.java.document.JsonDocument;
 import com.couchbase.client.java.document.json.JsonObject;
 import com.couchbase.client.java.query.N1qlQueryResult;
+import com.couchbase.client.java.query.Statement;
+import com.couchbase.client.java.query.dsl.Sort;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.eclipse.jetty.util.MultiMap;
 import spark.utils.Assert;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.acuman.service.couchbase.CouchbasePatientService.DOCTOR;
 import static com.couchbase.client.java.query.Select.select;
+import static com.couchbase.client.java.query.dsl.Expression.s;
+import static com.couchbase.client.java.query.dsl.Expression.x;
 
 public class CouchbaseTcmDictService implements TcmDictService {
     private static final Logger log = LogManager.getLogger(CouchbaseTcmDictService.class);
 
-    private static final String WORD_TAG_TYPE = "WORD-TAG";
+    private static final String TAG_WORD_TYPE = "TAG-WORD";
     private static final String WORD_TYPE = "WORD";
 
-    private Bucket bucket = CouchBaseClient.getInstance().getTcmDictBucket();
+    private Bucket bucket;
+    private CouchBaseQuery couchBaseQuery;
+
+    public CouchbaseTcmDictService() {
+        bucket = CouchBaseClient.getInstance().getTcmDictBucket();
+        couchBaseQuery = new CouchBaseQuery(bucket);
+    }
 
     @Override
     public JsonObject newWord(String json) {
@@ -32,19 +46,24 @@ public class CouchbaseTcmDictService implements TcmDictService {
     }
 
     @Override
-    public JsonObject newWord(JsonObject word) {
-        word.put("type", WORD_TYPE);
-        word.put("createdDate", LocalDateTime.now().toString());
-        word.put("createdBy", DOCTOR);
+    public synchronized JsonObject newWord(JsonObject word) {
         String mid = word.getString("mid");
         Assert.isTrue(StringUtils.isNotEmpty(mid), "no mid found for the definition " + word);
-        JsonDocument result = bucket.insert(JsonDocument.create(mid, word));
+        JsonObject existing = getWord(mid);
+        if (existing == null) {
+            word.put("type", WORD_TYPE);
+            word.put("createdDate", LocalDateTime.now().toString());
+            word.put("createdBy", DOCTOR);
+            JsonDocument result = bucket.insert(JsonDocument.create(mid, word));
 
-        log.info("inserted word: " + result.content());
+            log.info("inserted word: " + result.content());
+            return result.content();
 
-        return result.content();
+        } else {
+            log.debug("word already exist: " + existing);
+            return existing;
+        }
     }
-
 
     @Override
     public JsonObject getWord(String mid) {
@@ -80,11 +99,11 @@ public class CouchbaseTcmDictService implements TcmDictService {
     }
 
     @Override
-    public void addTag(String wordId, String tag) {
+    public void addWordTag(String wordId, String tag) {
         JsonObject wordTag = JsonObject.create();
         String wordTagId = toWordTagId(wordId, tag);
         wordTag.put("wordTagId", wordTagId);
-        wordTag.put("type", WORD_TAG_TYPE);
+        wordTag.put("type", TAG_WORD_TYPE);
         wordTag.put("wordId", wordId);
         wordTag.put("tagName", tag);
         wordTag.put("createdDate", LocalDateTime.now().toString());
@@ -96,7 +115,7 @@ public class CouchbaseTcmDictService implements TcmDictService {
     }
 
     private String toWordTagId(String wordId, String tagName) {
-        return WORD_TAG_TYPE + "-" + wordId + "-" + tagName;
+        return TAG_WORD_TYPE + "-" + wordId + "-" + tagName;
     }
 
     @Override
@@ -108,25 +127,20 @@ public class CouchbaseTcmDictService implements TcmDictService {
     }
 
     @Override
-    public List<JsonObject> searchByTag(String tag) {
-        return null;
-    }
+    public Map<String, TagAndWords> getTagsAndWords() {
+        Map<String, TagAndWords> result = new LinkedHashMap<>();
 
-    @Override
-    public MultiMap<JsonObject> listTags() {
-        MultiMap<JsonObject> result = new MultiMap<>();
-        List<JsonObject> wordTags;
-        String condition = String.format("type='%s' order by createdDate", WORD_TAG_TYPE);
-        N1qlQueryResult query = bucket.query(select("*").from(bucket.name()).where(condition));
+        List<JsonObject> tagWords;
+        Statement statement = select("*").from(bucket.name())
+                .where(x("type").eq(s(TAG_WORD_TYPE))).orderBy(Sort.asc(x("createdDate")));
+        tagWords = couchBaseQuery.query(statement);
 
-        wordTags = query.allRows().stream()
-                .map(row -> row.value().getObject(bucket.name()))
-                .collect(Collectors.toList());
-
-
-        for (JsonObject wordTag : wordTags) {
-            JsonObject word = getWord(wordTag.getString("wordId"));
-            result.put(wordTag.getString("tagName"), word);
+        for (JsonObject tagWord : tagWords) {
+            JsonObject word = getWord(tagWord.getString("wordId"));
+            String tag = tagWord.getString("tagName");
+            result.putIfAbsent(tag, new TagAndWords(tag, new LinkedHashSet<>()));
+            TagAndWords tagAndWords = result.get(tag);
+            tagAndWords.addWord(word);
         }
 
         return result;

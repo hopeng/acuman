@@ -1,18 +1,18 @@
 package com.acuman.service.couchbase;
 
-import com.acuman.Utils;
+import com.acuman.CouchBaseQuery;
 import com.acuman.service.PatientService;
+import com.acuman.util.DateUtils;
 import com.couchbase.client.java.Bucket;
 import com.couchbase.client.java.document.JsonDocument;
 import com.couchbase.client.java.document.json.JsonObject;
-import com.couchbase.client.java.query.N1qlQueryResult;
+import com.couchbase.client.java.query.Statement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import spark.utils.Assert;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.couchbase.client.java.query.Select.select;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -29,6 +29,12 @@ public class CouchbasePatientService implements PatientService {
     private static final String PATIENT_ID_SEQ = "patientIdSeq";
 
     private Bucket bucket = CouchBaseClient.getInstance().getBucket();
+    private CouchBaseQuery couchBaseQuery;
+
+    public CouchbasePatientService() {
+        bucket = CouchBaseClient.getInstance().getBucket();
+        couchBaseQuery = new CouchBaseQuery(bucket);
+    }
 
     @Override
     public JsonObject newPatient(String json) {
@@ -40,7 +46,7 @@ public class CouchbasePatientService implements PatientService {
         patient.put("type", "PATIENT");
         patient.put("createdDate", LocalDateTime.now().toString());
         patient.put("createdBy", DOCTOR);
-        Utils.convertISODateToLocalDateString(patient, "dob");
+        DateUtils.convertISODateToLocalDateString(patient, "dob");
         JsonDocument result = bucket.insert(JsonDocument.create(id, patient));
 
         log.info("inserted patient: " + result.content());
@@ -66,7 +72,7 @@ public class CouchbasePatientService implements PatientService {
 
         patient.put("lastUpdatedDate", LocalDateTime.now().toString());
         patient.put("lastUpdatedBy", DOCTOR);
-        Utils.convertISODateToLocalDateString(patient, "dob");
+        DateUtils.convertISODateToLocalDateString(patient, "dob");
         JsonDocument result = bucket.upsert(JsonDocument.create(id, patient));
 
         log.info("updated patient: " + result.content());
@@ -92,11 +98,9 @@ public class CouchbasePatientService implements PatientService {
     public List<JsonObject> getPatients(String doctor) {
         List<JsonObject> result;
         String condition = String.format("type='PATIENT' and doctor='%s' order by createdDate desc", doctor);
-        N1qlQueryResult query = bucket.query(select("*").from(bucket.name()).where(condition).limit(1000)); // todo paging
+        Statement statement = select("*").from(bucket.name()).where(condition).limit(1000); // todo paging
 
-        result = query.allRows().stream()
-                .map(row -> row.value().getObject(bucket.name()))
-                .collect(Collectors.toList());
+        result = couchBaseQuery.query(statement);
 
         return result;
     }

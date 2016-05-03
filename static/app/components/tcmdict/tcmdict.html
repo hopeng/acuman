@@ -40,7 +40,7 @@
   <md-card-content>
     <div>
       <md-list-item ng-repeat="word in svc.tchDictSearchResult">
-        <md-button ng-click="svc.onTagWord($event, word.mid)" style="margin-bottom: 20px">
+        <md-button ng-click="svc.onTagWord($event, word)">
           <md-icon>add</md-icon>
         </md-button>
         <p> {{word.cc}} | {{word.cs}} | {{word.eng1}} </p>
@@ -52,12 +52,12 @@
 <!--tags in tabs-->
 <md-card>
   <md-tabs md-selected="svc.selectedTabIndex">
-    <md-tab ng-repeat="tag in svc.allTags" label="{{tag.tagName}}">
-      <md-list-item ng-repeat="word in svc.tag.words">
-        <p> {{word.cc}} | {{word.cs}} | {{word.eng1}} </p>
-        <md-button ng-click="svc.onUnTagWord($event, word.mid)" style="margin-bottom: 20px">
+    <md-tab ng-repeat="tagAndWords in svc.allTags" label="{{tagAndWords.tagName}}">
+      <md-list-item ng-repeat="word in tagAndWords.words">
+        <md-button ng-click="svc.onUnTagWord($event, word)">
           <md-icon>close</md-icon>
         </md-button>
+        <p> {{word.cc}} | {{word.cs}} | {{word.eng1}} </p>
       </md-list-item>
     </md-tab>
   </md-tabs>

@@ -1,9 +1,11 @@
 package com.acuman.api;
 
+import com.acuman.domain.TagAndWords;
 import com.acuman.service.TcmDictService;
 import com.acuman.service.couchbase.CouchbaseTcmDictService;
 import com.couchbase.client.java.document.json.JsonArray;
 import com.couchbase.client.java.document.json.JsonObject;
+import com.couchbase.client.java.transcoder.JacksonTransformers;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import org.apache.commons.lang3.StringUtils;
@@ -12,12 +14,12 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import static com.acuman.ApiConstants.API_TCM_DICT;
 import static spark.Spark.delete;
 import static spark.Spark.get;
 import static spark.Spark.post;
-import static spark.Spark.put;
 
 public class TcmDictLookupApi {
     private static final Logger log = LogManager.getLogger(TcmDictLookupApi.class);
@@ -28,7 +30,8 @@ public class TcmDictLookupApi {
         get(API_TCM_DICT, (request, response) -> {
             String tags = request.queryParams("allTags");
             if (Boolean.valueOf(tags)) {
-                return tcmDictService.listTags();
+                Map<String, TagAndWords> result = tcmDictService.getTagsAndWords();
+                return JacksonTransformers.MAPPER.writeValueAsString(result);
             }
 
             String word = request.queryParams("q");
@@ -57,9 +60,7 @@ public class TcmDictLookupApi {
                 JsonArray array = JsonArray.fromJson(result.getBody());
                 array.forEach(obj -> {
                     JsonObject matched = (JsonObject) obj;
-                    if (!tcmDictService.hasWord(matched.getString("mid"))) {
-                        tcmDictService.newWord(matched);
-                    }
+                    tcmDictService.newWord(matched);
                 });
                 return result.getBody();
             }
@@ -75,7 +76,7 @@ public class TcmDictLookupApi {
                 return "Cannot find patient by ID " + mid;
 
             } else {
-                tcmDictService.addTag(mid, tag);
+                tcmDictService.addWordTag(mid, tag);
                 return "";
             }
         });

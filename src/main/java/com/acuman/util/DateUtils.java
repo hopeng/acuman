@@ -1,4 +1,4 @@
-package com.acuman;
+package com.acuman.util;
 
 import com.couchbase.client.java.document.json.JsonObject;
 import org.apache.commons.lang3.StringUtils;
@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-public class Utils {
+public final class DateUtils {
 
     public static void convertISODateToLocalDateString(JsonObject obj, String fieldName) {
         String dateString = obj.getString(fieldName);

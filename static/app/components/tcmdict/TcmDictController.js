@@ -11,7 +11,12 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
 
       var getAllTags = function () {
         $log.debug('getting all tags ');
-        self.allTags = tcmDictResource.query({ allTags: true });
+        tcmDictResource.get({ allTags: true }).$promise.then(function (response) {
+          self.tagMap = response;
+          self.allTags = Object.keys(self.tagMap).map(function (key) {
+            return self.tagMap[key];
+          });
+        })
       };
 
       var showToast = function (message) {  // todo merge the same method in other service
@@ -28,6 +33,7 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
       };
 
       this.allTags = [];
+      this.tagMap  = {};
       getAllTags();
 
       this.searchTerm = null;
@@ -46,30 +52,34 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
         this.tchDictSearchResult = [];
       };
 
-      this.onTagWord = function (ev, wordId) {
+      this.onTagWord = function (ev, word) {
         var tagName = this.allTags[this.selectedTabIndex].tagName;
-        $log.debug('tagging ' + wordId + ' ' + tagName);
+        $log.debug('tagging ' + word.eng1 + ' ' + tagName);
 
-        tcmDictResource.save({id: wordId, tagName: tagName}, '').$promise.then(
+        tcmDictResource.save({id: word.mid, tagName: tagName}, '').$promise.then(
           function (data) {
-            showToast("tagged " + tagName);
+            showToast("tagged " + word.eng1 + " with " + tagName);
+            self.tagMap[tagName].words.push(word);
           },
           function (data) {
-            showToast("failed to tag " + tagName);
+            showToast("Failed to tag " + word.eng1 + " with " + tagName);
           }
         )
       };
 
-      this.onUntagWord = function (ev, word) {
+      this.onUnTagWord = function (ev, word) {
         var tagName = this.allTags[this.selectedTabIndex].tagName;
-        $log.debug('un-tagging ' + word + ' ' + tagName);
+        $log.debug('un-tagging ' + word.eng1 + ' ' + tagName);
 
-        tcmDictResource.delete({id: wordId, tagName: tagName}, '').$promise.then(
+        tcmDictResource.delete({id: word.mid, tagName: tagName}, '').$promise.then(
           function (data) {
-            showToast("un-tagged " + tagName);
+            showToast("un-tagged " + word.eng1 + " from " + tagName);
+            var wordList = self.tagMap[tagName].words;
+            var index = wordList.indexOf(word);
+            wordList.splice(index, 1);
           },
           function (data) {
-            showToast("failed to un-tag " + tagName);
+            showToast("Failed to un-tag " + word.eng1 + " from " + tagName);
           }
         )
       };
@@ -84,12 +94,15 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
           .cancel('CANCEL');
 
         $mdDialog.show(confirm).then(function(tagName) {
-          //todo check for duplicate tag
-          self.allTags.push({ tagName: tagName });
-          self.selectedTabIndex = self.allTags.length - 1;
+          if (self.tagMap.hasOwnProperty(tagName)) {
+            showToast('Tag already exist!');
+
+          } else {
+            var newTag = { tagName: tagName, words: [] };
+            self.tagMap[tagName] = newTag;
+            self.allTags.push(newTag);
+            self.selectedTabIndex = self.allTags.length - 1;
+          }
         });
-        
-        // todo save tag to DB
-        
       }
     });
