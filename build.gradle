@@ -53,3 +53,9 @@ task runJar(dependsOn:build) << {
         args = [buildDir.path + "/libs/" + project.jar.baseName + "-" + project.jar.version + ".jar"]
     }
 }
+
+
+task runMain(type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = "com.acuman.Application"
+}
