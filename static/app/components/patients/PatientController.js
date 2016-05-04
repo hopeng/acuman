@@ -22,7 +22,8 @@ angular.module('caseManagerApp.patients', ['ngResource'])
       // sourced from http://www.privatehealth.gov.au/dynamic/healthfundlist.aspx, todo save in DB
       this.healthFundList = $resource(CONF.URL.HEALTH_FUNDS).query();
 
-      this.doctor = 'HFANG';
+      //todo get user from server side
+      this.doctor = 'Fiona Family TCM';
 
       this.onPatientEdit = function (ev, patient) {
         this.currentPatient = patient;

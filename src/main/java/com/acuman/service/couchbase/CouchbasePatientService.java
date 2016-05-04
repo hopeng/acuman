@@ -23,7 +23,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 public class CouchbasePatientService implements PatientService {
     private static final Logger log = LogManager.getLogger(CouchbasePatientService.class);
 
-    public static final String DOCTOR = "HFANG";   // todo should come from session user
+    public static final String DOCTOR = "fionafamilytcm";   // todo should come from session user
 
     private static final String PATIENT_PREFIX = "-PATIENT-";
     private static final String PATIENT_ID_SEQ = "patientIdSeq";
@@ -38,7 +38,7 @@ public class CouchbasePatientService implements PatientService {
 
     @Override
     public JsonObject newPatient(String json) {
-        String id = generateId(DOCTOR);
+        String id = generateId();
 
         JsonObject patient = JsonObject.fromJson(json);
         patient.put("doctor", DOCTOR);
@@ -54,9 +54,9 @@ public class CouchbasePatientService implements PatientService {
         return result.content();
     }
 
-    private String generateId(String doctor) {
+    private String generateId() {
         long nextSquence = bucket.counter(PATIENT_ID_SEQ, 1, 1).content();
-        String id = doctor + PATIENT_PREFIX + nextSquence;
+        String id = PATIENT_PREFIX + nextSquence;
 
         return id;
     }
