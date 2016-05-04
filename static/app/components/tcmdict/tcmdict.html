@@ -1,56 +1,56 @@
 <div ng-init="svc = tcmDictCtrl"></div>
 
 <!--dictionary search pane-->
-<div layout="row">
 <md-card>
   <md-card-content>
     <!--<br>-->
     <form name="dictSearchForm" ng-submit="dictSearchForm.$valid && svc.onSearchDict($event)">
     <div layout="row">
-        <md-input-container>
-          <label>Search TCM Keywords</label>
-          <input type="text" ng-model="svc.searchTerm" md-autofocus required>
-        </md-input-container>
-        <md-input-container>
-          <label>Result</label>
-          <md-select ng-model="svc.searchPageSize">
-            <md-option ng-value="s" ng-repeat="s in [10, 20, 50]">{{ s }}</md-option>
-          </md-select>
-        </md-input-container>
-    </div>
-      <md-button type="submit">
+      <md-button class="md-icon-button" ng-click="svc.onClearForm($event, form)">
+        <md-icon>refresh</md-icon>
+        <md-tooltip>clear search</md-tooltip>
+      </md-button>
+      <md-input-container>
+        <label>Search TCM Keywords</label>
+        <input type="text" ng-model="svc.searchTerm" md-autofocus required>
+      </md-input-container>
+      <md-button class="md-icon-button" type="submit">
         <md-icon>search</md-icon>
       </md-button>
-      <md-button ng-click="svc.onClearForm($event, form)">
-        <md-icon>clear</md-icon>
-      </md-button>
+      <div flex></div>
+    </div>
     </form>
-  </md-card-content>
-</md-card>
 
-<md-card>
-  <md-button class="md-fab" ng-click="svc.onAddTag($event)">
-    <md-icon>add</md-icon>
-  </md-button>
-</md-card>
-</div>
-
-<!--search result-->
-<md-card ng-show="svc.tchDictSearchResult.length > 0">
-  <md-card-content>
-    <div>
+    <!--search result-->
+    <div ng-show="svc.tchDictSearchResult.length > 0">
+      <div>
       <md-list-item ng-repeat="word in svc.tchDictSearchResult">
-        <md-button ng-click="svc.onTagWord($event, word)">
+        <md-button class="md-icon-button" ng-click="svc.onTagWord($event, word)">
           <md-icon>add</md-icon>
+          <md-tooltip>Add to Category</md-tooltip>
         </md-button>
         <p> {{word.cc}} | {{word.cs}} | {{word.eng1}} </p>
       </md-list-item>
+        </div>
+      <div>
+        <br>
+        <md-input-container>
+          <label>Size</label>
+          <md-select ng-model="svc.searchPageSize" ng-change="dictSearchForm.$valid && svc.onSearchDict($event)">
+            <md-option ng-value="s" ng-repeat="s in [10, 20, 50]">{{s}}</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
     </div>
   </md-card-content>
 </md-card>
 
+
 <!--tags in tabs-->
 <md-card>
+  <!--todo prettify-->
+  <span class="md-subhead">Categories</span>
+
   <md-tabs md-selected="svc.selectedTabIndex">
     <md-tab ng-repeat="tagAndWords in svc.allTags" label="{{tagAndWords.tagName}}">
       <md-list-item ng-repeat="word in tagAndWords.words">
@@ -61,5 +61,9 @@
       </md-list-item>
     </md-tab>
   </md-tabs>
-
 </md-card>
+
+<md-button aria-label="x" ng-click="svc.onAddTag($event)">
+  <md-icon>add</md-icon>
+  Add Category
+</md-button>

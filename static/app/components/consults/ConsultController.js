@@ -77,7 +77,8 @@ angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
       this.currentConsult = null;
       this.patient = patientResource.get({ id: currentPatientId });
       this.consultsList = [];
-      consultResource.query({ patientId: currentPatientId }).$promise.then(function (data) {
+      this.consultsListPromise = consultResource.query({ patientId: currentPatientId }).$promise;
+      this.consultsListPromise.then(function (data) {
         for (var i=0; i<data.length; i++) {
           util.convertStringFieldToDate(data[i], 'visitedOn');
         }

@@ -3,7 +3,7 @@
 angular.module('caseManagerApp.patients', ['ngResource'])
 
   .controller('PatientController',
-    function ($resource, $mdMedia, $mdDialog, $mdToast, $log, $filter) {
+    function ($resource, $mdMedia, $mdDialog, $mdToast, $log) {
 
       var self = this;
       this.upserting = false;
@@ -11,7 +11,8 @@ angular.module('caseManagerApp.patients', ['ngResource'])
       var patientUpdator = $resource(CONF.URL.PATIENTS, null, {'update': {method: 'PUT'}});
       var patientResource = $resource(CONF.URL.PATIENTS);
       this.patientList = [];
-      patientResource.query().$promise.then(function (data) {
+      this.patientListPromise = patientResource.query().$promise;
+      this.patientListPromise.then(function (data) {
         for (var i=0; i<data.length; i++) {
           util.convertStringFieldToDate(data[i], 'dob');
         }
@@ -52,6 +53,7 @@ angular.module('caseManagerApp.patients', ['ngResource'])
             self.upserting = false;
           });
       };
+      
 
       var showToast = function (message) {
         $mdToast.hide().then(

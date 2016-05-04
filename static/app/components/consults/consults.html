@@ -15,12 +15,16 @@
     <md-button class="md-fab" ng-click="svc.onConsultEdit($event)">
       <md-icon>add</md-icon>
     </md-button>
+    <md-button class="md-fab" ng-click="svc.onConsultEdit($event)">
+      <md-icon>filter_list</md-icon>
+    </md-button>
   </md-card-title>
   <md-card-content>
     <md-table-container>
-      <table md-table md-progress="svc.consultsList.$promise">
+      <table md-table md-progress="svc.consultsListPromise">
         <thead md-head>
         <tr md-row>
+          <th md-column><strong></strong></th>
           <th md-column><strong>Visited On</strong></th>
           <th md-column><strong>Chief Complaint</strong></th>
           <th md-column><strong>Symptoms</strong></th>
@@ -31,17 +35,17 @@
         </thead>
         <tbody md-body>
         <tr md-row ng-repeat="c in svc.consultsList">
+          <td md-cell class="no-padding">
+            <md-button class="md-icon-button" ng-click="svc.onConsultEdit($event, c)">
+              <md-icon>edit</md-icon>
+            </md-button>
+          </td>
           <td md-cell>{{c.visitedOn | date:'dd/MM/yyyy'}}</td>
           <td md-cell>{{c.chiefComplaint}}</td>
           <td md-cell>{{c.symptoms}}</td>
           <td md-cell>{{c.tcmDiagnosis}}</td>
           <td md-cell>{{c.principleOfTreatment}}</td>
           <td md-cell>{{c.advice}}</td>
-          <td md-cell class="no-padding">
-            <md-button class="md-icon-button" ng-click="svc.onConsultEdit($event, c)">
-              <md-icon>edit</md-icon>
-            </md-button>
-          </td>
         </tr>
         </tbody>
       </table>
