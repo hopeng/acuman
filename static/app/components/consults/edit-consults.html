@@ -51,7 +51,7 @@
         </md-sidenav>
 
         <!--consultation input fields-->
-        <!--todo textarea somethimes not expand to show full text-->
+        <!--todo textarea sometimes not expand to show full text-->
          <br>
         <div layout="row">
           <div flex>
@@ -61,6 +61,17 @@
             </md-input-container>
           </div>
           <md-button ng-click="svc.onOpenSearchDictPane($event, 'chiefComplaint')" style="margin-bottom: 20px">
+            <md-icon>search</md-icon>
+          </md-button>
+        </div>
+        <div layout="row">
+          <div flex>
+            <md-input-container class="md-block">
+              <label>Medical History</label>
+              <textarea ng-model="svc.currentPatient.medicalHistory"></textarea>
+            </md-input-container>
+          </div>
+          <md-button ng-click="svc.onOpenSearchDictPane($event, 'medicalHistory')" style="margin-bottom: 20px">
             <md-icon>search</md-icon>
           </md-button>
         </div>
