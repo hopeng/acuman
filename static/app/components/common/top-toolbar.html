@@ -1,0 +1,34 @@
+<!--todo use ui-route. ng-route doesnt support multiple view and menu show as scrambled on load when it's outside ng-view. Need to move into each component to fix it-->
+<div ng-cloak layout="column">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <md-button class="md-icon-button md-primary" aria-label="Settings">
+        <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+      </md-button>
+      <span>Traditional Chinese Medicine Clinic Manager</span>
+      <!-- fill up the space between left and right area -->
+      <span flex></span>
+      <md-button class="md-icon-button md-primary" href="#/patients" aria-label="Patients">
+        <md-icon>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3z"></path><path d="M8 11c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3z"></path><path d="M8 13c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"></path><path d="M16 13c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"></path></svg>
+          <!--<md-icon md-svg-icon="img/icons/ic_people_white_48px.svg"></md-icon>-->
+        </md-icon>
+        <md-tooltip>Patients</md-tooltip>
+      </md-button>
+      <md-button class="md-icon-button md-primary" href="#/tcmdict" aria-label="y">
+        <md-icon md-svg-icon="img/icons/books.svg"></md-icon>
+        <md-tooltip>Manage Dictionary</md-tooltip>
+      </md-button>
+      <md-button class="md-icon-button md-primary" href="#/user-profile" aria-label="y">
+        <md-icon md-svg-icon="img/icons/person.svg"></md-icon>
+        <md-tooltip>User Profile</md-tooltip>
+      </md-button>
+<!--
+      <md-button class="md-primary size48" href="#/user-profile" aria-label="y">
+        <md-icon class="size48" md-svg-icon="img/icons/ic_person_outline_white_48px.svg"></md-icon>
+        <md-tooltip>User Profile</md-tooltip>
+      </md-button>
+-->
+    </div>
+  </md-toolbar>
+</div>

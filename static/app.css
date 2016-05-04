@@ -25,6 +25,11 @@ md-sidenav.md-closed.md-locked-open-add-active {
   max-height: 1024px !important;
 }
 
+.size48 {
+  width: 48px;
+  height: 48px;
+}
+
 /* todo mentio specific clean up later*/
 .menu-highlighted {
   font-weight: bold;

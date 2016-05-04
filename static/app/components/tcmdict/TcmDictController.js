@@ -58,11 +58,11 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
 
         tcmDictResource.save({id: word.mid, tagName: tagName}, '').$promise.then(
           function (data) {
-            showToast("tagged " + word.eng1 + " with " + tagName);
+            showToast("added '" + word.eng1 + "' to category " + tagName);
             self.tagMap[tagName].words.push(word);
           },
           function (data) {
-            showToast("Failed to tag " + word.eng1 + " with " + tagName);
+            showToast("Failed to add '" + word.eng1 + "' to category " + tagName);
           }
         )
       };
@@ -94,6 +94,7 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
           .cancel('CANCEL');
 
         $mdDialog.show(confirm).then(function(tagName) {
+          tagName = tagName.toUpperCase();
           if (self.tagMap.hasOwnProperty(tagName)) {
             showToast('Tag already exist!');
 
