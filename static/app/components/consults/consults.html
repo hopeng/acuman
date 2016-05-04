@@ -14,10 +14,17 @@
     <div flex></div>
     <md-button class="md-fab" ng-click="svc.onConsultEdit($event)">
       <md-icon>add</md-icon>
+      <md-tooltip>Add Consultation</md-tooltip>
     </md-button>
-    <md-button class="md-fab" ng-click="svc.onConsultEdit($event)">
+    <md-button class="md-fab" ng-click="svc.onFilterConsults($event)">
       <md-icon>filter_list</md-icon>
+      <md-tooltip>Filter By Date</md-tooltip>
     </md-button>
+    <md-button class="md-fab" ng-click="svc.onExportPatients($event)">
+      <md-icon>file_download</md-icon>
+      <md-tooltip>Export To Excel</md-tooltip>
+    </md-button>
+
   </md-card-title>
   <md-card-content>
     <md-table-container>

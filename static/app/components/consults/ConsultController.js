@@ -165,6 +165,9 @@ angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
             appendedContent += '\n';
         }
         appendedContent += word.cs + ' ' + word.eng1;
+        if (!this.currentConsult[this.editedInputName]) {
+              this.currentConsult[this.editedInputName] = '';
+        }
         this.currentConsult[this.editedInputName] += appendedContent;
       };
 
