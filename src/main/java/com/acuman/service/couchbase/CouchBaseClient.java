@@ -12,6 +12,7 @@ public final class CouchBaseClient {
     private static final String BUCKET_NAME = "acuman";
     private static final String DICT_BUCKET_NAME = "tcmdict";
     private static CouchBaseClient INSTANCE;
+    private static final String HOST = "27.32.25.214";
 
     private Cluster cluster;
     private Bucket bucket;
@@ -26,7 +27,7 @@ public final class CouchBaseClient {
     }
 
     private CouchBaseClient() {
-        cluster = CouchbaseCluster.create();
+        cluster = CouchbaseCluster.create(HOST);
         bucket = cluster.openBucket(BUCKET_NAME);
         tcmDictBucket = cluster.openBucket(DICT_BUCKET_NAME);
 
