@@ -25,7 +25,7 @@ public class CouchbasePatientService implements PatientService {
 
     public static final String DOCTOR = "fionafamilytcm";   // todo should come from session user
 
-    private static final String PATIENT_PREFIX = "-PATIENT-";
+    private static final String PATIENT_TYPE = "PATIENT";
     private static final String PATIENT_ID_SEQ = "patientIdSeq";
 
     private Bucket bucket = CouchBaseClient.getInstance().getBucket();
@@ -56,7 +56,7 @@ public class CouchbasePatientService implements PatientService {
 
     private String generateId() {
         long nextSquence = bucket.counter(PATIENT_ID_SEQ, 1, 1).content();
-        String id = PATIENT_PREFIX + nextSquence;
+        String id = PATIENT_TYPE + "-" + nextSquence;
 
         return id;
     }
