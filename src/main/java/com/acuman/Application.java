@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import static spark.Spark.externalStaticFileLocation;
+import static spark.Spark.port;
 
 
 public class Application {
@@ -15,6 +16,8 @@ public class Application {
 
     public static void main(String[] args) {
         externalStaticFileLocation("static/");
+
+        port(80);
 
         PatientsApi.configure();
         ConsultationsApi.configure();
