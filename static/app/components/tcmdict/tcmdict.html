@@ -49,9 +49,8 @@
 
 
 <!--tags in tabs-->
-<md-card>
-  <!--todo prettify-->
-  <span class="md-subhead">Categories</span>
+<md-card ng-if="svc.allTags.length > 0">
+  <!--todo add header for category-->
 
   <md-tabs md-selected="svc.selectedTabIndex" md-dynamic-height="true">
     <md-tab ng-repeat="tagAndWords in svc.allTags" label="{{tagAndWords.tagName}}">

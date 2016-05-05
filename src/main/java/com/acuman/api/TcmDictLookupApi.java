@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static com.acuman.ApiConstants.API_TCM_CUSTOM_WORD;
 import static com.acuman.ApiConstants.API_TCM_DICT;
 import static spark.Spark.delete;
 import static spark.Spark.get;
@@ -65,6 +66,15 @@ public class TcmDictLookupApi {
                 tcmDictService.addWordTag(mid, tag);
                 return "";
             }
+        });
+
+//        todo create UI for this, use CouchbaseTcmDictServiceTest for now
+        post(API_TCM_CUSTOM_WORD, (request, response) -> {
+            String customWord = request.body();
+            log.info("creating custom word {}", customWord);
+
+            JsonObject result = tcmDictService.newCustomWord(JsonObject.fromJson(customWord));
+            return result;
         });
 
         // remove tag from a word

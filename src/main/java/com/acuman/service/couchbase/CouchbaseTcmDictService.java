@@ -31,6 +31,9 @@ public class CouchbaseTcmDictService implements TcmDictService {
 
     private static final String TAG_WORD_TYPE = "TAG-WORD";
     private static final String WORD_TYPE = "WORD";
+    private static final String CUSTOM_WORD_TYPE = "CUSTOM-WORD";
+    private static final String CUSTOM_WORD_ID_SEQ = "customWordIdSeq";
+
 
     private Bucket bucket;
     private CouchBaseQuery couchBaseQuery;
@@ -65,6 +68,39 @@ public class CouchbaseTcmDictService implements TcmDictService {
         }
     }
 
+    /**
+     * todo use https://github.com/BYVoid/OpenCC for SC to TC conversion
+     * todo use http://mvnrepository.com/artifact/com.belerweb/pinyin4j/2.5.0 to convert chinese to pinyin
+     *
+     * @param word
+     * @return
+     */
+    @Override
+    public JsonObject newCustomWord(JsonObject word) {
+        JsonObject cs = exactCustomWord(word.getString("cs"));
+        if (cs != null) {
+            log.error("custom word {} already exist", word);
+            return cs;
+        }
+        String customeWordId = generateId();
+        word.put("type", CUSTOM_WORD_TYPE);
+        word.put("createdDate", LocalDateTime.now().toString());
+        word.put("createdBy", DOCTOR);
+        word.put("mid", customeWordId);
+        word.put("pic", "");
+        JsonDocument result = bucket.insert(JsonDocument.create(customeWordId, word));
+
+        log.info("inserted custom word: " + result.content());
+        return result.content();
+    }
+
+    private String generateId() {
+        long nextSquence = bucket.counter(CUSTOM_WORD_ID_SEQ, 1, 1).content();
+        String id = CUSTOM_WORD_TYPE + "-" + String.format("%05d", nextSquence);
+
+        return id;
+    }
+
     @Override
     public JsonObject getWord(String mid) {
         JsonDocument jsonDocument = bucket.get(mid, JsonDocument.class);
@@ -83,6 +119,21 @@ public class CouchbaseTcmDictService implements TcmDictService {
         log.info("deleted word with mid " + mid);
 
         return result;
+    }
+
+    @Override
+    public JsonObject exactCustomWord(String csWord) {
+        List<JsonObject> result;
+        String condition = "type = 'CUSTOM-WORD' and cs='" + csWord + "'";
+        N1qlQueryResult query = bucket.query(select("*").from(bucket.name()).where(condition));
+
+        result = query.allRows().stream()
+                .map(row -> row.value().getObject(bucket.name()))
+                .collect(Collectors.toList());
+
+        Assert.isTrue(result.size() <= 1, "more than one custom word " + csWord + " found");
+
+        return result.isEmpty() ? null : result.get(0);
     }
 
     @Override
@@ -136,7 +187,12 @@ public class CouchbaseTcmDictService implements TcmDictService {
         tagWords = couchBaseQuery.query(statement);
 
         for (JsonObject tagWord : tagWords) {
-            JsonObject word = getWord(tagWord.getString("wordId"));
+            String wordId = tagWord.getString("wordId");
+            JsonObject word = getWord(wordId);
+            if (word == null) {
+                log.error("no word found for Id {}", wordId);
+                continue;
+            }
             String tag = tagWord.getString("tagName");
             result.putIfAbsent(tag, new TagAndWords(tag, new LinkedHashSet<>()));
             TagAndWords tagAndWords = result.get(tag);

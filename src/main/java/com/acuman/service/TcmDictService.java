@@ -14,9 +14,13 @@ public interface TcmDictService {
 
     JsonObject newWord(JsonObject word);
 
+    JsonObject newCustomWord(JsonObject word);
+
     JsonObject getWord(String mid);
 
     boolean hasWord(String mid);
+
+    public JsonObject exactCustomWord(String csWord);
 
     JsonObject deleteWord(String mid);
 
