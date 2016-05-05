@@ -20,7 +20,7 @@ public interface TcmDictService {
 
     JsonObject deleteWord(String mid);
 
-    List<JsonObject> lookupWord(String word, int limit);
+    List<JsonObject> lookupCustomWord(String word, int limit);
 
     void addWordTag(String id, String tag);
 

@@ -86,9 +86,9 @@ public class CouchbaseTcmDictService implements TcmDictService {
     }
 
     @Override
-    public List<JsonObject> lookupWord(String word, int limit) {
+    public List<JsonObject> lookupCustomWord(String word, int limit) {
         List<JsonObject> result;
-        String condition = "cs like '%" + word + "%' order by py1";
+        String condition = "type = 'CUSTOM-WORD' and cs like '%" + word + "%' or eng1 like '%" + word + "%' or py3 like '%" + word + "%' order by py1";
         N1qlQueryResult query = bucket.query(select("*").from(bucket.name()).where(condition).limit(limit));
 
         result = query.allRows().stream()

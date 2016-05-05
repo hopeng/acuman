@@ -53,7 +53,7 @@
   <!--todo prettify-->
   <span class="md-subhead">Categories</span>
 
-  <md-tabs md-selected="svc.selectedTabIndex">
+  <md-tabs md-selected="svc.selectedTabIndex" md-dynamic-height="true">
     <md-tab ng-repeat="tagAndWords in svc.allTags" label="{{tagAndWords.tagName}}">
       <md-list-item ng-repeat="word in tagAndWords.words">
         <md-button ng-click="svc.onUnTagWord($event, word)">

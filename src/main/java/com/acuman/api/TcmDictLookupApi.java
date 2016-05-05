@@ -8,7 +8,8 @@ import com.couchbase.client.java.document.json.JsonObject;
 import com.couchbase.client.java.transcoder.JacksonTransformers;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
-import org.apache.commons.lang3.StringUtils;
+import com.mashape.unirest.http.exceptions.UnirestException;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,41 +30,26 @@ public class TcmDictLookupApi {
 
         get(API_TCM_DICT, (request, response) -> {
             String tags = request.queryParams("allTags");
+
             if (Boolean.valueOf(tags)) {
                 Map<String, TagAndWords> result = tcmDictService.getTagsAndWords();
                 return JacksonTransformers.MAPPER.writeValueAsString(result);
             }
 
             String word = request.queryParams("q");
-            boolean noRemoteSearch = Boolean.valueOf(request.queryParams("noRemoteSearch"));
-            String pageSize = request.queryParams("p");
-            pageSize = StringUtils.isEmpty(pageSize) ? "10" : pageSize;
+            String pageSizeString = request.queryParams("p");
+            int pageSize = NumberUtils.isDigits(pageSizeString) ? Integer.valueOf(pageSizeString) : 10;
 
-
+            // only lookup words with at least one char
             if (word != null && word.length() < 1) {
                 return Collections.EMPTY_LIST;
             }
 
-            if (noRemoteSearch) {
-                List<JsonObject> localResult = tcmDictService.lookupWord(word, 10);
-                return localResult;
+            JsonArray wordsFromWeb = lookupWordOnWeb(tcmDictService, word, pageSize);
+            List<JsonObject> customWordsFromDb = tcmDictService.lookupCustomWord(word, pageSize);
+            customWordsFromDb.forEach(wordsFromWeb::add);
 
-            } else {
-                HttpResponse<String> result = Unirest.get("http://dict.paradigm-pubs.com/search3.php")
-                        .queryString("q", word)
-                        .queryString("p", pageSize)
-                        .queryString("y", "py1")
-                        .asString();
-
-                log.info("received result: " + result.getBody());
-
-                JsonArray array = JsonArray.fromJson(result.getBody());
-                array.forEach(obj -> {
-                    JsonObject matched = (JsonObject) obj;
-                    tcmDictService.newWord(matched);
-                });
-                return result.getBody();
-            }
+            return wordsFromWeb;
         });
 
 //        add tag to a word
@@ -95,6 +81,24 @@ public class TcmDictLookupApi {
                 return "";
             }
         });
+    }
+
+    private static JsonArray lookupWordOnWeb(TcmDictService tcmDictService, String word, int pageSize)
+            throws UnirestException {
+        HttpResponse<String> result = Unirest.get("http://dict.paradigm-pubs.com/search3.php")
+                .queryString("q", word)
+                .queryString("p", pageSize)
+                .queryString("y", "py1")
+                .asString();
+
+        log.info("received result: " + result.getBody());
+
+        JsonArray wordsFromWeb = JsonArray.fromJson(result.getBody());
+        wordsFromWeb.forEach(obj -> {
+            JsonObject matched = (JsonObject) obj;
+            tcmDictService.newWord(matched);
+        });
+        return wordsFromWeb;
     }
 }
 
