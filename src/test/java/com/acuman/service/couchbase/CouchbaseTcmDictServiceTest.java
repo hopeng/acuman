@@ -13,10 +13,10 @@ public class CouchbaseTcmDictServiceTest {
 
     @Test
     public void testInsertCustomWord() {
-        String cc = "頸椎病";
-        String cs = "颈椎病";
-        String py3 = "jing zhui bing";
-        String eng1 = "cervical spondylosis";
+        String cc = "滋陰解表";
+        String cs = "滋阴解表";
+        String py3 = "zi yin jie biao";
+        String eng1 = "nourishing yin to relieve superficies syndrome ";
 
         JsonObject customWord = JsonObject.create()
                 .put("cc", cc)
