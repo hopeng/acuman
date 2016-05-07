@@ -54,12 +54,30 @@
 
   <md-tabs md-selected="svc.selectedTabIndex" md-dynamic-height="true">
     <md-tab ng-repeat="tagAndWords in svc.allTags" label="{{tagAndWords.tagName}}">
-      <md-list-item ng-repeat="word in tagAndWords.words">
-        <md-button ng-click="svc.onUnTagWord($event, word)">
-          <md-icon>close</md-icon>
-        </md-button>
-        <p> {{word.cc}} | {{word.cs}} | {{word.eng1}} </p>
-      </md-list-item>
+      <div layout="row">
+      <md-list>
+        <md-list-item ng-repeat="word in tagAndWords.words track by $index" ng-if="$even" class="md-2-line">
+          <md-button ng-click="svc.onUnTagWord($event, word)" class="md-avatar md-small">
+            <md-icon>close</md-icon>
+          </md-button>
+          <div class="md-list-item-text" layout="column">
+            <h4>{{ word.cc }} | {{ word.cs }}</h4>
+            <h4>{{ word.eng1 }}</h4>
+          </div>
+        </md-list-item>
+      </md-list>
+      <md-list>
+        <md-list-item ng-repeat="word in tagAndWords.words track by $index" ng-if="$odd" class="md-2-line">
+          <md-button ng-click="svc.onUnTagWord($event, word)" class="md-avatar md-small">
+            <md-icon>close</md-icon>
+          </md-button>
+          <div class="md-list-item-text" layout="column">
+            <h4>{{ word.cc }} | {{ word.cs }}</h4>
+            <h4>{{ word.eng1 }}</h4>
+          </div>
+        </md-list-item>
+      </md-list>
+      </div>
     </md-tab>
   </md-tabs>
 </md-card>
