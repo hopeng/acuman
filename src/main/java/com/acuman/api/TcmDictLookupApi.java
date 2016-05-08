@@ -1,8 +1,10 @@
 package com.acuman.api;
 
 import com.acuman.domain.TagAndWords;
+import com.acuman.domain.ZhEnWord;
 import com.acuman.service.TcmDictService;
 import com.acuman.service.couchbase.CouchbaseTcmDictService;
+import com.acuman.util.JsonUtils;
 import com.couchbase.client.java.document.json.JsonArray;
 import com.couchbase.client.java.document.json.JsonObject;
 import com.couchbase.client.java.transcoder.JacksonTransformers;
@@ -68,13 +70,14 @@ public class TcmDictLookupApi {
             }
         });
 
-//        todo create UI for this, use CouchbaseTcmDictServiceTest for now
         post(API_TCM_CUSTOM_WORD, (request, response) -> {
-            String customWord = request.body();
-            log.info("creating custom word {}", customWord);
+            List<ZhEnWord> words = JsonUtils.fromJsonArray(request.body(), ZhEnWord.class);
+            log.info("creating custom words, size = {}", words.size());
 
-            JsonObject result = tcmDictService.newCustomWord(JsonObject.fromJson(customWord));
-            return result;
+            JsonUtils.fromJson(request.body(), ZhEnWord.class);
+            words.forEach(tcmDictService::newZhEnWord);
+
+            return "";
         });
 
         // remove tag from a word

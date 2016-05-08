@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!-- xlsx.js (C) 2013-2015 SheetJS http://sheetjs.com -->
+<!-- vim: set ts=2: -->
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>JS-XLSX Live Demo</title>
+  <style>
+    #drop{
+      border:2px dashed #bbb;
+      -moz-border-radius:5px;
+      -webkit-border-radius:5px;
+      border-radius:5px;
+      padding:25px;
+      text-align:center;
+      font:20pt bold,"Vollkorn";color:#bbb
+    }
+    #b64data{
+      width:100%;
+    }
+  </style>
+</head>
+<body>
+<b>JS-XLSX (XLSX/XLSB/XLSM/XLS/XML) Live Demo</b><br />
+<a href="https://github.com/SheetJS/js-xlsx">Source Code Repo</a><br />
+<a href="https://github.com/SheetJS/js-xlsx/issues">Issues?  Something look weird?  Click here and report an issue</a><br />
+
+<div id="drop">Drop an XLSX / XLSM / XLSB / ODS / XLS / XML file here to see sheet data</div>
+<p><input type="file" name="xlfile" id="xlf" /> ... or click here to select a file</p>
+<pre id="out"></pre>
+<br />
+<!-- uncomment the next line here and in xlsxworker.js for encoding support -->
+<!--<script src="dist/cpexcel.js"></script>-->
+<script src="bower_components/js-xlsx/shim.js"></script>
+<script src="bower_components/js-xlsx/jszip.js"></script>
+<script src="bower_components/js-xlsx/xlsx.js"></script>
+<!-- uncomment the next line here and in xlsxworker.js for ODS support -->
+<script src="bower_components/js-xlsx/ods.js"></script>
+<script src="code.js"></script>
+</body>
+</html>

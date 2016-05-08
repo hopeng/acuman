@@ -1,5 +1,6 @@
 package com.acuman.service.couchbase;
 
+import com.acuman.CbDocType;
 import com.acuman.CouchBaseQuery;
 import com.acuman.service.ConsultationService;
 import com.acuman.util.DateUtils;
@@ -40,7 +41,7 @@ public class CouchBaseConsultationService implements ConsultationService {
         consultation.put("doctor", DOCTOR);
         consultation.put("patientId", patientId);
         consultation.put("consultId", id);
-        consultation.put("type", "CONSULTATION");
+        consultation.put("type", CbDocType.Consult);
         consultation.put("createdDate", LocalDateTime.now().toString());
         consultation.put("createdBy", DOCTOR);
         DateUtils.convertISODateToLocalDateString(consultation, "visitedOn");

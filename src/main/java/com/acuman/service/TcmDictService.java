@@ -1,6 +1,8 @@
 package com.acuman.service;
 
 import com.acuman.domain.TagAndWords;
+import com.acuman.domain.WordNode;
+import com.acuman.domain.ZhEnWord;
 import com.couchbase.client.java.document.json.JsonObject;
 
 import java.util.List;
@@ -14,13 +16,17 @@ public interface TcmDictService {
 
     JsonObject newWord(JsonObject word);
 
-    JsonObject newCustomWord(JsonObject word);
+    ZhEnWord newZhEnWord(String chinese, String english);
+
+    ZhEnWord newZhEnWord(ZhEnWord zhEnWord);
+
+    WordNode newZhEnWords(Map.Entry<String, List<ZhEnWord>> zhEnWords);
 
     JsonObject getWord(String mid);
 
     boolean hasWord(String mid);
 
-    public JsonObject exactCustomWord(String csWord);
+    ZhEnWord exactWordMatch(String csWord);
 
     JsonObject deleteWord(String mid);
 
