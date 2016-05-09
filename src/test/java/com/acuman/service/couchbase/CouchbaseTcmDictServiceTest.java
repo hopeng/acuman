@@ -2,14 +2,10 @@ package com.acuman.service.couchbase;
 
 import com.acuman.domain.ZhEnWord;
 import com.acuman.service.TcmDictService;
-import com.acuman.util.JsonUtils;
-import com.couchbase.client.deps.com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 import java.io.InputStreamReader;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by hopeng on 3/05/2016.
@@ -32,9 +28,8 @@ public class CouchbaseTcmDictServiceTest {
         String content = IOUtils.toString(new InputStreamReader(getClass().getResourceAsStream("/tree.json")));
         System.out.println(content);
 
-        Map<String, List<ZhEnWord>> map = JsonUtils.fromJson(content, new TypeReference<Map<String, List<ZhEnWord>>>() {});
-        map.entrySet().forEach(tcmDictService::newZhEnWords);
-
-        System.out.println(JsonUtils.toJson(map));
+//        Map<String, List<ZhEnWord>> map = JsonUtils.fromJson(content, new TypeReference<Map<String, List<ZhEnWord>>>() {});
+//        map.entrySet().forEach(tcmDictService::newZhEnWords);
+//        System.out.println(JsonUtils.toJson(map.entrySet()));
     }
 }

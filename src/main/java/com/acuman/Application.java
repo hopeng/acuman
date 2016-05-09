@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import static spark.Spark.before;
 import static spark.Spark.externalStaticFileLocation;
 import static spark.Spark.halt;
+import static spark.Spark.port;
 
 
 public class Application {
@@ -18,7 +19,9 @@ public class Application {
 
     public static void main(String[] args) {
 // todo ssl  http://stackoverflow.com/a/36843005/843678
-
+        if (Boolean.valueOf(System.getProperty("dev"))) {
+            port(4568);
+        }
         externalStaticFileLocation("static/");
 
         PatientsApi.configure();

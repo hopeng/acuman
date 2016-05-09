@@ -1,18 +1,20 @@
 package com.acuman.domain;
 
 import com.acuman.CbDocType;
+import com.acuman.service.couchbase.CouchbaseTcmDictService;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  * todo extend auditable
  */
 public class WordNode {
-    private String wordNodeId;
     private String type = CbDocType.WordNode;
     private String wordId;
+    private ZhEnWord word;  // set to null before persisting
 
-    private List<String> childWordId;
+    private List<String> childWordId = new LinkedList<>();
 
     public WordNode() {
     }
@@ -31,11 +33,15 @@ public class WordNode {
     }
 
     public String getWordNodeId() {
-        return wordNodeId;
+        return CouchbaseTcmDictService.wordNodeId(wordId);
     }
 
-    public void setWordNodeId(String wordNodeId) {
-        this.wordNodeId = wordNodeId;
+    public ZhEnWord getWord() {
+        return word;
+    }
+
+    public void setWord(ZhEnWord word) {
+        this.word = word;
     }
 
     public String getType() {

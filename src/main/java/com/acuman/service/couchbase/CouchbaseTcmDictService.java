@@ -46,15 +46,17 @@ public class CouchbaseTcmDictService implements TcmDictService {
     private Bucket bucket;
     private CouchBaseQuery couchBaseQuery;
 
+    private ZhEnWord rootWord;
+
     public CouchbaseTcmDictService() {
         bucket = CouchBaseClient.getInstance().getTcmDictBucket();
         couchBaseQuery = new CouchBaseQuery(bucket);
 
         // initData
-        ZhEnWord root = new ZhEnWord();
-        root.setCs("中医");
-        root.setEng1("Traditional Chinese Medicine");
-        newZhEnWord(root);
+        rootWord = new ZhEnWord();
+        rootWord.setCs("中医");
+        rootWord.setEng1("Traditional Chinese Medicine");
+        rootWord = newZhEnWord(rootWord);
     }
 
     @Override
@@ -103,12 +105,12 @@ public class CouchbaseTcmDictService implements TcmDictService {
             return existing;
         }
 
-        String customeWordId = generateId();
-        zhEnWord.setMid(customeWordId);
+        String wordId = generateWordId();
+        zhEnWord.setMid(wordId);
         zhEnWord.setCreatedBy(DOCTOR);
         zhEnWord.setCreatedDate(LocalDateTime.now().toString());
 
-        Document rawJsonDocument = RawJsonDocument.create(customeWordId, JsonUtils.toJson(zhEnWord));
+        Document rawJsonDocument = RawJsonDocument.create(wordId, JsonUtils.toJson(zhEnWord));
         Document result = bucket.insert(rawJsonDocument);
 
         log.info("inserted custom word: " + result.content());
@@ -125,20 +127,11 @@ public class CouchbaseTcmDictService implements TcmDictService {
             children.add(newWord.getMid());
         });
 
-        String tag = zhEnWordsEntry.getKey();
-        ZhEnWord tagWord = exactWordMatch(tag);
+        String tagName = zhEnWordsEntry.getKey();
+        ZhEnWord tag = exactWordMatch(tagName);
 
-        WordNode wordNode = new WordNode(tagWord.getMid(), children);
-        String wordNodeId = CbDocType.WordNode + "-" + wordNode.getWordId();
-        wordNode.setWordNodeId(wordNodeId);
-
-        WordNode result = couchBaseQuery.upsert(CbDocType.WordNode + "-" + wordNode.getWordId(), wordNode);
-//        String wordNodeId = CbDocType.WordNode + "-" + wordNode.getWordId();
-//        Document rawJsonDocument = RawJsonDocument.create(wordNodeId, JsonUtils.toJson(wordNode));
-//        Document result = bucket.upsert(rawJsonDocument);
-//        log.info("upserted wordNode: " + result.content());
-//        return JsonUtils.fromJson((String) result.content(), WordNode.class);
-
+        WordNode wordNode = new WordNode(tag.getMid(), children);
+        WordNode result = couchBaseQuery.upsert(wordNode.getWordNodeId(), wordNode);
         return result;
     }
 
@@ -152,7 +145,11 @@ public class CouchbaseTcmDictService implements TcmDictService {
         return newZhEnWord(zhEnWord);
     }
 
-    private String generateId() {
+    private String generateWordNodeId(ZhEnWord word) {
+        return CbDocType.WordNode + "-" + word.getMid();
+    }
+
+    private String generateWordId() {
         long nextSquence = bucket.counter(CUSTOM_WORD_ID_SEQ, 1, 1).content();
         String id = ZhEnWord.class.getSimpleName() + "-" + String.format("%06d", nextSquence);
 
@@ -236,6 +233,14 @@ public class CouchbaseTcmDictService implements TcmDictService {
         log.info("removed word {} from tag {}", wordId, tag);
     }
 
+    public static String wordNodeId(String wordId) {
+        return CbDocType.WordNode + "-" + wordId;
+    }
+
+    /**
+     * @deprecated
+     * @return
+     */
     @Override
     public Map<String, TagAndWords> getTagsAndWords() {
         Map<String, TagAndWords> result = new LinkedHashMap<>();
@@ -259,5 +264,28 @@ public class CouchbaseTcmDictService implements TcmDictService {
         }
 
         return result;
+    }
+
+    @Override
+    public WordNode getWordTree() {
+        WordNode rootNode = couchBaseQuery.get(generateWordNodeId(rootWord), WordNode.class);
+        rootNode.setWord(rootWord);
+        buildWordTree(rootNode);
+
+        return rootNode;
+    }
+
+    private void buildWordTree(WordNode parent) {
+        for (String childWordId : parent.getChildWordId()) {
+            WordNode childNode = couchBaseQuery.getWordNode(wordNodeId(childWordId));
+            if (childNode == null) {
+                childNode = new WordNode(childWordId, new LinkedList<>());
+            }
+            ZhEnWord childWord = couchBaseQuery.getZhEnWord(childNode.getWordId());
+            childNode.setWord(childWord);
+
+            // recurse
+            buildWordTree(childNode);
+        }
     }
 }

@@ -37,4 +37,7 @@ public interface TcmDictService {
     void removeTag(String id, String tag);
 
     Map<String, TagAndWords> getTagsAndWords();
+
+    WordNode getWordTree();
+
 }
