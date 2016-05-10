@@ -75,18 +75,15 @@ public class TcmDictLookupApi {
         post(API_TCM_ZhEn_WORD, (request, response) -> {
             Map<String, List<ZhEnWord>> tagWordMap = JsonUtils.fromJson(request.body(),
                     new TypeReference<Map<String, List<ZhEnWord>>>() {});
-
-            tagWordMap.entrySet().forEach(tcmDictService::newZhEnWords);
             log.info("creating zhEnWords, size = {}", tagWordMap.size());
             log.debug("map: " + JsonUtils.toJson(tagWordMap.entrySet()));
 
+            tagWordMap.entrySet().forEach(
+                    entry -> tcmDictService.newZhEnWords(entry.getKey(), entry.getValue()));
             return "";
         });
 
         get(API_TCM_ZhEn_WORD, (request, response) -> {
-            Map<String, List<ZhEnWord>> tagWordMap = JsonUtils.fromJson(request.body(),
-                    new TypeReference<Map<String, List<ZhEnWord>>>() {});
-
             log.info("getting wordTree");
             return tcmDictService.getWordTree();
         });

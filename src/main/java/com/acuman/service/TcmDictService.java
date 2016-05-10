@@ -20,7 +20,7 @@ public interface TcmDictService {
 
     ZhEnWord newZhEnWord(ZhEnWord zhEnWord);
 
-    WordNode newZhEnWords(Map.Entry<String, List<ZhEnWord>> zhEnWords);
+    WordNode newZhEnWords(String tagName, List<ZhEnWord> childWords);
 
     JsonObject getWord(String mid);
 

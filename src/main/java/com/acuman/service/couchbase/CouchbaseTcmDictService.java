@@ -2,6 +2,7 @@ package com.acuman.service.couchbase;
 
 import com.acuman.CbDocType;
 import com.acuman.CouchBaseQuery;
+import com.acuman.domain.Auditable;
 import com.acuman.domain.TagAndWords;
 import com.acuman.domain.WordNode;
 import com.acuman.domain.ZhEnWord;
@@ -19,7 +20,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import spark.utils.Assert;
 
-import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.acuman.CbDocType.ZhEnWord;
-import static com.acuman.service.couchbase.CouchbasePatientService.DOCTOR;
 import static com.couchbase.client.java.query.Select.select;
 import static com.couchbase.client.java.query.dsl.Expression.s;
 import static com.couchbase.client.java.query.dsl.Expression.x;
@@ -71,8 +70,7 @@ public class CouchbaseTcmDictService implements TcmDictService {
         JsonObject existing = getWord(mid);
         if (existing == null) {
             word.put("type", WORD_TYPE);
-            word.put("createdDate", LocalDateTime.now().toString());
-            word.put("createdBy", DOCTOR);
+            Auditable.preInsert(word);
             JsonDocument result = bucket.insert(JsonDocument.create(mid, word));
 
             log.info("inserted word: " + result.content());
@@ -86,6 +84,7 @@ public class CouchbaseTcmDictService implements TcmDictService {
 
     @Override
     public ZhEnWord newZhEnWord(ZhEnWord zhEnWord) {
+        zhEnWord.trimFields();
         Assert.isTrue(isNotEmpty(zhEnWord.getCs()) || isNotEmpty(zhEnWord.getCc()), "chinese must be provided");
         Assert.isTrue(isNotEmpty(zhEnWord.getEng1()), "english must be provided");
 
@@ -101,14 +100,13 @@ public class CouchbaseTcmDictService implements TcmDictService {
 
         ZhEnWord existing = exactWordMatch(zhEnWord.getCs());
         if (existing != null) {
-            log.warn("word {} already exist", zhEnWord.getCs());
+            log.warn("word {} {} already exist", existing.getCs(), existing.getMid());
             return existing;
         }
 
         String wordId = generateWordId();
         zhEnWord.setMid(wordId);
-        zhEnWord.setCreatedBy(DOCTOR);
-        zhEnWord.setCreatedDate(LocalDateTime.now().toString());
+        zhEnWord.preInsert();
 
         Document rawJsonDocument = RawJsonDocument.create(wordId, JsonUtils.toJson(zhEnWord));
         Document result = bucket.insert(rawJsonDocument);
@@ -118,17 +116,16 @@ public class CouchbaseTcmDictService implements TcmDictService {
     }
 
     @Override
-    public WordNode newZhEnWords(Map.Entry<String, List<ZhEnWord>> zhEnWordsEntry) {
-        List<ZhEnWord> zhEnWords = zhEnWordsEntry.getValue();
+    public WordNode newZhEnWords(String tagName, List<ZhEnWord> childWords) {
 
         List<String> children = new LinkedList<>();
-        zhEnWords.forEach(word -> {
+        childWords.forEach(word -> {
             ZhEnWord newWord = this.newZhEnWord(word);
             children.add(newWord.getMid());
         });
 
-        String tagName = zhEnWordsEntry.getKey();
-        ZhEnWord tag = exactWordMatch(tagName);
+        ZhEnWord tag = exactWordMatch(tagName); // assume the parent tag word already inserted before children
+        Assert.notNull(tag, "word doesn't exist for tagName " + tagName);
 
         WordNode wordNode = new WordNode(tag.getMid(), children);
         WordNode result = couchBaseQuery.upsert(wordNode.getWordNodeId(), wordNode);
@@ -178,6 +175,7 @@ public class CouchbaseTcmDictService implements TcmDictService {
 
     @Override
     public ZhEnWord exactWordMatch(String csOrCcWord) {
+//    todo or condition not wrapped cause issue with 人中
         Statement statement = select("*").from(bucket.name()).where(
                 x("type").eq(s(ZhEnWord))
                         .and((x("cs").eq(s(csOrCcWord)).or(x("cc").eq(s(csOrCcWord))))));
@@ -213,8 +211,7 @@ public class CouchbaseTcmDictService implements TcmDictService {
         wordTag.put("type", TAG_WORD_TYPE);
         wordTag.put("wordId", wordId);
         wordTag.put("tagName", tag);
-        wordTag.put("createdDate", LocalDateTime.now().toString());
-        wordTag.put("createdBy", DOCTOR);
+        Auditable.preInsert(wordTag);
 
         bucket.insert(JsonDocument.create(wordTagId, wordTag));
 
@@ -269,6 +266,9 @@ public class CouchbaseTcmDictService implements TcmDictService {
     @Override
     public WordNode getWordTree() {
         WordNode rootNode = couchBaseQuery.get(generateWordNodeId(rootWord), WordNode.class);
+        if (rootNode == null) {
+            return null;
+        }
         rootNode.setWord(rootWord);
         buildWordTree(rootNode);
 

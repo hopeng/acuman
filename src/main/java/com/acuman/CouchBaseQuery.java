@@ -55,15 +55,15 @@ public final class CouchBaseQuery {
         Document rawJsonDocument = RawJsonDocument.create(docId, JsonUtils.toJson(object));
         Document result = bucket.upsert(rawJsonDocument);
 
-        log.info("upsert object: " + result.content());
+        log.info("upserted object: " + result.content());
         return JsonUtils.fromJson((String) result.content(), (Class<T>) object.getClass());
     }
 
     public <T> T get(String docId, Class<T> clazz) {
+        log.info("getting object by id: " + docId);
         Document result = bucket.get(docId);
 
-        log.info("getting object by id: " + docId);
-        return JsonUtils.fromJson((String) result.content(), clazz);
+        return result == null ? null : JsonUtils.fromJson(result.content().toString(), clazz);
     }
 
     public ZhEnWord getZhEnWord(String docId) {

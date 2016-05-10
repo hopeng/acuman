@@ -30,6 +30,18 @@ md-sidenav.md-closed.md-locked-open-add-active {
   height: 48px;
 }
 
+#drop{
+  border:2px dashed #bbb;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  border-radius:5px;
+  padding:25px;
+  text-align:center;
+  font:16pt bold,"Vollkorn";
+  color:#bbb;
+  max-width: 800px;
+}
+
 /* todo mentio specific clean up later*/
 .menu-highlighted {
   font-weight: bold;

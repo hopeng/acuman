@@ -152,12 +152,6 @@ angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
         this.editedInputName = editedInputName;
         $mdSidenav('searchDictPane').open();
       };
-      this.onCloseSearchDictPane = function (ev, editedInputName) {
-        this.editedInputName = editedInputName;
-        this.tchDictSearchResult = [];
-        
-        $mdSidenav('searchDictPane').close();
-      };
 
       this.appendToInput = function (word) {
         var appendedContent = '';

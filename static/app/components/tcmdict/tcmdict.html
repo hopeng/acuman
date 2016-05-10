@@ -19,14 +19,14 @@
       <md-button class="md-icon-button" type="submit">
         <md-icon>search</md-icon>
       </md-button>
-      <div flex></div>
+      <div id="drop">Drop an XLSX file here to import words</div>
     </div>
     </form>
 
     <!--search result-->
-    <div ng-show="svc.tchDictSearchResult.length > 0">
+    <div ng-show="svc.tcmDictSearchResult.length > 0">
       <div>
-      <md-list-item ng-repeat="word in svc.tchDictSearchResult">
+      <md-list-item ng-repeat="word in svc.tcmDictSearchResult">
         <md-button class="md-icon-button" ng-click="svc.onTagWord($event, word)">
           <md-icon>add</md-icon>
           <md-tooltip>Add to Category</md-tooltip>
@@ -47,9 +47,11 @@
   </md-card-content>
 </md-card>
 
+<md-card ng-show="false" ng-if="svc.allTags.length > 0">
 
+</md-card>
 <!--tags in tabs-->
-<md-card ng-if="svc.allTags.length > 0">
+<md-card ng-show="false" ng-if="svc.allTags.length > 0">
   <!--todo add header for category-->
 
   <md-tabs md-selected="svc.selectedTabIndex" md-dynamic-height="true">
@@ -80,9 +82,11 @@
       </div>
     </md-tab>
   </md-tabs>
+
+  <md-button aria-label="x" ng-click="svc.onAddTag($event)">
+    <md-icon>add</md-icon>
+    Add Category
+  </md-button>
 </md-card>
 
-<md-button aria-label="x" ng-click="svc.onAddTag($event)">
-  <md-icon>add</md-icon>
-  Add Category
-</md-button>
+

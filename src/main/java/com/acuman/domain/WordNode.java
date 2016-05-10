@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * todo extend auditable
  */
-public class WordNode {
+public class WordNode extends Auditable {
     private String type = CbDocType.WordNode;
     private String wordId;
     private ZhEnWord word;  // set to null before persisting
@@ -34,6 +34,9 @@ public class WordNode {
 
     public String getWordNodeId() {
         return CouchbaseTcmDictService.wordNodeId(wordId);
+    }
+
+    public void setWordNodeId(String ignored) {
     }
 
     public ZhEnWord getWord() {
