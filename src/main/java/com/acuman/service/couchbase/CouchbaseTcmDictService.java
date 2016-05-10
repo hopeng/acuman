@@ -175,10 +175,8 @@ public class CouchbaseTcmDictService implements TcmDictService {
 
     @Override
     public ZhEnWord exactWordMatch(String csOrCcWord) {
-//    todo or condition not wrapped cause issue with 人中
-        Statement statement = select("*").from(bucket.name()).where(
-                x("type").eq(s(ZhEnWord))
-                        .and((x("cs").eq(s(csOrCcWord)).or(x("cc").eq(s(csOrCcWord))))));
+        String whereClause = String.format("type='%s' and (cs='%s' or cc='%s')", ZhEnWord, csOrCcWord, csOrCcWord);
+        Statement statement = select("*").from(bucket.name()).where(whereClause);
         List<JsonObject> result = couchBaseQuery.query(statement);
 
         Assert.isTrue(result.size() <= 1, "more than one ZhEnWord " + csOrCcWord + " found");
@@ -190,7 +188,7 @@ public class CouchbaseTcmDictService implements TcmDictService {
     public List<JsonObject> lookupCustomWord(String word, int limit) {
 //        String condition = "type = 'CUSTOM-WORD' and cs like '%" + word + "%' or eng1 like '%" + word + "%' or py3 like '%" + word + "%' order by py3";
 //        N1qlQueryResult query = bucket.query(select("*").from(bucket.name()).where(condition).limit(limit));
-
+        // todo use raw string condition, or is not wrapped
         String wordLike = "%" + word + "%";
         Statement statement = select("*").from(bucket.name()).where(x("type").eq(s(ZhEnWord))
                 .and((x("cs").like(s(wordLike)
