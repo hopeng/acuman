@@ -1,6 +1,5 @@
 top left menu
-fix textarea
+fix textarea not auto grow properly
 user login
 
-Use Map for the xls tree data
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
+mdtab too slow when word list is long e.g. acupoint, only show top level children and get lower level ones from server side?

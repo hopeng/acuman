@@ -1,5 +1,5 @@
 <!--todo use ui-route. ng-route doesnt support multiple view and menu show as scrambled on load when it's outside ng-view. Need to move into each component to fix it-->
-<div ng-cloak layout="column">
+<div layout="column">
   <md-toolbar>
     <div class="md-toolbar-tools">
       <md-menu>
@@ -51,12 +51,10 @@
         <md-icon md-svg-icon="img/icons/ic_person_outline_white_24px.svg"></md-icon>
         <md-tooltip>Profile</md-tooltip>
       </md-button>
-<!--
-      <md-button class="md-primary size48" href="#/user-profile" aria-label="y">
-        <md-icon class="size48" md-svg-icon="img/icons/ic_person_outline_white_48px.svg"></md-icon>
-        <md-tooltip>User Profile</md-tooltip>
+      <md-button class="md-icon-button md-primary" href="#" aria-label="y">
+        <md-icon md-svg-icon="img/icons/ic_exit_to_app_white_24px.svg"></md-icon>
+        <md-tooltip>Logout</md-tooltip>
       </md-button>
--->
     </div>
   </md-toolbar>
 </div>

@@ -14,11 +14,11 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
         $log.debug('getting all tags ');
         zhEnWordsResource.get().$promise.then(function (response) {
           $log.debug('received wordTree ' + response);
-          self.rootWordNode = response;
-          // self.tagMap = response;
-          // self.allTags = Object.keys(self.tagMap).map(function (key) {
-          //   return self.tagMap[key];
-          // });
+          self.rootUiWordNode = response;
+          for (var i=0; i<self.rootUiWordNode.children.length; i++) {
+            var topLevelChild = self.rootUiWordNode.children[i];
+            self.allTags.push({ tagName: topLevelChild.cs, words: topLevelChild.children });
+          }
         })
       }
 
@@ -102,9 +102,9 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
       }
       // endregion xlsx import
 
-      this.rootWordNode = {};
-      this.allTags = [];  // todo remove
-      this.tagMap  = {};  // todo remove
+      this.rootUiWordNode = {};
+      this.allTags = [];
+
       getAllTags();
 
       this.searchTerm = null;

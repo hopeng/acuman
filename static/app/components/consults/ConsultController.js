@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
+angular.module('caseManagerApp.consults', ['ngResource'])
 
   .controller('ConsultController',
     function ($window, $resource, $mdDialog, $routeParams, $log, $mdToast, $timeout, $mdSidenav) {
@@ -13,7 +13,7 @@ angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
       var consultUpdator = $resource(CONF.URL.CONSULTS, null, {'update': {method: 'PUT'}});
       var consultResource = $resource(CONF.URL.CONSULTS);
 
-      var upsertConsult = function (consult) {
+      function upsertConsult (consult) {
         $log.debug('upserting cosultation: ', consult);
 
         var consultId = consult.consultId;
@@ -39,9 +39,9 @@ angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
             }
           );
         }
-      };
+      }
 
-      var deleteConsult = function (consult) {
+      function deleteConsult (consult) {
         $log.debug('deleting cosultation: ', consult);
 
         var consultId = consult.consultId;
@@ -55,9 +55,9 @@ angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
             showToast('Failed to delete consultation ' + consultId);
           }
         );
-      };
+      }
 
-      var showToast = function (message) {  // todo merge the same method in other service
+      function showToast (message) {  // todo merge the same method in other service
         $mdToast.hide().then(
           function () {
             var simpleToast = $mdToast.simple()
@@ -68,7 +68,23 @@ angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
             $mdToast.show(simpleToast);
           }
         );
-      };
+      }
+
+      var zhEnWordsResource = $resource(CONF.URL.ZH_EN_WORDS);
+
+      function getAllTags () {
+        $log.debug('getting all tags ');
+        zhEnWordsResource.get().$promise.then(function (response) {
+          $log.debug('received wordTree ' + response);
+          self.rootUiWordNode = response;
+          for (var i=0; i<self.rootUiWordNode.children.length; i++) {
+            var topLevelChild = self.rootUiWordNode.children[i];
+            self.allTags.push({ tagName: topLevelChild.cs, words: topLevelChild.children });
+          }
+        })
+      }
+      
+      getAllTags();
       // endregion local var
 
 
@@ -124,29 +140,6 @@ angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
           });
       };
 
-      //mentio specific clean up later
-      this.words = [];
-      var queryDebounce = $timeout(function(){});
-      var queryDebounceTime = 1500;
-
-      var tcmDictSearchResource = $resource('/v1/tcm-words');
-
-      this.lookupWord = function(term) {
-        $log.debug("lookupWord called");
-
-        $timeout.cancel(queryDebounce); //cancel the last timeout
-        queryDebounce = $timeout(function() {
-          tcmDictSearchResource.query({ q: term }).$promise.then(function (response) {
-            self.words = response;
-          })
-        }, queryDebounceTime);
-      };
-
-      this.displayWord = function(item) {
-        return item.cc + ' | ' + item.sc + ' | ' + item.eng1;
-      };
-      //mentio specific clean up later
-
       this.editedInputName = null;
       this.onOpenSearchDictPane = function (ev, editedInputName) {
         this.editedInputName = editedInputName;
@@ -166,16 +159,5 @@ angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
       };
 
       this.allTags = [];
-      var getAllTags = function () {
-        // todo move to a service and share
-        var tcmDictResource = $resource(CONF.URL.TCMDICT);
-        tcmDictResource.get({ allTags: true }).$promise.then(function (response) {
-          self.allTags = Object.keys(response).map(function (key) {
-            return response[key];
-          });
-        });
-      };
-      getAllTags();
-
       // endregion scope var
     });

@@ -20,48 +20,25 @@
   <md-card-content>
     <form name="userForm">
       <div>
-        <!--todo we may not need this clean up later-->
-         <mentio-menu
-             mentio-for="'theTextArea'"
-             mentio-trigger-char="'@'"
-             mentio-items="svc.words"
-             mentio-template-url="/words-mentions.tpl"
-             mentio-search="svc.lookupWord(term)"
-             mentio-select="svc.displayWord(item)"
-         ></mentio-menu>
-
-         <textarea ng-hide="true" mentio
-                   class="editor form-control"
-                   mentio-id="'theTextArea'"
-                   ng-model="svc.currentConsult.chiefComplaint"
-                   ng-trim="false"
-                   rows="6">
-         </textarea>
 
         <!--dictionary selection pane-->
+        <!--todo too slow-->
         <md-sidenav md-component-id="searchDictPane" class="md-sidenav-right">
           <md-content class="md-padding">
-            <md-tabs md-selected="svc.selectedTabIndex" md-dynamic-height="true">
-              <md-tab ng-repeat="tagAndWords in svc.allTags" label="{{tagAndWords.tagName}}">
-                <div layout="row">
-                  <md-list>
-                    <md-list-item ng-repeat="word in tagAndWords.words track by $index" ng-click="svc.appendToInput(word)" ng-if="$even" class="md-2-line">
+              <h4>Word Categories</h4>
+
+              <md-tabs md-selected="svc.selectedTabIndex" md-dynamic-height="true">
+                <md-tab ng-repeat="tagAndWords in svc.allTags" label="{{tagAndWords.tagName}}">
+                  <md-list layout="row" layout-wrap>
+                    <md-list-item ng-repeat="word in tagAndWords.words" ng-click="svc.appendToInput(word)" class="md-2-line">
                       <div class="md-list-item-text" layout="column">
                         <h4>{{ word.cc }} | {{ word.cs }}</h4>
                         <h4>{{ word.eng1 }}</h4>
                       </div>
                     </md-list-item>
                   </md-list>
-                  <md-list>
-                    <md-list-item ng-repeat="word in tagAndWords.words track by $index" ng-click="svc.appendToInput(word)" ng-if="$odd" class="md-2-line">
-                      <div class="md-list-item-text" layout="column">
-                        <h4>{{ word.cc }} | {{ word.cs }}</h4>
-                        <h4>{{ word.eng1 }}</h4>
-                      </div>
-                    </md-list-item>
-                  </md-list>
-                </div>
-              </md-tab>
+                </md-tab>
+              </md-tabs>
           </md-content>
         </md-sidenav>
 
