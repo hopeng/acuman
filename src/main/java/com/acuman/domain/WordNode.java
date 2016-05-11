@@ -7,12 +7,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * todo extend auditable
+ * WordNode is persisted to DB, while UiWordNode is used for UI display
  */
 public class WordNode extends Auditable {
     private String type = CbDocType.WordNode;
     private String wordId;
-    private ZhEnWord word;  // set to null before persisting
 
     private List<String> childWordId = new LinkedList<>();
 
@@ -37,14 +36,6 @@ public class WordNode extends Auditable {
     }
 
     public void setWordNodeId(String ignored) {
-    }
-
-    public ZhEnWord getWord() {
-        return word;
-    }
-
-    public void setWord(ZhEnWord word) {
-        this.word = word;
     }
 
     public String getType() {

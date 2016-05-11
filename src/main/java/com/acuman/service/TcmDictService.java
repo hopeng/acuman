@@ -1,6 +1,7 @@
 package com.acuman.service;
 
 import com.acuman.domain.TagAndWords;
+import com.acuman.domain.UiWordNode;
 import com.acuman.domain.WordNode;
 import com.acuman.domain.ZhEnWord;
 import com.couchbase.client.java.document.json.JsonObject;
@@ -38,6 +39,6 @@ public interface TcmDictService {
 
     Map<String, TagAndWords> getTagsAndWords();
 
-    WordNode getWordTree();
+    UiWordNode buildWordTree();
 
 }

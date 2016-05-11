@@ -4,6 +4,7 @@ import com.acuman.CbDocType;
 import com.acuman.CouchBaseQuery;
 import com.acuman.domain.Auditable;
 import com.acuman.domain.TagAndWords;
+import com.acuman.domain.UiWordNode;
 import com.acuman.domain.WordNode;
 import com.acuman.domain.ZhEnWord;
 import com.acuman.service.TcmDictService;
@@ -262,28 +263,33 @@ public class CouchbaseTcmDictService implements TcmDictService {
     }
 
     @Override
-    public WordNode getWordTree() {
+    public UiWordNode buildWordTree() {
         WordNode rootNode = couchBaseQuery.get(generateWordNodeId(rootWord), WordNode.class);
         if (rootNode == null) {
+            log.fatal("root WordNode doesn't exist for rootWord: " + rootWord.getCc());
             return null;
         }
-        rootNode.setWord(rootWord);
-        buildWordTree(rootNode);
+        UiWordNode rootUiWordNode = UiWordNode.fromWord(rootWord);
+        populateChildNodes(rootNode, rootUiWordNode);
 
-        return rootNode;
+        return rootUiWordNode;
     }
 
-    private void buildWordTree(WordNode parent) {
+    private void populateChildNodes(WordNode parent, UiWordNode uiParent) {
         for (String childWordId : parent.getChildWordId()) {
-            WordNode childNode = couchBaseQuery.getWordNode(wordNodeId(childWordId));
-            if (childNode == null) {
-                childNode = new WordNode(childWordId, new LinkedList<>());
+            ZhEnWord childWord = couchBaseQuery.getZhEnWord(childWordId);
+            if (childWord == null) {
+                log.fatal("childWordId {} doesn't exist for parent {}", childWordId, parent.getWordNodeId());
+                continue;
             }
-            ZhEnWord childWord = couchBaseQuery.getZhEnWord(childNode.getWordId());
-            childNode.setWord(childWord);
+            UiWordNode uiChildNode = UiWordNode.fromWord(childWord);
+            uiParent.addChild(uiChildNode);
 
             // recurse
-            buildWordTree(childNode);
+            WordNode childNode = couchBaseQuery.getWordNode(wordNodeId(childWordId));
+            if (childNode != null) {
+                populateChildNodes(childNode, uiChildNode);
+            }
         }
     }
 }

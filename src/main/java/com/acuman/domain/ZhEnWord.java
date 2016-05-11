@@ -9,26 +9,26 @@ public class ZhEnWord extends Auditable {
     private static final String non_breaking_space = "\u00A0";
 
     // word Id
-    private String mid;
+    protected String mid;
 
-    private String type = CbDocType.ZhEnWord;
+    protected String type = CbDocType.ZhEnWord;
 
     // traditional chinese
-    private String cc;
+    protected String cc;
 
     // simplified chinese
-    private String cs;
+    protected String cs;
 
     // pinyin with accent
-    private String py1;
+    protected String py1;
 
     // pinyin
-    private String py3;
+    protected String py3;
 
-    private String pic;
+    protected String pic;
 
     // english
-    private String eng1;
+    protected String eng1;
 
     public String getMid() {
         return mid;

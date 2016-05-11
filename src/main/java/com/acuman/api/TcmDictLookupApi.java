@@ -85,7 +85,7 @@ public class TcmDictLookupApi {
 
         get(API_TCM_ZhEn_WORD, (request, response) -> {
             log.info("getting wordTree");
-            return tcmDictService.getWordTree();
+            return tcmDictService.buildWordTree();
         });
 
         // remove tag from a word
