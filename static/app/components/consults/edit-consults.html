@@ -29,6 +29,9 @@
 
               <md-tabs md-selected="svc.selectedTabIndex" md-dynamic-height="true">
                 <md-tab ng-repeat="tagAndWords in svc.allTags" label="{{tagAndWords.tagName}}">
+                  <md-button class="md-icon-button">
+                    <md-icon>arrow_back</md-icon>
+                  </md-button>
                   <md-list layout="row" layout-wrap>
                     <md-list-item ng-repeat="word in tagAndWords.words" ng-click="svc.appendToInput(word)" class="md-2-line">
                       <div class="md-list-item-text" layout="column">

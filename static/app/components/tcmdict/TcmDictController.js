@@ -61,7 +61,8 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
         var wbData = {};
         workbook.SheetNames.forEach(function(sheetName) {
           var rows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
-          
+
+          var nonEmptyRows = [];
           if(rows.length > 0){
             for (var i=0; i<rows.length; i++) {
               var row = rows[i];
@@ -71,8 +72,11 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
                   delete row[fieldName];
                 }
               }
+              if (Object.keys(row).length > 0) {
+                nonEmptyRows.push(row);
+              }
             }
-            wbData[sheetName] = rows;
+            wbData[sheetName] = nonEmptyRows;
           }
         });
 

@@ -86,14 +86,15 @@ public class CouchbaseTcmDictService implements TcmDictService {
     @Override
     public ZhEnWord newZhEnWord(ZhEnWord zhEnWord) {
         zhEnWord.trimFields();
-        Assert.isTrue(isNotEmpty(zhEnWord.getCs()) || isNotEmpty(zhEnWord.getCc()), "chinese must be provided");
+        Assert.isTrue(isNotEmpty(zhEnWord.getCs()) || isNotEmpty(zhEnWord.getCc()),
+                "chinese must be provided for word: " + zhEnWord);
         Assert.isTrue(isNotEmpty(zhEnWord.getEng1()), "english must be provided");
 
         if (isEmpty(zhEnWord.getCc())) {
-            zhEnWord.setCc(HanLP.convertToTraditionalChinese(zhEnWord.getCs()));
+            zhEnWord.setCc(HanLP.convertToTraditionalChinese(zhEnWord.getCs()));    // todo conversion is crap find another tool
         }
         if (isEmpty(zhEnWord.getCs())) {
-            zhEnWord.setCs(HanLP.convertToTraditionalChinese(zhEnWord.getCc()));
+            zhEnWord.setCs(HanLP.convertToSimplifiedChinese(zhEnWord.getCc()));
         }
         if (isEmpty(zhEnWord.getPy3())) {
             zhEnWord.setPy3(HanLP.convertToPinyinString(zhEnWord.getCs(), " ", false));
