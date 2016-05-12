@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
+angular.module('caseManagerApp.consults', ['ngResource'])
 
   .controller('ConsultController',
     function ($window, $resource, $mdDialog, $routeParams, $log, $mdToast, $timeout, $mdSidenav) {
@@ -13,7 +13,7 @@ angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
       var consultUpdator = $resource(CONF.URL.CONSULTS, null, {'update': {method: 'PUT'}});
       var consultResource = $resource(CONF.URL.CONSULTS);
 
-      var upsertConsult = function (consult) {
+      function upsertConsult (consult) {
         $log.debug('upserting cosultation: ', consult);
 
         var consultId = consult.consultId;
@@ -39,9 +39,9 @@ angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
             }
           );
         }
-      };
+      }
 
-      var deleteConsult = function (consult) {
+      function deleteConsult (consult) {
         $log.debug('deleting cosultation: ', consult);
 
         var consultId = consult.consultId;
@@ -55,9 +55,9 @@ angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
             showToast('Failed to delete consultation ' + consultId);
           }
         );
-      };
+      }
 
-      var showToast = function (message) {  // todo merge the same method in other service
+      function showToast (message) {  // todo merge the same method in other service
         $mdToast.hide().then(
           function () {
             var simpleToast = $mdToast.simple()
@@ -68,7 +68,29 @@ angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
             $mdToast.show(simpleToast);
           }
         );
-      };
+      }
+
+      var zhEnWordsResource = $resource(CONF.URL.ZH_EN_WORDS);
+
+      function getAllTags () {
+        $log.debug('getting all tags');
+        zhEnWordsResource.get().$promise.then(function (response) {
+          $log.debug('received wordTree ' + response);
+          self.rootUiWordNode = response;
+          for (var i=0; i<self.rootUiWordNode.children.length; i++) {
+            var topLevelChild = self.rootUiWordNode.children[i];
+            // each tag is an instance of UiWordNode with some children
+            self.allTags.push(topLevelChild);
+          }
+          self.wordParentStacks = new Array(self.allTags.length);
+          for (var i=0; i<self.wordParentStacks.length; i++) {
+            // each tag has its own stack to keep track of expanded words, initialized as separate empty array
+            self.wordParentStacks[i] = [];
+          }
+        })
+      }
+      
+      getAllTags();
       // endregion local var
 
 
@@ -124,64 +146,52 @@ angular.module('caseManagerApp.consults', ['ngResource', 'mentio'])
           });
       };
 
-      //mentio specific clean up later
-      this.words = [];
-      var queryDebounce = $timeout(function(){});
-      var queryDebounceTime = 1500;
-
-      var tcmDictSearchResource = $resource('/v1/tcm-words');
-
-      this.lookupWord = function(term) {
-        $log.debug("lookupWord called");
-
-        $timeout.cancel(queryDebounce); //cancel the last timeout
-        queryDebounce = $timeout(function() {
-          tcmDictSearchResource.query({ q: term }).$promise.then(function (response) {
-            self.words = response;
-          })
-        }, queryDebounceTime);
-      };
-
-      this.displayWord = function(item) {
-        return item.cc + ' | ' + item.sc + ' | ' + item.eng1;
-      };
-      //mentio specific clean up later
-
       this.editedInputName = null;
       this.onOpenSearchDictPane = function (ev, editedInputName) {
         this.editedInputName = editedInputName;
         $mdSidenav('searchDictPane').open();
       };
-      this.onCloseSearchDictPane = function (ev, editedInputName) {
-        this.editedInputName = editedInputName;
-        this.tchDictSearchResult = [];
-        
-        $mdSidenav('searchDictPane').close();
-      };
 
-      this.appendToInput = function (word) {
-        var appendedContent = '';
-        if (this.currentConsult[this.editedInputName]) {
-            appendedContent += '\n';
+      this.onClickWord = function (word) {
+        if (word.children.length > 0) {
+          expandWord(word);
+        } else {
+          appendToInput(word);
         }
-        appendedContent += word.cs + ' ' + word.eng1;
-        if (!this.currentConsult[this.editedInputName]) {
-              this.currentConsult[this.editedInputName] = '';
-        }
-        this.currentConsult[this.editedInputName] += appendedContent;
       };
 
       this.allTags = [];
-      var getAllTags = function () {
-        // todo move to a service and share
-        var tcmDictResource = $resource(CONF.URL.TCMDICT);
-        tcmDictResource.get({ allTags: true }).$promise.then(function (response) {
-          self.allTags = Object.keys(response).map(function (key) {
-            return response[key];
-          });
-        });
-      };
-      getAllTags();
+      this.wordParentStacks = [];
 
+      this.onBackoutWordExpand = function () {
+        var previousTag = self.wordParentStacks[self.selectedTabIndex].pop();
+        if (previousTag) {
+          self.allTags[self.selectedTabIndex] = previousTag;
+        }
+      };
+      
+      this.getPreviousTag = function () {
+        return util.lastArrayElement(this.wordParentStacks[self.selectedTabIndex]);  
+      };
+
+      function expandWord (word) {
+        var selectedTag = self.allTags[self.selectedTabIndex];
+        self.wordParentStacks[self.selectedTabIndex].push(selectedTag); // save the current tag for backout later
+        self.allTags[self.selectedTabIndex] = word; // replace selectedTab with selected word and its children 
+      }
+
+      
+      function appendToInput (word) {
+        var appendedContent = '';
+        if (self.currentConsult[self.editedInputName]) {
+          appendedContent += '\n';
+        }
+        appendedContent += word.cs + ' ' + word.eng1;
+        if (!self.currentConsult[self.editedInputName]) {
+          self.currentConsult[self.editedInputName] = '';
+        }
+        self.currentConsult[self.editedInputName] += appendedContent;
+        showToast('Appended "' + appendedContent);
+      }
       // endregion scope var
     });

@@ -1,7 +1,10 @@
 package com.acuman.service.couchbase;
 
+import com.acuman.CbDocType;
 import com.acuman.CouchBaseQuery;
+import com.acuman.domain.Auditable;
 import com.acuman.service.PatientService;
+import com.acuman.util.AuthUtil;
 import com.acuman.util.DateUtils;
 import com.couchbase.client.java.Bucket;
 import com.couchbase.client.java.document.JsonDocument;
@@ -11,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import spark.utils.Assert;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.couchbase.client.java.query.Select.select;
@@ -23,9 +25,6 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 public class CouchbasePatientService implements PatientService {
     private static final Logger log = LogManager.getLogger(CouchbasePatientService.class);
 
-    public static final String DOCTOR = "fionafamilytcm";   // todo should come from session user
-
-    private static final String PATIENT_TYPE = "PATIENT";
     private static final String PATIENT_ID_SEQ = "patientIdSeq";
 
     private Bucket bucket = CouchBaseClient.getInstance().getBucket();
@@ -41,11 +40,10 @@ public class CouchbasePatientService implements PatientService {
         String id = generateId();
 
         JsonObject patient = JsonObject.fromJson(json);
-        patient.put("doctor", DOCTOR);
+        patient.put("doctor", AuthUtil.currentUser());
         patient.put("patientId", id);
         patient.put("type", "PATIENT");
-        patient.put("createdDate", LocalDateTime.now().toString());
-        patient.put("createdBy", DOCTOR);
+        Auditable.preInsert(patient);
         DateUtils.convertISODateToLocalDateString(patient, "dob");
         JsonDocument result = bucket.insert(JsonDocument.create(id, patient));
 
@@ -55,8 +53,8 @@ public class CouchbasePatientService implements PatientService {
     }
 
     private String generateId() {
-        long nextSquence = bucket.counter(PATIENT_ID_SEQ, 1, 1).content();
-        String id = PATIENT_TYPE + "-" + nextSquence;
+        long nextSequence = bucket.counter(PATIENT_ID_SEQ, 1, 1).content();
+        String id = CbDocType.Patient + "-" + String.format("%06d", nextSequence);
 
         return id;
     }
@@ -70,8 +68,7 @@ public class CouchbasePatientService implements PatientService {
         Assert.isTrue(id.equals(patientId), "provided id does not match json patientId");
         Assert.notNull(getPatient(id));
 
-        patient.put("lastUpdatedDate", LocalDateTime.now().toString());
-        patient.put("lastUpdatedBy", DOCTOR);
+        Auditable.preUpdate(patient);
         DateUtils.convertISODateToLocalDateString(patient, "dob");
         JsonDocument result = bucket.upsert(JsonDocument.create(id, patient));
 

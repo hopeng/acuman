@@ -7,33 +7,35 @@
   <md-card-content>
     <!--<br>-->
     <form name="dictSearchForm" ng-submit="dictSearchForm.$valid && svc.onSearchDict($event)">
-    <div layout="row">
-      <md-button class="md-icon-button" ng-click="svc.onClearForm($event, form)">
-        <md-icon>refresh</md-icon>
-        <md-tooltip>clear search</md-tooltip>
-      </md-button>
-      <md-input-container>
-        <label>Search TCM Keywords</label>
-        <input type="text" ng-model="svc.searchTerm" md-autofocus required>
-      </md-input-container>
-      <md-button class="md-icon-button" type="submit">
-        <md-icon>search</md-icon>
-      </md-button>
-      <div flex></div>
-    </div>
+      <div layout="row">
+        <md-button class="md-icon-button" ng-click="svc.onClearForm($event, form)">
+          <md-icon>refresh</md-icon>
+          <md-tooltip>clear search</md-tooltip>
+        </md-button>
+        <md-input-container>
+          <label>Search TCM Keywords</label>
+          <input type="text" ng-model="svc.searchTerm" md-autofocus required>
+        </md-input-container>
+        <md-button class="md-icon-button" type="submit">
+          <md-icon>search</md-icon>
+        </md-button>
+        <div id="drop">Drop an XLSX file here to import words</div>
+      </div>
     </form>
 
     <!--search result-->
-    <div ng-show="svc.tchDictSearchResult.length > 0">
+    <div ng-show="svc.tcmDictSearchResult.length > 0">
       <div>
-      <md-list-item ng-repeat="word in svc.tchDictSearchResult">
-        <md-button class="md-icon-button" ng-click="svc.onTagWord($event, word)">
-          <md-icon>add</md-icon>
-          <md-tooltip>Add to Category</md-tooltip>
-        </md-button>
-        <p> {{word.cc}} | {{word.cs}} | {{word.eng1}} </p>
-      </md-list-item>
-        </div>
+        <md-list-item ng-repeat="word in svc.tcmDictSearchResult">
+<!-- todo support this
+          <md-button class="md-icon-button" ng-click="svc.onTagWord($event, word)">
+            <md-icon>add</md-icon>
+            <md-tooltip>Add to Category</md-tooltip>
+          </md-button>
+-->
+          <p> {{word.cc}} | {{word.cs}} | {{word.eng1}} </p>
+        </md-list-item>
+      </div>
       <div>
         <br>
         <md-input-container>
@@ -47,42 +49,36 @@
   </md-card-content>
 </md-card>
 
-
 <!--tags in tabs-->
 <md-card ng-if="svc.allTags.length > 0">
-  <!--todo add header for category-->
+  <md-card-content>
+    <h4>Word Categories</h4>
 
-  <md-tabs md-selected="svc.selectedTabIndex" md-dynamic-height="true">
-    <md-tab ng-repeat="tagAndWords in svc.allTags" label="{{tagAndWords.tagName}}">
-      <div layout="row">
-      <md-list>
-        <md-list-item ng-repeat="word in tagAndWords.words track by $index" ng-if="$even" class="md-2-line">
-          <md-button ng-click="svc.onUnTagWord($event, word)" class="md-avatar md-small">
-            <md-icon>close</md-icon>
-          </md-button>
-          <div class="md-list-item-text" layout="column">
-            <h4>{{ word.cc }} | {{ word.cs }}</h4>
-            <h4>{{ word.eng1 }}</h4>
-          </div>
-        </md-list-item>
-      </md-list>
-      <md-list>
-        <md-list-item ng-repeat="word in tagAndWords.words track by $index" ng-if="$odd" class="md-2-line">
-          <md-button ng-click="svc.onUnTagWord($event, word)" class="md-avatar md-small">
-            <md-icon>close</md-icon>
-          </md-button>
-          <div class="md-list-item-text" layout="column">
-            <h4>{{ word.cc }} | {{ word.cs }}</h4>
-            <h4>{{ word.eng1 }}</h4>
-          </div>
-        </md-list-item>
-      </md-list>
-      </div>
-    </md-tab>
-  </md-tabs>
+    <md-tabs md-selected="svc.selectedTabIndex" md-dynamic-height="true">
+      <md-tab ng-repeat="tagAndWords in svc.allTags" label="{{tagAndWords.tagName}}">
+        <md-list layout="row" layout-wrap>
+          <md-list-item ng-repeat="word in tagAndWords.words" class="md-2-line">
+<!-- todo support this
+            <md-button ng-click="svc.onUnTagWord($event, word)" class="md-avatar md-small">
+              <md-icon>close</md-icon>
+            </md-button>
+-->
+            <div class="md-list-item-text" layout="column">
+              <h4>{{ word.cc }} | {{ word.cs }}</h4>
+              <h4>{{ word.eng1 }}</h4>
+            </div>
+          </md-list-item>
+        </md-list>
+      </md-tab>
+    </md-tabs>
+
+<!--
+    <md-button aria-label="x" ng-click="svc.onAddTag($event)">
+      <md-icon>add</md-icon>
+      Add Category
+    </md-button>
+-->
+  </md-card-content>
 </md-card>
 
-<md-button aria-label="x" ng-click="svc.onAddTag($event)">
-  <md-icon>add</md-icon>
-  Add Category
-</md-button>
+

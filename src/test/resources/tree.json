@@ -1,0 +1,62 @@
+{
+  "中医": [
+    {
+      "cs": "治法",
+      "eng1": "method of treatment "
+    },
+    {
+      "cs": "症状",
+      "eng1": "symptom"
+    },
+    {
+      "cs": "诊断",
+      "eng1": "diagnosis"
+    },
+    {
+      "cs": "穴位",
+      "eng1": "acupoint"
+    },
+    {
+      "cs": "中药",
+      "eng1": "herb"
+    }
+  ],
+  "治法": [
+    {
+      "cs": "食疗",
+      "eng1": "dietetic therapy "
+    },
+    {
+      "cs": "内治法 ",
+      "eng1": "internal treatment "
+    },
+    {
+      "cs": "解表法",
+      "eng1": " resolving superficies method "
+    },
+    {
+      "cs": "热因热用",
+      "eng1": "treating fa!se-heat syndrome with hot natured drugs "
+    },
+    {
+      "cs": "塞因塞用",
+      "eng1": "treating obstructive syndrome with tonifying method "
+    },
+    {
+      "cs": "通因通用",
+      "eng1": "treating incontinent syndrome with dredging method "
+    },
+    {
+      "cs": "调理阴阳",
+      "eng1": "coordinating yin and yang "
+    },
+    {
+      "cs": "虚者补其母",
+      "eng1": "reinforcing mother viscera for treating deficiency of child viscera"
+    },
+    {
+      "cs": "实者浑其子",
+      "eng1": "purging child viscera for treating excess of mother viscera"
+    }
+  ]
+}

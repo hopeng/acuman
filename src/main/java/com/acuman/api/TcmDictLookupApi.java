@@ -1,8 +1,11 @@
 package com.acuman.api;
 
 import com.acuman.domain.TagAndWords;
+import com.acuman.domain.ZhEnWord;
 import com.acuman.service.TcmDictService;
 import com.acuman.service.couchbase.CouchbaseTcmDictService;
+import com.acuman.util.JsonUtils;
+import com.couchbase.client.deps.com.fasterxml.jackson.core.type.TypeReference;
 import com.couchbase.client.java.document.json.JsonArray;
 import com.couchbase.client.java.document.json.JsonObject;
 import com.couchbase.client.java.transcoder.JacksonTransformers;
@@ -17,8 +20,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static com.acuman.ApiConstants.API_TCM_CUSTOM_WORD;
 import static com.acuman.ApiConstants.API_TCM_DICT;
+import static com.acuman.ApiConstants.API_TCM_ZhEn_WORD;
 import static spark.Spark.delete;
 import static spark.Spark.get;
 import static spark.Spark.post;
@@ -55,6 +58,7 @@ public class TcmDictLookupApi {
 
 //        add tag to a word
         post(API_TCM_DICT + "/:id", (request, response) -> {
+            log.info("tag body: " + request.body());
             String mid = request.params(":id");
             String tag = request.queryParams("tagName");
 
@@ -68,13 +72,20 @@ public class TcmDictLookupApi {
             }
         });
 
-//        todo create UI for this, use CouchbaseTcmDictServiceTest for now
-        post(API_TCM_CUSTOM_WORD, (request, response) -> {
-            String customWord = request.body();
-            log.info("creating custom word {}", customWord);
+        post(API_TCM_ZhEn_WORD, (request, response) -> {
+            Map<String, List<ZhEnWord>> tagWordMap = JsonUtils.fromJson(request.body(),
+                    new TypeReference<Map<String, List<ZhEnWord>>>() {});
+            log.info("creating zhEnWords, size = {}", tagWordMap.size());
+            log.debug("map: " + JsonUtils.toJson(tagWordMap.entrySet()));
 
-            JsonObject result = tcmDictService.newCustomWord(JsonObject.fromJson(customWord));
-            return result;
+            tagWordMap.entrySet().forEach(
+                    entry -> tcmDictService.newZhEnWords(entry.getKey(), entry.getValue()));
+            return "";
+        });
+
+        get(API_TCM_ZhEn_WORD, (request, response) -> {
+            log.info("getting wordTree");
+            return tcmDictService.buildWordTree();
         });
 
         // remove tag from a word

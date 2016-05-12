@@ -1,8 +1,11 @@
 package com.acuman.service.couchbase;
 
+import com.acuman.domain.ZhEnWord;
 import com.acuman.service.TcmDictService;
-import com.couchbase.client.java.document.json.JsonObject;
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
+
+import java.io.InputStreamReader;
 
 /**
  * Created by hopeng on 3/05/2016.
@@ -13,17 +16,20 @@ public class CouchbaseTcmDictServiceTest {
 
     @Test
     public void testInsertCustomWord() {
-        String cc = "滋陰解表";
-        String cs = "滋阴解表";
-        String py3 = "zi yin jie biao";
-        String eng1 = "nourishing yin to relieve superficies syndrome ";
+        ZhEnWord zhEnWord = new ZhEnWord();
+        zhEnWord.setCc("滋陰解表");
+        zhEnWord.setCs("滋阴解表");
+        zhEnWord.setEng1("nourishing yin to relieve superficies syndrome");
+        tcmDictService.newZhEnWord(zhEnWord);
+    }
 
-        JsonObject customWord = JsonObject.create()
-                .put("cc", cc)
-                .put("cs", cs)
-                .put("py3", py3)
-                .put("eng1", eng1);
+    @Test
+    public void processTreeTest() throws Exception {
+        String content = IOUtils.toString(new InputStreamReader(getClass().getResourceAsStream("/tree.json")));
+        System.out.println(content);
 
-        tcmDictService.newCustomWord(customWord);
+//        Map<String, List<ZhEnWord>> map = JsonUtils.fromJson(content, new TypeReference<Map<String, List<ZhEnWord>>>() {});
+//        map.entrySet().forEach(tcmDictService::newZhEnWords);
+//        System.out.println(JsonUtils.toJson(map.entrySet()));
     }
 }

@@ -1,6 +1,11 @@
 package com.acuman;
 
+import com.acuman.domain.WordNode;
+import com.acuman.domain.ZhEnWord;
+import com.acuman.util.JsonUtils;
 import com.couchbase.client.java.Bucket;
+import com.couchbase.client.java.document.Document;
+import com.couchbase.client.java.document.RawJsonDocument;
 import com.couchbase.client.java.document.json.JsonObject;
 import com.couchbase.client.java.query.N1qlQuery;
 import com.couchbase.client.java.query.N1qlQueryResult;
@@ -36,5 +41,36 @@ public final class CouchBaseQuery {
         return queryResult.allRows().stream()
                 .map(row -> row.value().getObject(bucket.name()))
                 .collect(Collectors.toList());
+    }
+
+    public <T> T insert(String docId, T object) {
+        Document rawJsonDocument = RawJsonDocument.create(docId, JsonUtils.toJson(object));
+        Document result = bucket.insert(rawJsonDocument);
+
+        log.info("inserted object: " + result.content());
+        return JsonUtils.fromJson((String) result.content(), (Class<T>) object.getClass());
+    }
+
+    public <T> T upsert(String docId, T object) {
+        Document rawJsonDocument = RawJsonDocument.create(docId, JsonUtils.toJson(object));
+        Document result = bucket.upsert(rawJsonDocument);
+
+        log.info("upserted object: " + result.content());
+        return JsonUtils.fromJson((String) result.content(), (Class<T>) object.getClass());
+    }
+
+    public <T> T get(String docId, Class<T> clazz) {
+        log.info("getting object by id: " + docId);
+        Document result = bucket.get(docId);
+
+        return result == null ? null : JsonUtils.fromJson(result.content().toString(), clazz);
+    }
+
+    public ZhEnWord getZhEnWord(String docId) {
+        return get(docId, ZhEnWord.class);
+    }
+
+    public WordNode getWordNode(String docId) {
+        return get(docId, WordNode.class);
     }
 }

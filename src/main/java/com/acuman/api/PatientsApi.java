@@ -1,7 +1,8 @@
 package com.acuman.api;
 
-import com.acuman.service.couchbase.CouchbasePatientService;
 import com.acuman.service.PatientService;
+import com.acuman.service.couchbase.CouchbasePatientService;
+import com.acuman.util.AuthUtil;
 import com.couchbase.client.java.document.json.JsonObject;
 import com.couchbase.client.java.error.DocumentDoesNotExistException;
 import org.apache.logging.log4j.LogManager;
@@ -70,7 +71,7 @@ public class PatientsApi {
         });
 
         get(API_PATIENTS, (request, response) -> {
-            List<JsonObject> result = patientService.getPatients(CouchbasePatientService.DOCTOR);
+            List<JsonObject> result = patientService.getPatients(AuthUtil.currentUser());
             return result;
         });
     }

@@ -8,5 +8,10 @@ var util = {
         object[arguments[i]] = new Date(object[arguments[i]]);
       }
     }
+  },
+  
+  lastArrayElement: function (array) {
+    return array && array.length > 0 ? array[array.length-1] : null;
   }
+  
 };

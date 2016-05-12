@@ -20,7 +20,7 @@ md-sidenav.md-locked-open,
 md-sidenav.md-closed.md-locked-open-add-active {
   min-width: 200px !important;
   width: 85vw !important;
-  max-width: 800px !important;
+  max-width: 700px !important;
   height: 90vw !important;
   max-height: 1024px !important;
 }
@@ -30,49 +30,27 @@ md-sidenav.md-closed.md-locked-open-add-active {
   height: 48px;
 }
 
-/* todo mentio specific clean up later*/
-.menu-highlighted {
-  font-weight: bold;
+#drop{
+  border:2px dashed #bbb;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  border-radius:5px;
+  padding:25px;
+  text-align:center;
+  font:16pt bold,"Vollkorn";
+  color:#bbb;
+  max-width: 800px;
 }
 
-.user-search {
-  box-shadow: 0 5px 15px rgba(0,0,0,.5);
-  border-radius: 6px;
-  -webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
-  box-shadow: 0 3px 9px rgba(0,0,0,.5);
-  background-clip: padding-box;
-  outline: 0;
+.md-icon-input-align {
+  margin-bottom: 20px;
 }
 
-.list-group-item.active {
-  background-color: #f5f5f5;
+.edit-page-size {
+  max-width: 1024px;
 }
 
-.user-search:hover {
-  cursor: pointer;
+/*disable md-tabs content change animation*/
+[role="tabpanel"] {
+  transition: none;
 }
-
-.user-search .list-group-item.active {
-  color: #fff;
-  background-color: #428bca;
-  border-color: #428bca;
-}
-
-.user-search .list-group-item.active .text-muted {
-  color: #ccc;
-}
-
-.user-search .list-group-item.active .text-primary {
-  color: #fff;
-}
-
-.user-search .list-group-item {
-  padding: 5px;
-}
-
-.user-search .user-photo {
-  max-width: 30px;
-  max-height: 30px;
-  border-radius: 15px;
-}
-/* todo mentio specific clean up later*/

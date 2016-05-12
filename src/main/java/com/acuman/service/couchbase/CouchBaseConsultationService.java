@@ -1,7 +1,10 @@
 package com.acuman.service.couchbase;
 
+import com.acuman.CbDocType;
 import com.acuman.CouchBaseQuery;
+import com.acuman.domain.Auditable;
 import com.acuman.service.ConsultationService;
+import com.acuman.util.AuthUtil;
 import com.acuman.util.DateUtils;
 import com.couchbase.client.java.Bucket;
 import com.couchbase.client.java.document.JsonDocument;
@@ -11,10 +14,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import spark.utils.Assert;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.acuman.service.couchbase.CouchbasePatientService.DOCTOR;
 import static com.couchbase.client.java.query.Select.select;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
@@ -37,12 +38,11 @@ public class CouchBaseConsultationService implements ConsultationService {
         String id = generateConsultId(patientId);
 
         JsonObject consultation = JsonObject.fromJson(json);
-        consultation.put("doctor", DOCTOR);
+        consultation.put("doctor", AuthUtil.currentUser());
         consultation.put("patientId", patientId);
         consultation.put("consultId", id);
-        consultation.put("type", "CONSULTATION");
-        consultation.put("createdDate", LocalDateTime.now().toString());
-        consultation.put("createdBy", DOCTOR);
+        consultation.put("type", CbDocType.Consult);
+        Auditable.preInsert(consultation);
         DateUtils.convertISODateToLocalDateString(consultation, "visitedOn");
         JsonDocument result = bucket.insert(JsonDocument.create(id, consultation));
 
@@ -52,8 +52,8 @@ public class CouchBaseConsultationService implements ConsultationService {
     }
 
     private String generateConsultId(String patientId) {
-        long nextSquence = bucket.counter(CONSULTATION_ID_SEQ, 1, 1).content();
-        String id = patientId + CONSULTATION_PREFIX + nextSquence;
+        long nextSequence = bucket.counter(CONSULTATION_ID_SEQ, 1, 1).content();
+        String id = patientId + CONSULTATION_PREFIX + String.format("%06d", nextSequence);
 
         return id;
     }
@@ -67,8 +67,7 @@ public class CouchBaseConsultationService implements ConsultationService {
         Assert.isTrue(id.equals(consultId), "provided id does not match json consultId");
         Assert.notNull(getConsultation(id));
 
-        consultation.put("lastUpdatedDate", LocalDateTime.now().toString());
-        consultation.put("lastUpdatedBy", DOCTOR);
+        Auditable.preUpdate(consultation);
         DateUtils.convertISODateToLocalDateString(consultation, "visitedOn");
         JsonDocument result = bucket.upsert(JsonDocument.create(id, consultation));
 
