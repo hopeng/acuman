@@ -20,7 +20,7 @@ md-sidenav.md-locked-open,
 md-sidenav.md-closed.md-locked-open-add-active {
   min-width: 200px !important;
   width: 85vw !important;
-  max-width: 800px !important;
+  max-width: 700px !important;
   height: 90vw !important;
   max-height: 1024px !important;
 }
@@ -42,7 +42,15 @@ md-sidenav.md-closed.md-locked-open-add-active {
   max-width: 800px;
 }
 
+.md-icon-input-align {
+  margin-bottom: 20px;
+}
+
+.edit-page-size {
+  max-width: 1024px;
+}
+
 /*disable md-tabs content change animation*/
-/*[role="tabpanel"] {*/
-  /*transition: none;*/
-/*}*/
+[role="tabpanel"] {
+  transition: none;
+}

@@ -73,13 +73,19 @@ angular.module('caseManagerApp.consults', ['ngResource'])
       var zhEnWordsResource = $resource(CONF.URL.ZH_EN_WORDS);
 
       function getAllTags () {
-        $log.debug('getting all tags ');
+        $log.debug('getting all tags');
         zhEnWordsResource.get().$promise.then(function (response) {
           $log.debug('received wordTree ' + response);
           self.rootUiWordNode = response;
           for (var i=0; i<self.rootUiWordNode.children.length; i++) {
             var topLevelChild = self.rootUiWordNode.children[i];
-            self.allTags.push({ tagName: topLevelChild.cs, words: topLevelChild.children });
+            // each tag is an instance of UiWordNode with some children
+            self.allTags.push(topLevelChild);
+          }
+          self.wordParentStacks = new Array(self.allTags.length);
+          for (var i=0; i<self.wordParentStacks.length; i++) {
+            // each tag has its own stack to keep track of expanded words, initialized as separate empty array
+            self.wordParentStacks[i] = [];
           }
         })
       }
@@ -146,18 +152,46 @@ angular.module('caseManagerApp.consults', ['ngResource'])
         $mdSidenav('searchDictPane').open();
       };
 
-      this.appendToInput = function (word) {
-        var appendedContent = '';
-        if (this.currentConsult[this.editedInputName]) {
-            appendedContent += '\n';
+      this.onClickWord = function (word) {
+        if (word.children.length > 0) {
+          expandWord(word);
+        } else {
+          appendToInput(word);
         }
-        appendedContent += word.cs + ' ' + word.eng1;
-        if (!this.currentConsult[this.editedInputName]) {
-              this.currentConsult[this.editedInputName] = '';
-        }
-        this.currentConsult[this.editedInputName] += appendedContent;
       };
 
       this.allTags = [];
+      this.wordParentStacks = [];
+
+      this.onBackoutWordExpand = function () {
+        var previousTag = self.wordParentStacks[self.selectedTabIndex].pop();
+        if (previousTag) {
+          self.allTags[self.selectedTabIndex] = previousTag;
+        }
+      };
+      
+      this.getPreviousTag = function () {
+        return util.lastArrayElement(this.wordParentStacks[self.selectedTabIndex]);  
+      };
+
+      function expandWord (word) {
+        var selectedTag = self.allTags[self.selectedTabIndex];
+        self.wordParentStacks[self.selectedTabIndex].push(selectedTag); // save the current tag for backout later
+        self.allTags[self.selectedTabIndex] = word; // replace selectedTab with selected word and its children 
+      }
+
+      
+      function appendToInput (word) {
+        var appendedContent = '';
+        if (self.currentConsult[self.editedInputName]) {
+          appendedContent += '\n';
+        }
+        appendedContent += word.cs + ' ' + word.eng1;
+        if (!self.currentConsult[self.editedInputName]) {
+          self.currentConsult[self.editedInputName] = '';
+        }
+        self.currentConsult[self.editedInputName] += appendedContent;
+        showToast('Appended "' + appendedContent);
+      }
       // endregion scope var
     });

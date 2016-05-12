@@ -1,4 +1,4 @@
-<md-card>
+<md-card class="edit-page-size">
   <md-card-title>
     <md-card-title-text>
       <span class="md-headline">Patient Detail</span>
@@ -24,7 +24,7 @@
         </md-input-container>
       </div>
 
-      <div layout="row">
+      <div layout-gt-xs="row">
         <md-input-container class="md-block">
           <label>Phone</label>
           <input ng-model="svc.currentPatient.phone">
@@ -39,39 +39,43 @@
         </md-input-container>
       </div>
 
-      <div layout="row">
+      <div layout-gt-xs="row">
         <md-input-container class="md-block">
+          <!--todo not highlighted to red if choice is empty-->
           <label>Gender</label>
           <md-select ng-model="svc.currentPatient.gender" required>
             <md-option ng-repeat="g in ['', 'Male', 'Female']" value="{{g}}">
               {{g}}
             </md-option>
           </md-select>
+          <div ng-messages="userForm.status.$error">
+            <div ng-message="required">Gender required</div>
+          </div>
         </md-input-container>
+        <br>
         <md-input-container class="md-block">
           <label>Heal Fund Provider</label>
-          <md-select ng-model="svc.currentPatient.healthFund">
+          <md-select ng-model="svc.currentPatient.healthFund" style="min-width: 160px">
             <md-option ng-repeat="h in svc.healthFundList" value="{{h.code}}">
               {{h.desc}}
             </md-option>
           </md-select>
         </md-input-container>
-        <md-input-container class="md-block">
-          <label>Guardian</label>
-          <input ng-model="svc.currentPatient.guardian">
-        </md-input-container>
       </div>
 
       <br>
-
+      <md-input-container class="md-block">
+        <label>Guardian</label>
+        <input ng-model="svc.currentPatient.guardian">
+      </md-input-container>
       <md-input-container class="md-block">
         <label>Address</label>
-        <input ng-model="svc.currentPatient.address">
+        <textarea ng-model="svc.currentPatient.address"></textarea>
       </md-input-container>
 
       <md-input-container class="md-block">
         <label>Allergies</label>
-        <input ng-model="svc.currentPatient.allergies">
+        <textarea ng-model="svc.currentPatient.allergies"></textarea>
       </md-input-container>
 
       <md-button type="submit" class="md-raised md-primary" id="submit">Submit</md-button>
