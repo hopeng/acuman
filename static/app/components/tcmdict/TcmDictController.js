@@ -10,18 +10,6 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
       var tcmDictResource = $resource(CONF.URL.TCMDICT);
       var zhEnWordsResource = $resource(CONF.URL.ZH_EN_WORDS);
 
-      function getAllTags () {
-        $log.debug('getting all tags ');
-        zhEnWordsResource.get().$promise.then(function (response) {
-          $log.debug('received wordTree ' + response);
-          self.rootUiWordNode = response;
-          for (var i=0; i<self.rootUiWordNode.children.length; i++) {
-            var topLevelChild = self.rootUiWordNode.children[i];
-            self.allTags.push({ tagName: topLevelChild.cs, words: topLevelChild.children });
-          }
-        })
-      }
-
       function showToast (message) {  // todo merge the same method in other service
         $mdToast.hide().then(
           function () {
@@ -106,10 +94,53 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
       }
       // endregion xlsx import
 
-      this.rootUiWordNode = {};
-      this.allTags = [];
+      
+      var wordParentStacks = [];
+
+      function getAllTags () {
+        $log.debug('getting all tags');
+        zhEnWordsResource.get().$promise.then(function (response) {
+          $log.debug('received wordTree ' + response);
+          var rootUiWordNode = response;
+          for (var i=0; i<rootUiWordNode.children.length; i++) {
+            var topLevelChild = rootUiWordNode.children[i];
+            // each tag is an instance of UiWordNode with some children
+            self.allTags.push(topLevelChild);
+          }
+          wordParentStacks = [];
+          for (var i=0; i<self.allTags.length; i++) {
+            // each tag has its own stack to keep track of expanded words, initialized as separate empty array
+            wordParentStacks.push([]);
+          }
+        })
+      }
 
       getAllTags();
+
+      this.onClickWord = function (word) {
+        if (word.children.length > 0) {
+          expandWord(word);
+        }
+      };
+
+      this.allTags = [];
+
+      this.onBackoutWordExpand = function () {
+        var previousTag = wordParentStacks[self.selectedTabIndex].pop();
+        if (previousTag) {
+          self.allTags[self.selectedTabIndex] = previousTag;
+        }
+      };
+
+      this.getPreviousTag = function () {
+        return util.lastArrayElement(wordParentStacks[self.selectedTabIndex]);
+      };
+
+      function expandWord (word) {
+        var selectedTag = self.allTags[self.selectedTabIndex];
+        wordParentStacks[self.selectedTabIndex].push(selectedTag); // save the current tag for backout later
+        self.allTags[self.selectedTabIndex] = word; // replace selectedTab with selected word and its children 
+      }
 
       this.searchTerm = null;
       this.searchPageSize = 10;

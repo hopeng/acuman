@@ -71,21 +71,22 @@ angular.module('caseManagerApp.consults', ['ngResource'])
       }
 
       var zhEnWordsResource = $resource(CONF.URL.ZH_EN_WORDS);
+      var wordParentStacks = [];
 
       function getAllTags () {
         $log.debug('getting all tags');
         zhEnWordsResource.get().$promise.then(function (response) {
           $log.debug('received wordTree ' + response);
-          self.rootUiWordNode = response;
-          for (var i=0; i<self.rootUiWordNode.children.length; i++) {
-            var topLevelChild = self.rootUiWordNode.children[i];
+          var rootUiWordNode = response;
+          for (var i=0; i<rootUiWordNode.children.length; i++) {
+            var topLevelChild = rootUiWordNode.children[i];
             // each tag is an instance of UiWordNode with some children
             self.allTags.push(topLevelChild);
           }
-          self.wordParentStacks = new Array(self.allTags.length);
-          for (var i=0; i<self.wordParentStacks.length; i++) {
+          wordParentStacks = [];
+          for (var i=0; i<self.allTags.length; i++) {
             // each tag has its own stack to keep track of expanded words, initialized as separate empty array
-            self.wordParentStacks[i] = [];
+            wordParentStacks.push([]);
           }
         })
       }
@@ -161,22 +162,21 @@ angular.module('caseManagerApp.consults', ['ngResource'])
       };
 
       this.allTags = [];
-      this.wordParentStacks = [];
 
       this.onBackoutWordExpand = function () {
-        var previousTag = self.wordParentStacks[self.selectedTabIndex].pop();
+        var previousTag = wordParentStacks[self.selectedTabIndex].pop();
         if (previousTag) {
           self.allTags[self.selectedTabIndex] = previousTag;
         }
       };
       
       this.getPreviousTag = function () {
-        return util.lastArrayElement(this.wordParentStacks[self.selectedTabIndex]);  
+        return util.lastArrayElement(wordParentStacks[self.selectedTabIndex]);
       };
 
       function expandWord (word) {
         var selectedTag = self.allTags[self.selectedTabIndex];
-        self.wordParentStacks[self.selectedTabIndex].push(selectedTag); // save the current tag for backout later
+        wordParentStacks[self.selectedTabIndex].push(selectedTag); // save the current tag for backout later
         self.allTags[self.selectedTabIndex] = word; // replace selectedTab with selected word and its children 
       }
 
