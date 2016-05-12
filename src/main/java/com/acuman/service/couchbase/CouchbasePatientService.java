@@ -53,8 +53,8 @@ public class CouchbasePatientService implements PatientService {
     }
 
     private String generateId() {
-        long nextSquence = bucket.counter(PATIENT_ID_SEQ, 1, 1).content();
-        String id = CbDocType.Patient + "-" + nextSquence;
+        long nextSequence = bucket.counter(PATIENT_ID_SEQ, 1, 1).content();
+        String id = CbDocType.Patient + "-" + String.format("%06d", nextSequence);
 
         return id;
     }

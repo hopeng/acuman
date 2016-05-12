@@ -52,8 +52,8 @@ public class CouchBaseConsultationService implements ConsultationService {
     }
 
     private String generateConsultId(String patientId) {
-        long nextSquence = bucket.counter(CONSULTATION_ID_SEQ, 1, 1).content();
-        String id = patientId + CONSULTATION_PREFIX + nextSquence;
+        long nextSequence = bucket.counter(CONSULTATION_ID_SEQ, 1, 1).content();
+        String id = patientId + CONSULTATION_PREFIX + String.format("%06d", nextSequence);
 
         return id;
     }
