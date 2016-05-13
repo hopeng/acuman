@@ -19,7 +19,7 @@
         <md-button class="md-icon-button" type="submit">
           <md-icon>search</md-icon>
         </md-button>
-        <div id="drop">Drop an XLSX file here to import words</div>
+        <div ng-show="!svc.loadingXlsx" id="drop">Drop an XLSX file here to import words</div>
       </div>
     </form>
 
@@ -50,6 +50,7 @@
 </md-card>
 
 <!--tags in tabs-->
+<md-progress-linear ng-show="svc.loadingXlsx" md-mode="indeterminate"></md-progress-linear>
 <md-card ng-if="svc.allTags.length > 0">
   <md-card-content>
     <ng-include src="'app/components/common/word-tabs.html'"></ng-include>

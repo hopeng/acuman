@@ -14,9 +14,9 @@
             </md-button>
 -->
         <md-list-item ng-repeat="child in tag.children" ng-click="svc.onClickWord(child)" class="md-2-line">
-          <div class="md-list-item-text" layout="column">
-            <h4>{{ child.cc }} | {{ child.cs }}</h4>
-            <h4>{{ child.eng1 }}</h4>
+          <div class="md-list-item-text" style="width: 300px;  word-wrap: break-word;">
+            <p style="color: currentColor">{{ child.cc }} | {{ child.cs }}</p>
+            <p style="color: currentColor">{{ child.eng1 }}</p>
           </div>
         </md-list-item>
       </md-list>

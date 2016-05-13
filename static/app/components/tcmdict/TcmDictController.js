@@ -27,22 +27,21 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
       // region xlsx import
       var drop = document.getElementById('drop');
       function handleDrop(e) {
+        self.loadingXlsx = true;
         e.stopPropagation();
         e.preventDefault();
         var files = e.dataTransfer.files;
         var f = files[0];
-        {
-          var reader = new FileReader();
-          var fileName = f.name;
-          reader.onload = function(e) {
-            console.log("xlsx onload ", new Date());
-            var data = e.target.result;
-            var wb;
-            wb = XLSX.read(data, {type: 'binary'});
-            process_wb(wb, fileName);
-          };
-          reader.readAsBinaryString(f);
-        }
+        var reader = new FileReader();
+        var fileName = f.name;
+        reader.onload = function(e) {
+          console.log("xlsx onload ", new Date());
+          var data = e.target.result;
+          var wb;
+          wb = XLSX.read(data, {type: 'binary'});
+          process_wb(wb, fileName);
+        };
+        reader.readAsBinaryString(f);
       }
 
       function process_wb(workbook, fileName) {
@@ -73,10 +72,12 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
         zhEnWordsResource.save(wbData).$promise.then(
           function () {
             showToast("Successfully imported " + fileName);
+            self.loadingXlsx = false;
 
           },
           function () {
             showToast("FAILED to import " + fileName);
+            self.loadingXlsx = false;
           }
         );
       }
@@ -116,6 +117,9 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
       }
 
       getAllTags();
+      
+      // region scope var
+      this.loadingXlsx = false;
 
       this.onClickWord = function (word) {
         if (word.children.length > 0) {
@@ -211,5 +215,6 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
             self.selectedTabIndex = self.allTags.length - 1;
           }
         });
-      }
+      };
+      // endregion scope var
     });
