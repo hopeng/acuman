@@ -52,35 +52,7 @@
 <!--tags in tabs-->
 <md-card ng-if="svc.allTags.length > 0">
   <md-card-content>
-    <h4>Word Categories</h4>
-
-    <md-tabs md-selected="svc.selectedTabIndex" md-dynamic-height="true">
-      <md-tab ng-repeat="tag in svc.allTags" label="{{tag.cs}}">
-        <md-button ng-click="svc.onBackoutWordExpand()" ng-show="svc.getPreviousTag()">
-          <md-icon>arrow_back</md-icon>
-          {{svc.getPreviousTag().cs}}
-        </md-button>
-        <md-list layout="row" layout-wrap>
-          <!-- todo support this
-                      <md-button ng-click="svc.onUnTagWord($event, word)" class="md-avatar md-small">
-                        <md-icon>close</md-icon>
-                      </md-button>
-          -->
-          <md-list-item ng-repeat="child in tag.children" ng-click="svc.onClickWord(child)" class="md-2-line">
-            <div class="md-list-item-text" layout="column">
-              <h4>{{ child.cc }} | {{ child.cs }}</h4>
-              <h4>{{ child.eng1 }}</h4>
-            </div>
-          </md-list-item>
-        </md-list>
-      </md-tab>
-    </md-tabs>
-<!--
-    <md-button aria-label="x" ng-click="svc.onAddTag($event)">
-      <md-icon>add</md-icon>
-      Add Category
-    </md-button>
--->
+    <ng-include src="'app/components/common/word-tabs.html'"></ng-include>
   </md-card-content>
 </md-card>
 
