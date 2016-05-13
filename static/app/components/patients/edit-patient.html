@@ -19,30 +19,8 @@
           <input ng-model="svc.currentPatient.lastName" required>
         </md-input-container>
         <md-input-container class="md-block">
-          <label>Date Of Birth</label>
-          <input ng-model="svc.currentPatient.dob" type="date" required>
-        </md-input-container>
-      </div>
-
-      <div layout-gt-xs="row">
-        <md-input-container class="md-block">
-          <label>Phone</label>
-          <input ng-model="svc.currentPatient.phone">
-        </md-input-container>
-        <md-input-container class="md-block">
-          <label>Email</label>
-          <input ng-model="svc.currentPatient.email" type="email">
-        </md-input-container>
-        <md-input-container class="md-block">
-          <label>Occupation</label>
-          <input ng-model="svc.currentPatient.occupation">
-        </md-input-container>
-      </div>
-
-      <div layout-gt-xs="row">
-        <md-input-container class="md-block">
           <!--todo not highlighted to red if choice is empty-->
-          <label>Gender</label>
+          <label>Gender *</label>
           <md-select ng-model="svc.currentPatient.gender" required>
             <md-option ng-repeat="g in ['', 'Male', 'Female']" value="{{g}}">
               {{g}}
@@ -52,6 +30,26 @@
             <div ng-message="required">Gender required</div>
           </div>
         </md-input-container>
+      </div>
+
+      <div layout-gt-xs="row">
+        <md-input-container class="md-block">
+          <label>Date Of Birth</label>
+          <input ng-model="svc.currentPatient.dob" type="date">
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Phone</label>
+          <input ng-model="svc.currentPatient.phone">
+        </md-input-container>
+        <div flex>
+          <md-input-container class="md-block">
+            <label>Email</label>
+            <input ng-model="svc.currentPatient.email" type="email">
+          </md-input-container>
+        </div>
+      </div>
+
+      <div layout-gt-xs="row">
         <br>
         <md-input-container class="md-block">
           <label>Heal Fund Provider</label>
@@ -61,6 +59,13 @@
             </md-option>
           </md-select>
         </md-input-container>
+        <br>
+        <div flex>
+          <md-input-container class="md-block">
+            <label>Occupation</label>
+            <input ng-model="svc.currentPatient.occupation">
+          </md-input-container>
+        </div>
       </div>
 
       <br>

@@ -10,6 +10,9 @@ angular.module('caseManagerApp.patients', ['ngResource'])
 
       var patientUpdator = $resource(CONF.URL.PATIENTS, null, {'update': {method: 'PUT'}});
       var patientResource = $resource(CONF.URL.PATIENTS);
+      var editedPatientIndex = -1;
+      var oldPatientRecord = {};
+
       this.patientList = [];
       this.patientListPromise = patientResource.query().$promise;
       this.patientListPromise.then(function (data) {
@@ -25,9 +28,11 @@ angular.module('caseManagerApp.patients', ['ngResource'])
       //todo get user from server side
       this.doctor = 'Fiona Family TCM';
 
-      this.onPatientEdit = function (ev, patient) {
+      this.onPatientEdit = function (ev, patient, index) {
         this.currentPatient = patient;
         this.upserting = true;
+        editedPatientIndex = index;
+        oldPatientRecord = angular.copy(patient);
       };
 
       this.onSubmitPatient = function (ev) {
@@ -35,8 +40,9 @@ angular.module('caseManagerApp.patients', ['ngResource'])
         this.upserting = false;
       };
 
-      this.onCancelPatientForm = function (ev) {
-        this.upserting = false;
+      this.onCancelPatientForm = function (ev, patient) {
+        this.patientList[editedPatientIndex] = oldPatientRecord;
+        self.upserting = false;
       };
 
       this.onDeletePatient = function (ev) {

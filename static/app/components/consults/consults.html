@@ -43,9 +43,9 @@
         </tr>
         </thead>
         <tbody md-body>
-        <tr md-row ng-repeat="c in svc.consultsList">
+        <tr md-row ng-repeat="c in svc.consultsList track by $index">
           <td md-cell class="no-padding">
-            <md-button class="md-icon-button" ng-click="svc.onConsultEdit($event, c)">
+            <md-button class="md-icon-button" ng-click="svc.onConsultEdit($event, c, $index)">
               <md-icon>edit</md-icon>
             </md-button>
           </td>

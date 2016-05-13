@@ -40,6 +40,12 @@
     <form name="userForm">
       <br>
       <div layout="row">
+        <md-input-container class="md-block">
+          <label>Visited On</label>
+          <input ng-model="svc.currentConsult.visitedOn" type="date">
+        </md-input-container>
+      </div>
+      <div layout="row">
         <div flex>
           <md-input-container class="md-block">
             <label>Chief Complaint</label>
@@ -77,22 +83,16 @@
         </md-button>
       </div>
 
-      <div layout-gt-xs="row">
-        <md-input-container class="md-block">
-          <label>Visited On</label>
-          <input ng-model="svc.currentConsult.visitedOn" type="date">
-        </md-input-container>
-        <div layout="row">
-          <div flex>
-            <md-input-container class="md-block">
-              <label>Pulse</label>
-              <textarea ng-model="svc.currentConsult.pulse"></textarea>
-            </md-input-container>
-          </div>
-          <md-button ng-click="svc.onOpenSearchDictPane($event, 'pulse')" class="md-icon-button md-icon-input-align">
-            <md-icon>search</md-icon>
-          </md-button>
+      <div layout="row">
+        <div flex>
+          <md-input-container class="md-block">
+            <label>Pulse</label>
+            <textarea ng-model="svc.currentConsult.pulse"></textarea>
+          </md-input-container>
         </div>
+        <md-button ng-click="svc.onOpenSearchDictPane($event, 'pulse')" class="md-icon-button md-icon-input-align">
+          <md-icon>search</md-icon>
+        </md-button>
       </div>
 
       <div layout="row">

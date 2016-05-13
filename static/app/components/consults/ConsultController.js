@@ -90,6 +90,9 @@ angular.module('caseManagerApp.consults', ['ngResource'])
           }
         })
       }
+
+      var editedConsultIndex = -1;
+      var oldConsultRecord = {};
       
       getAllTags();
       // endregion local var
@@ -108,7 +111,7 @@ angular.module('caseManagerApp.consults', ['ngResource'])
         self.consultsList = data;
       });
 
-      this.onConsultEdit = function (ev, consult) {
+      this.onConsultEdit = function (ev, consult, index) {
         var isInsertion = !consult || !consult.consultId;
         if (isInsertion) {
           // init the record with default value
@@ -117,6 +120,8 @@ angular.module('caseManagerApp.consults', ['ngResource'])
 
         this.currentConsult = consult;
         this.upserting = true;
+        editedConsultIndex = index;
+        oldConsultRecord = angular.copy(consult);
       };
 
       this.onSubmitConsult = function (ev, form) {
@@ -128,6 +133,7 @@ angular.module('caseManagerApp.consults', ['ngResource'])
       };
 
       this.onCancelConsultForm = function (ev) {
+        this.consultsList[editedConsultIndex] = oldConsultRecord;
         this.upserting = false;
       };
 
