@@ -121,12 +121,6 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
       // region scope var
       this.loadingXlsx = false;
 
-      this.onClickWord = function (word) {
-        if (word.children.length > 0) {
-          expandWord(word);
-        }
-      };
-
       this.allTags = [];
 
       this.onBackoutWordExpand = function () {
@@ -140,11 +134,11 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
         return util.lastArrayElement(wordParentStacks[self.selectedTabIndex]);
       };
 
-      function expandWord (word) {
+      this.onExpandWord = function (ev, word) {
         var selectedTag = self.allTags[self.selectedTabIndex];
         wordParentStacks[self.selectedTabIndex].push(selectedTag); // save the current tag for backout later
         self.allTags[self.selectedTabIndex] = word; // replace selectedTab with selected word and its children 
-      }
+      };
 
       this.searchTerm = null;
       this.searchPageSize = 10;

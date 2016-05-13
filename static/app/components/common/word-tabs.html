@@ -8,16 +8,16 @@
         {{svc.getPreviousTag().cs}}
       </md-button>
       <md-list layout="row" layout-wrap>
-        <!-- todo support this
-            <md-button ng-click="svc.onUnTagWord($event, word)" class="md-avatar md-small">
-              <md-icon>close</md-icon>
-            </md-button>
--->
-        <md-list-item ng-repeat="child in tag.children" ng-click="svc.onClickWord(child)" class="md-2-line">
-          <div class="md-list-item-text" style="width: 300px;  word-wrap: break-word;">
+        <md-list-item ng-repeat="child in tag.children" ng-click="svc.onClickWord(child)"
+                      class="md-2-line" style="width: 300px;  word-wrap: break-word;">
+          <div class="md-list-item-text">
             <p style="color: currentColor">{{ child.cc }} | {{ child.cs }}</p>
             <p style="color: currentColor">{{ child.eng1 }}</p>
           </div>
+          <md-button ng-if="child.children.length > 0" ng-click="svc.onExpandWord($event, child)" class="md-avatar md-small">
+            <md-icon>expand_more</md-icon>
+            <!--<md-icon>more_horiz</md-icon>-->
+          </md-button>
         </md-list-item>
       </md-list>
     </md-tab>

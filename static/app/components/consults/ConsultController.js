@@ -160,11 +160,7 @@ angular.module('caseManagerApp.consults', ['ngResource'])
       };
 
       this.onClickWord = function (word) {
-        if (word.children.length > 0) {
-          expandWord(word);
-        } else {
-          appendToInput(word);
-        }
+        appendToInput(word);
       };
 
       this.allTags = [];
@@ -180,12 +176,11 @@ angular.module('caseManagerApp.consults', ['ngResource'])
         return util.lastArrayElement(wordParentStacks[self.selectedTabIndex]);
       };
 
-      function expandWord (word) {
+      this.onExpandWord = function (ev, word) {
         var selectedTag = self.allTags[self.selectedTabIndex];
         wordParentStacks[self.selectedTabIndex].push(selectedTag); // save the current tag for backout later
         self.allTags[self.selectedTabIndex] = word; // replace selectedTab with selected word and its children 
-      }
-
+      };
       
       function appendToInput (word) {
         var appendedContent = '';
