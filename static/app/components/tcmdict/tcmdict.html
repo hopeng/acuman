@@ -3,7 +3,7 @@
 <div ng-init="svc = tcmDictCtrl"></div>
 
 <!--dictionary search pane-->
-<md-card>
+<md-card ng-show="false">
   <md-card-content>
     <!--<br>-->
     <form name="dictSearchForm" ng-submit="dictSearchForm.$valid && svc.onSearchDict($event)">
@@ -19,7 +19,6 @@
         <md-button class="md-icon-button" type="submit">
           <md-icon>search</md-icon>
         </md-button>
-        <div ng-show="!svc.loadingXlsx" id="drop">Drop an XLSX file here to import words</div>
       </div>
     </form>
 
@@ -49,10 +48,14 @@
   </md-card-content>
 </md-card>
 
+<div ng-show="!svc.loadingXlsx" id="drop">Drop an XLSX file here to import new words</div>
+
 <!--tags in tabs-->
 <md-progress-linear ng-show="svc.loadingXlsx" md-mode="indeterminate"></md-progress-linear>
 <md-card ng-if="svc.allTags.length > 0">
   <md-card-content>
+    <h4>Word Categories</h4>
+
     <ng-include src="'app/components/common/word-tabs.html'"></ng-include>
   </md-card-content>
 </md-card>

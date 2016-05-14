@@ -20,7 +20,7 @@ md-sidenav.md-locked-open,
 md-sidenav.md-closed.md-locked-open-add-active {
   min-width: 200px !important;
   width: 85vw !important;
-  max-width: 700px !important;
+  max-width: 880px !important;
   height: 90vw !important;
   max-height: 1024px !important;
 }

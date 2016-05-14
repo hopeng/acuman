@@ -1,12 +1,12 @@
 package com.acuman.domain;
 
 import com.acuman.CbDocType;
+import com.acuman.util.StringUtils;
 
 /**
  * Created by hopeng on 8/05/2016.
  */
 public class ZhEnWord extends Auditable {
-    private static final String non_breaking_space = "\u00A0";
 
     // word Id
     protected String mid;
@@ -91,8 +91,8 @@ public class ZhEnWord extends Auditable {
     }
 
     public void trimFields() {
-        cs = cs == null ? null : cs.trim().replace(non_breaking_space,"");
-        cc = cc == null ? null : cc.trim().replace(non_breaking_space,"");
-        eng1 = eng1 == null ? null : eng1.trim().replace(non_breaking_space,"");
+        cs = StringUtils.trimNonBreaking(cs);
+        cc = StringUtils.trimNonBreaking(cc);
+        eng1 = StringUtils.trimNonBreaking(eng1);
     }
 }

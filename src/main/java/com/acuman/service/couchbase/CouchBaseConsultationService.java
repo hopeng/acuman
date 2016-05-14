@@ -78,7 +78,8 @@ public class CouchBaseConsultationService implements ConsultationService {
 
     @Override
     public JsonObject getConsultation(String id) {
-        return bucket.get(id, JsonDocument.class).content();
+        JsonDocument jsonDocument = bucket.get(id, JsonDocument.class);
+        return jsonDocument == null ? null : jsonDocument.content();
     }
 
     @Override

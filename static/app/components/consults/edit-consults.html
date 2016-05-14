@@ -13,8 +13,11 @@
 
     <!--dictionary selection pane. Don't put too many list items as it will be too slow-->
     <md-sidenav md-component-id="searchDictPane" class="md-sidenav-right">
+      <div>
+      <h4 style="text-align: center;">Click To Add Word To '{{svc.editedFieldLabel}}'</h4>
 
       <ng-include src="'app/components/common/word-tabs.html'"></ng-include>
+      </div>
     </md-sidenav>
 
     <!--consultation input fields-->
@@ -34,7 +37,7 @@
             <textarea ng-model="svc.currentConsult.chiefComplaint" required></textarea>
           </md-input-container>
         </div>
-        <md-button ng-click="svc.onOpenSearchDictPane($event, 'chiefComplaint')"
+        <md-button ng-click="svc.onOpenSearchDictPane($event, 'chiefComplaint', 'Chief Complaint')"
                    class="md-icon-button md-icon-input-align">
           <md-icon>search</md-icon>
         </md-button>
@@ -47,7 +50,7 @@
             <textarea ng-model="svc.currentConsult.medicalHistory"></textarea>
           </md-input-container>
         </div>
-        <md-button ng-click="svc.onOpenSearchDictPane($event, 'medicalHistory')"
+        <md-button ng-click="svc.onOpenSearchDictPane($event, 'medicalHistory', 'Medical History')"
                    class="md-icon-button md-icon-input-align">
           <md-icon>search</md-icon>
         </md-button>
@@ -60,7 +63,7 @@
             <textarea ng-model="svc.currentConsult.symptoms"></textarea>
           </md-input-container>
         </div>
-        <md-button ng-click="svc.onOpenSearchDictPane($event, 'symptoms')" class="md-icon-button md-icon-input-align">
+        <md-button ng-click="svc.onOpenSearchDictPane($event, 'symptoms', 'Symptoms')" class="md-icon-button md-icon-input-align">
           <md-icon>search</md-icon>
         </md-button>
       </div>
@@ -72,7 +75,7 @@
             <textarea ng-model="svc.currentConsult.pulse"></textarea>
           </md-input-container>
         </div>
-        <md-button ng-click="svc.onOpenSearchDictPane($event, 'pulse')" class="md-icon-button md-icon-input-align">
+        <md-button ng-click="svc.onOpenSearchDictPane($event, 'pulse', 'Pulse')" class="md-icon-button md-icon-input-align">
           <md-icon>search</md-icon>
         </md-button>
       </div>
@@ -84,7 +87,7 @@
             <textarea ng-model="svc.currentConsult.tongue"></textarea>
           </md-input-container>
         </div>
-        <md-button ng-click="svc.onOpenSearchDictPane($event, 'tongue')" class="md-icon-button md-icon-input-align">
+        <md-button ng-click="svc.onOpenSearchDictPane($event, 'tongue', 'Tongue')" class="md-icon-button md-icon-input-align">
           <md-icon>search</md-icon>
         </md-button>
       </div>
@@ -92,11 +95,11 @@
       <div layout="row">
         <div flex>
           <md-input-container class="md-block">
-            <label>TCM diagnosis</label>
+            <label>TCM Diagnosis</label>
             <textarea ng-model="svc.currentConsult.tcmDiagnosis"></textarea>
           </md-input-container>
         </div>
-        <md-button ng-click="svc.onOpenSearchDictPane($event, 'tcmDiagnosis')" class="md-icon-button md-icon-input-align">
+        <md-button ng-click="svc.onOpenSearchDictPane($event, 'tcmDiagnosis', 'TCM Diagnosis')" class="md-icon-button md-icon-input-align">
           <md-icon>search</md-icon>
         </md-button>
       </div>
@@ -108,7 +111,7 @@
             <textarea ng-model="svc.currentConsult.tcmSyndromeDiff"></textarea>
           </md-input-container>
         </div>
-        <md-button ng-click="svc.onOpenSearchDictPane($event, 'tcmSyndromeDiff')" class="md-icon-button md-icon-input-align">
+        <md-button ng-click="svc.onOpenSearchDictPane($event, 'tcmSyndromeDiff', 'TCM syndrome differentiation')" class="md-icon-button md-icon-input-align">
           <md-icon>search</md-icon>
         </md-button>
       </div>
@@ -120,7 +123,7 @@
             <textarea ng-model="svc.currentConsult.westernMedicineDiagnosis"></textarea>
           </md-input-container>
         </div>
-        <md-button ng-click="svc.onOpenSearchDictPane($event, 'westernMedicineDiagnosis')" class="md-icon-button md-icon-input-align">
+        <md-button ng-click="svc.onOpenSearchDictPane($event, 'westernMedicineDiagnosis', 'Western Medicine Diagnosis')" class="md-icon-button md-icon-input-align">
           <md-icon>search</md-icon>
         </md-button>
       </div>
@@ -128,11 +131,11 @@
       <div layout="row">
         <div flex>
           <md-input-container class="md-block">
-            <label>Principle of treatment</label>
+            <label>Principle Of Treatment</label>
             <textarea ng-model="svc.currentConsult.principleOfTreatment"></textarea>
           </md-input-container>
         </div>
-        <md-button ng-click="svc.onOpenSearchDictPane($event, 'principleOfTreatment')" class="md-icon-button md-icon-input-align">
+        <md-button ng-click="svc.onOpenSearchDictPane($event, 'principleOfTreatment', 'Principle Of Treatment')" class="md-icon-button md-icon-input-align">
           <md-icon>search</md-icon>
         </md-button>
       </div>
@@ -144,7 +147,7 @@
             <textarea ng-model="svc.currentConsult.treatment"></textarea>
           </md-input-container>
         </div>
-        <md-button ng-click="svc.onOpenSearchDictPane($event, 'treatment')" class="md-icon-button md-icon-input-align">
+        <md-button ng-click="svc.onOpenSearchDictPane($event, 'treatment', 'Treatment')" class="md-icon-button md-icon-input-align">
           <md-icon>search</md-icon>
         </md-button>
       </div>
@@ -156,7 +159,7 @@
             <textarea ng-model="svc.currentConsult.acupoints"></textarea>
           </md-input-container>
         </div>
-        <md-button ng-click="svc.onOpenSearchDictPane($event, 'acupoints')" class="md-icon-button md-icon-input-align">
+        <md-button ng-click="svc.onOpenSearchDictPane($event, 'acupoints', 'Acupoints')" class="md-icon-button md-icon-input-align">
           <md-icon>search</md-icon>
         </md-button>
       </div>
@@ -168,7 +171,7 @@
             <textarea ng-model="svc.currentConsult.herbs"></textarea>
           </md-input-container>
         </div>
-        <md-button ng-click="svc.onOpenSearchDictPane($event, 'herbs')" class="md-icon-button md-icon-input-align">
+        <md-button ng-click="svc.onOpenSearchDictPane($event, 'herbs', 'Herbs')" class="md-icon-button md-icon-input-align">
           <md-icon>search</md-icon>
         </md-button>
       </div>
@@ -180,7 +183,7 @@
             <textarea ng-model="svc.currentConsult.advice"></textarea>
           </md-input-container>
         </div>
-        <md-button ng-click="svc.onOpenSearchDictPane($event, 'advice')" class="md-icon-button md-icon-input-align">
+        <md-button ng-click="svc.onOpenSearchDictPane($event, 'advice', 'Advice')" class="md-icon-button md-icon-input-align">
           <md-icon>search</md-icon>
         </md-button>
       </div>

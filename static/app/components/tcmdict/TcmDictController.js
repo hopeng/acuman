@@ -76,6 +76,7 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
 
           },
           function () {
+            //todo show exception message for 404 error
             showToast("FAILED to import " + fileName);
             self.loadingXlsx = false;
           }

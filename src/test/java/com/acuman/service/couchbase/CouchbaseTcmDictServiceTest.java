@@ -1,7 +1,9 @@
 package com.acuman.service.couchbase;
 
+import com.acuman.CouchBaseQuery;
 import com.acuman.domain.ZhEnWord;
 import com.acuman.service.TcmDictService;
+import com.couchbase.client.java.Bucket;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
@@ -31,5 +33,12 @@ public class CouchbaseTcmDictServiceTest {
 //        Map<String, List<ZhEnWord>> map = JsonUtils.fromJson(content, new TypeReference<Map<String, List<ZhEnWord>>>() {});
 //        map.entrySet().forEach(tcmDictService::newZhEnWords);
 //        System.out.println(JsonUtils.toJson(map.entrySet()));
+    }
+
+    @Test
+    public void cleanUp() {
+        Bucket bucket = CouchBaseClient.getInstance().getTcmDictBucket();
+        CouchBaseQuery couchBaseQuery = new CouchBaseQuery(bucket);
+        couchBaseQuery.query("delete from tcmdict where (type='ZhEnWord' or type='WordNode') and eng1 != 'Traditional Chinese Medicine'");
     }
 }

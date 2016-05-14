@@ -43,9 +43,16 @@
         <tbody md-body>
         <tr md-row ng-repeat="p in svc.patientList track by $index" >
           <td md-cell class="no-padding">
-            <md-button class="md-icon-button" ng-click="svc.onPatientEdit($event, p, $index)">
+            <div layout="column">
+            <md-button class="md-icon-button md-raised" ng-click="svc.onPatientEdit($event, p, $index)">
               <md-icon>edit</md-icon>
+              <md-tooltip md-direction="right">EDIT PATIENT</md-tooltip>
             </md-button>
+            <md-button class="md-icon-button md-raised" ng-href="#/consults/{{p.patientId}}">
+              <md-icon>assignment</md-icon>
+              <md-tooltip md-direction="right">CONSULTATIONS</md-tooltip>
+            </md-button>
+            </div>
           </td>
           <td md-cell>{{p.patientId}}</td>
           <td md-cell>{{p.firstName}}</td>
@@ -54,9 +61,6 @@
           <td md-cell>{{p.gender}}</td>
           <td md-cell>{{p.phone}}</td>
           <td md-cell>{{p.allergies}}</td>
-          <td md-cell class="no-padding">
-            <md-button class="md-primary md-small" ng-href="#/consults/{{p.patientId}}">History</md-button>
-          </td>
         </tr>
         </tbody>
       </table>

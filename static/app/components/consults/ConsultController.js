@@ -99,6 +99,7 @@ angular.module('caseManagerApp.consults', ['ngResource'])
 
 
       // region scope var
+      this.editedFieldLabel = null;
       this.upserting = false;
       this.currentConsult = null;
       this.patient = patientResource.get({ id: currentPatientId });
@@ -154,8 +155,9 @@ angular.module('caseManagerApp.consults', ['ngResource'])
       };
 
       this.editedInputName = null;
-      this.onOpenSearchDictPane = function (ev, editedInputName) {
+      this.onOpenSearchDictPane = function (ev, editedInputName, editedFieldLabel) {
         this.editedInputName = editedInputName;
+        this.editedFieldLabel = editedFieldLabel;
         $mdSidenav('searchDictPane').open();
       };
 

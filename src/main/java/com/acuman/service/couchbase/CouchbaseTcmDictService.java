@@ -9,6 +9,7 @@ import com.acuman.domain.WordNode;
 import com.acuman.domain.ZhEnWord;
 import com.acuman.service.TcmDictService;
 import com.acuman.util.JsonUtils;
+import com.acuman.util.StringUtils;
 import com.couchbase.client.java.Bucket;
 import com.couchbase.client.java.document.Document;
 import com.couchbase.client.java.document.JsonDocument;
@@ -83,12 +84,13 @@ public class CouchbaseTcmDictService implements TcmDictService {
         }
     }
 
+//    todo map IllegalArgumentException to HTTP 400
     @Override
     public ZhEnWord newZhEnWord(ZhEnWord zhEnWord) {
         zhEnWord.trimFields();
         Assert.isTrue(isNotEmpty(zhEnWord.getCs()) || isNotEmpty(zhEnWord.getCc()),
                 "chinese must be provided for word: " + zhEnWord);
-        Assert.isTrue(isNotEmpty(zhEnWord.getEng1()), "english must be provided");
+        Assert.isTrue(isNotEmpty(zhEnWord.getEng1()), "english must be provided for word " + zhEnWord);
 
         if (isEmpty(zhEnWord.getCc())) {
             zhEnWord.setCc(HanLP.convertToTraditionalChinese(zhEnWord.getCs()));    // todo conversion is crap find another tool
@@ -126,7 +128,7 @@ public class CouchbaseTcmDictService implements TcmDictService {
             children.add(newWord.getMid());
         });
 
-        ZhEnWord tag = exactWordMatch(tagName); // assume the parent tag word already inserted before children
+        ZhEnWord tag = exactWordMatch(StringUtils.trimNonBreaking(tagName)); // assume the parent tag word already inserted before children
         Assert.notNull(tag, "word doesn't exist for tagName " + tagName);
 
         WordNode wordNode = new WordNode(tag.getMid(), children);
@@ -287,6 +289,7 @@ public class CouchbaseTcmDictService implements TcmDictService {
             uiParent.addChild(uiChildNode);
 
             // recurse
+            // todo break infinite recurse when parent has itself as child
             WordNode childNode = couchBaseQuery.getWordNode(wordNodeId(childWordId));
             if (childNode != null) {
                 populateChildNodes(childNode, uiChildNode);

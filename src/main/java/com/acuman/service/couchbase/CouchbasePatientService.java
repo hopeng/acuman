@@ -79,7 +79,8 @@ public class CouchbasePatientService implements PatientService {
 
     @Override
     public JsonObject getPatient(String id) {
-        return bucket.get(id, JsonDocument.class).content();
+        JsonDocument jsonDocument = bucket.get(id, JsonDocument.class);
+        return jsonDocument == null ? null : jsonDocument.content();
     }
 
     @Override
