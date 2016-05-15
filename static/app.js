@@ -19,7 +19,7 @@ caseManagerApp.config(
     
     $mdThemingProvider.theme('default')
       .primaryPalette('blue')
-      .accentPalette('pink');
+      .accentPalette('blue');
 
     $routeProvider
       .when('/patients', {

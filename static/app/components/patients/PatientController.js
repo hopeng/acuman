@@ -3,7 +3,7 @@
 angular.module('caseManagerApp.patients', ['ngResource'])
 
   .controller('PatientController',
-    function ($resource, $mdMedia, $mdDialog, $mdToast, $log) {
+    function ($resource, $mdMedia, $mdDialog, $mdToast, $window, $filter, $log) {
       // region local var
       var self = this;
 
@@ -122,16 +122,24 @@ angular.module('caseManagerApp.patients', ['ngResource'])
       this.filterMode = false;
       this.onToggleFilterPatient = function () {
         this.filterMode = !this.filterMode;
-        if (!this.filterMode) {
+        if (this.filterMode) {
+          //todo focus doesn't work
+          $window.document.getElementById('patientSearchInput').focus();
+
+        } else {
           this.searchKeyword = '';
+
         }
       };
       
       this.filterPatients = function (patient) {
-        var phoneMatched = patient.phone && patient.phone.indexOf(self.searchKeyword) >= 0;
         var name = patient.firstName + ' ' + patient.lastName;
         var nameMatched = name.toLowerCase().indexOf(self.searchKeyword.toLowerCase()) >= 0;
-        return phoneMatched || nameMatched;
+        var dobString = $filter('date')(patient.dob, 'dd/MM/yyyy');
+        var dobMatched = dobString && dobString.indexOf(self.searchKeyword) >= 0;
+        var phoneMatched = patient.phone && patient.phone.indexOf(self.searchKeyword) >= 0;
+
+        return dobMatched || nameMatched || phoneMatched;
       };
 
       // endregion scope var

@@ -18,6 +18,7 @@ public class FileDownloadApi {
         get(API_DOWNLOAD_PATIENTS, (request, response) -> {
             Workbook workBook = excelExportService.buildPatientsExcel();
 
+//            todo set file name
             response.type(ContentTypeConstants.XLSX);
             workBook.write(response.raw().getOutputStream());
 

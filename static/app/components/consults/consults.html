@@ -12,17 +12,31 @@
         Patient ID: {{svc.patient.patientId}}&nbsp;&nbsp;&nbsp;Date Of Birth: {{svc.patient.dob}}
       </span>
     </md-card-title-text>
-    <div flex></div>
-    <md-button class="md-fab" ng-click="svc.onConsultEdit($event)">
-      <md-icon>add</md-icon>
-      <md-tooltip>Add Consultation</md-tooltip>
-    </md-button>
-    <md-button class="md-fab" ng-click="svc.onFilterConsults($event)">
-      <md-icon>filter_list</md-icon>
-      <md-tooltip>Filter Consultations</md-tooltip>
-    </md-button>
   </md-card-title>
   <md-card-content>
+    <md-toolbar class="md-table-toolbar md-default">
+      <div class="md-toolbar-tools">
+        <md-button class="md-fab" ng-click="svc.onConsultEdit($event)">
+          <md-icon md-svg-src="img/icons/ic_add_white_24px.svg"></md-icon>
+          <md-tooltip>Add Consultation</md-tooltip>
+        </md-button>
+        <div ng-show="svc.consultsList.length">
+          <md-button class="md-fab" ng-click="svc.onFilterConsults($event)">
+            <md-icon md-svg-src="img/icons/ic_filter_list_white_24px.svg"></md-icon>
+            <md-tooltip>Search Consultations</md-tooltip>
+          </md-button>
+        </div>
+      </div>
+    </md-toolbar>
+
+    <md-toolbar class="md-table-toolbar md-default" ng-show="svc.filterMode">
+      <div class="md-toolbar-tools">
+        <md-icon>search</md-icon>
+        <form flex>
+          <input id="patientSearchInput" ng-model="svc.searchKeyword" placeholder="Search by Date of Visit">
+        </form>
+      </div>
+    </md-toolbar>
     <md-table-container>
       <table md-table md-progress="svc.consultsListPromise">
         <thead md-head>
@@ -39,7 +53,7 @@
         <tbody md-body>
         <tr md-row ng-repeat="c in svc.consultsList track by $index">
           <td md-cell class="no-padding">
-            <md-button class="md-icon-button" ng-click="svc.onConsultEdit($event, c, $index)">
+            <md-button class="md-icon-button md-raised" ng-click="svc.onConsultEdit($event, c, $index)">
               <md-icon>edit</md-icon>
             </md-button>
           </td>
