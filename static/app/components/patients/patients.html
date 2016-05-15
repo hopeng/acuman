@@ -20,7 +20,7 @@
         </md-button>
         <div ng-show="svc.patientList.length">
           <md-button class="md-fab" ng-click="svc.onToggleFilterPatient()">
-            <md-icon md-svg-src="img/icons/ic_filter_list_white_24px.svg"></md-icon>
+            <md-icon ng-class="{'red-icon': svc.filterMode}" md-svg-src="img/icons/ic_filter_list_white_24px.svg"></md-icon>
             <md-tooltip>Search Patients</md-tooltip>
           </md-button>
           <md-button class="md-fab" href="v1/download-patients" ng-show="svc.patientList.length">
@@ -35,7 +35,7 @@
       <div class="md-toolbar-tools">
         <md-icon>search</md-icon>
         <form flex>
-          <input id="patientSearchInput" ng-model="svc.searchKeyword"
+          <input id="patientSearchInput" ng-model="svc.searchKeyword" focus-if="svc.filterMode"
                  placeholder="Search by Name, DOB or Phone">
         </form>
       </div>

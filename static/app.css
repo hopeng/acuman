@@ -57,6 +57,10 @@ md-toolbar.md-table-toolbar form > input {
   color: rgba(0, 0, 0, 0.87);
 }
 
+md-icon.red-icon svg {
+  fill: darkblue;
+}
+
 /*disable md-tabs content change animation*/
 [role="tabpanel"] {
   transition: none;

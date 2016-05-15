@@ -21,8 +21,8 @@
           <md-tooltip>Add Consultation</md-tooltip>
         </md-button>
         <div ng-show="svc.consultsList.length">
-          <md-button class="md-fab" ng-click="svc.onFilterConsults($event)">
-            <md-icon md-svg-src="img/icons/ic_filter_list_white_24px.svg"></md-icon>
+          <md-button class="md-fab" ng-click="svc.onToggleFilterConsults($event)">
+            <md-icon ng-class="{'red-icon': svc.filterMode}" md-svg-src="img/icons/ic_filter_list_white_24px.svg"></md-icon>
             <md-tooltip>Search Consultations</md-tooltip>
           </md-button>
         </div>
@@ -33,7 +33,8 @@
       <div class="md-toolbar-tools">
         <md-icon>search</md-icon>
         <form flex>
-          <input id="patientSearchInput" ng-model="svc.searchKeyword" placeholder="Search by Date of Visit">
+          <input id="patientSearchInput" ng-model="svc.searchKeyword" focus-if="svc.filterMode"
+                 placeholder="Search by Date of Visit">
         </form>
       </div>
     </md-toolbar>
@@ -51,7 +52,7 @@
         </tr>
         </thead>
         <tbody md-body>
-        <tr md-row ng-repeat="c in svc.consultsList track by $index">
+        <tr md-row ng-repeat="c in svc.consultsList | filter:svc.filterConsults track by $index">
           <td md-cell class="no-padding">
             <md-button class="md-icon-button md-raised" ng-click="svc.onConsultEdit($event, c, $index)">
               <md-icon>edit</md-icon>

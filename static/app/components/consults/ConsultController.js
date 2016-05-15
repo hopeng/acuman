@@ -3,7 +3,7 @@
 angular.module('caseManagerApp.consults', ['ngResource'])
 
   .controller('ConsultController',
-    function ($window, $resource, $mdDialog, $routeParams, $log, $mdToast, $timeout, $mdSidenav) {
+    function ($window, $resource, $mdDialog, $routeParams, $log, $mdToast, $timeout, $mdSidenav, $filter) {
 
       // region local var
       var self = this;
@@ -220,5 +220,20 @@ angular.module('caseManagerApp.consults', ['ngResource'])
         self.currentConsult[self.editedInputName] += appendedContent;
         showToast('Appended "' + appendedContent);
       }
+
+      this.searchKeyword = '';
+      this.filterMode = false;
+      this.onToggleFilterConsults = function () {
+        this.filterMode = !this.filterMode;
+        if (!this.filterMode) {
+          this.searchKeyword = '';
+        }
+      };
+
+      this.filterConsults = function (consult) {
+        var visitedOnString = $filter('date')(consult.visitedOn, 'dd/MM/yyyy');
+        var visitDateMatched = visitedOnString.indexOf(self.searchKeyword) >= 0;;
+        return visitDateMatched;
+      };
       // endregion scope var
     });

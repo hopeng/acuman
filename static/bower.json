@@ -15,6 +15,7 @@
     "angular-material": "1.1.x",
     "angular-material-data-table": "^0.10.9",
     "sprintf": "1.0.2",
-    "js-xlsx": "~0.8.0"
+    "js-xlsx": "~0.8.0",
+    "ng-focus-if": "~1.0.5"
   }
 }

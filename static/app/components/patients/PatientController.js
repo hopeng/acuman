@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('caseManagerApp.patients', ['ngResource'])
+angular.module('caseManagerApp.patients', ['ngResource', 'focus-if'])
 
   .controller('PatientController',
-    function ($resource, $mdMedia, $mdDialog, $mdToast, $window, $filter, $log) {
+    function ($resource, $mdMedia, $mdDialog, $mdToast, $filter, $log) {
       // region local var
       var self = this;
 
@@ -122,13 +122,8 @@ angular.module('caseManagerApp.patients', ['ngResource'])
       this.filterMode = false;
       this.onToggleFilterPatient = function () {
         this.filterMode = !this.filterMode;
-        if (this.filterMode) {
-          //todo focus doesn't work
-          $window.document.getElementById('patientSearchInput').focus();
-
-        } else {
+        if (!this.filterMode) {
           this.searchKeyword = '';
-
         }
       };
       
