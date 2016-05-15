@@ -43,6 +43,7 @@ dependencies {
 	compile('com.mashape.unirest:unirest-java:1.4.9')
     compile('com.hankcs:hanlp:portable-1.2.9')
     compile('com.google.guava:guava:19.0')
+    compile('org.apache.poi:poi-ooxml:3.14')
 
     testCompile('junit:junit:4.12')
 }

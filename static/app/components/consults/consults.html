@@ -7,7 +7,7 @@
 <md-card ng-show="!svc.upserting">
   <md-card-title>
     <md-card-title-text>
-      <span class="md-headline">Consultation history for {{svc.patient.lastName}},&nbsp;{{svc.patient.firstName}}</span>
+      <span class="md-headline">Consultation history for {{svc.patient.firstName}}&nbsp;{{svc.patient.lastName}}</span>
       <span class="md-subhead">
         Patient ID: {{svc.patient.patientId}}&nbsp;&nbsp;&nbsp;Date Of Birth: {{svc.patient.dob}}
       </span>
@@ -19,13 +19,8 @@
     </md-button>
     <md-button class="md-fab" ng-click="svc.onFilterConsults($event)">
       <md-icon>filter_list</md-icon>
-      <md-tooltip>Filter By Date</md-tooltip>
+      <md-tooltip>Filter Consultations</md-tooltip>
     </md-button>
-    <md-button class="md-fab" ng-click="svc.onExportPatients($event)">
-      <md-icon>file_download</md-icon>
-      <md-tooltip>Export To Excel</md-tooltip>
-    </md-button>
-
   </md-card-title>
   <md-card-content>
     <md-table-container>

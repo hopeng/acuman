@@ -4,63 +4,13 @@ angular.module('caseManagerApp.patients', ['ngResource'])
 
   .controller('PatientController',
     function ($resource, $mdMedia, $mdDialog, $mdToast, $log) {
-
+      // region local var
       var self = this;
-      this.upserting = false;
 
       var patientUpdator = $resource(CONF.URL.PATIENTS, null, {'update': {method: 'PUT'}});
       var patientResource = $resource(CONF.URL.PATIENTS);
       var editedPatientIndex = -1;
       var oldPatientRecord = {};
-
-      this.patientList = [];
-      this.patientListPromise = patientResource.query().$promise;
-      this.patientListPromise.then(function (data) {
-        for (var i=0; i<data.length; i++) {
-          util.convertStringFieldToDate(data[i], 'dob');
-        }
-        self.patientList = data;
-      });
-
-      // sourced from http://www.privatehealth.gov.au/dynamic/healthfundlist.aspx, todo save in DB
-      this.healthFundList = $resource(CONF.URL.HEALTH_FUNDS).query();
-
-      //todo get user from server side
-      this.doctor = 'Fiona Family TCM';
-
-      this.onPatientEdit = function (ev, patient, index) {
-        this.currentPatient = patient;
-        this.upserting = true;
-        editedPatientIndex = index;
-        oldPatientRecord = angular.copy(patient);
-      };
-
-      this.onSubmitPatient = function (ev) {
-        upsertPatient(this.currentPatient);
-        this.upserting = false;
-      };
-
-      this.onCancelPatientForm = function (ev, patient) {
-        this.patientList[editedPatientIndex] = oldPatientRecord;
-        self.upserting = false;
-      };
-
-      this.onDeletePatient = function (ev) {
-        var confirm = $mdDialog.confirm()
-          .title('Would you like to delete patient ' + this.currentPatient.patientId + '?')
-          .textContent('You cannot undo this action')
-          .ariaLabel('Lucky day')
-          .targetEvent(ev)
-          .ok('DELETE THIS PATIENT')
-          .cancel('CANCEL');
-
-        $mdDialog.show(confirm).then(
-          function () {
-            deletePatient(self.currentPatient);
-            self.upserting = false;
-          });
-      };
-      
 
       var showToast = function (message) {
         $mdToast.hide().then(
@@ -115,4 +65,75 @@ angular.module('caseManagerApp.patients', ['ngResource'])
           }
         );
       };
+      // endregion local var
+
+      
+      // region scope var
+      this.upserting = false;
+      this.patientList = [];
+      this.patientListPromise = patientResource.query().$promise;
+      this.patientListPromise.then(function (data) {
+        for (var i=0; i<data.length; i++) {
+          util.convertStringFieldToDate(data[i], 'dob');
+          self.patientList.push(data[i]);
+        }
+      });
+
+      // sourced from http://www.privatehealth.gov.au/dynamic/healthfundlist.aspx, todo save in DB
+      this.healthFundList = $resource(CONF.URL.HEALTH_FUNDS).query();
+
+      //todo get user from server side
+      this.doctor = 'Fiona Family TCM';
+
+      this.onPatientEdit = function (ev, patient, index) {
+        this.currentPatient = patient;
+        this.upserting = true;
+        editedPatientIndex = index;
+        oldPatientRecord = angular.copy(patient);
+      };
+
+      this.onSubmitPatient = function (ev) {
+        upsertPatient(this.currentPatient);
+        this.upserting = false;
+      };
+
+      this.onCancelPatientForm = function (ev, patient) {
+        this.patientList[editedPatientIndex] = oldPatientRecord;
+        self.upserting = false;
+      };
+
+      this.onDeletePatient = function (ev) {
+        var confirm = $mdDialog.confirm()
+          .title('Would you like to delete patient ' + this.currentPatient.patientId + '?')
+          .textContent('You cannot undo this action')
+          .ariaLabel('Lucky day')
+          .targetEvent(ev)
+          .ok('DELETE THIS PATIENT')
+          .cancel('CANCEL');
+
+        $mdDialog.show(confirm).then(
+          function () {
+            deletePatient(self.currentPatient);
+            self.upserting = false;
+          });
+      };
+
+      this.searchKeyword = '';
+      this.filterMode = false;
+      this.onToggleFilterPatient = function () {
+        this.filterMode = !this.filterMode;
+        if (!this.filterMode) {
+          this.searchKeyword = '';
+        }
+      };
+      
+      this.filterPatients = function (patient) {
+        var phoneMatched = patient.phone && patient.phone.indexOf(self.searchKeyword) >= 0;
+        var name = patient.firstName + ' ' + patient.lastName;
+        var nameMatched = name.toLowerCase().indexOf(self.searchKeyword.toLowerCase()) >= 0;
+        return phoneMatched || nameMatched;
+      };
+
+      // endregion scope var
+
     });

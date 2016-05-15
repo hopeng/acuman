@@ -1,6 +1,7 @@
 package com.acuman;
 
 import com.acuman.api.ConsultationsApi;
+import com.acuman.api.FileDownloadApi;
 import com.acuman.api.Oauth2Api;
 import com.acuman.api.PatientsApi;
 import com.acuman.api.TcmDictLookupApi;
@@ -28,6 +29,7 @@ public class Application {
         ConsultationsApi.configure();
         TcmDictLookupApi.configure();
         Oauth2Api.configure();
+        FileDownloadApi.configure();
 
         before( (request, response) -> {
             String uri = request.uri();

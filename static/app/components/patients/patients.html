@@ -7,25 +7,38 @@
 
 <md-card ng-show="!svc.upserting">
   <md-card-title>
-    <md-card-title-text>
-      <span class="md-headline">{{svc.doctor}}'s Patients</span>
-      <!--<span class="md-subhead"></span>-->
-    </md-card-title-text>
-    <div flex></div>
-    <md-button class="md-fab" ng-click="svc.onPatientEdit($event)">
-      <md-icon>add</md-icon>
-      <md-tooltip>Add Patient</md-tooltip>
-    </md-button>
-    <md-button class="md-fab" ng-click="svc.onFilterPatient($event)">
-      <md-icon>filter_list</md-icon>
-      <md-tooltip>Filter By Name Or ID</md-tooltip>
-    </md-button>
-    <md-button class="md-fab" ng-click="svc.onExportPatients($event)">
-      <md-icon>file_download</md-icon>
-      <md-tooltip>Export To Excel</md-tooltip>
-    </md-button>
   </md-card-title>
   <md-card-content>
+    <md-toolbar class="md-table-toolbar md-default">
+      <div class="md-toolbar-tools">
+        <!--<h2 class="md-title">Fiona Family TCM's Patients</h2>-->
+        <span class="md-headline">{{svc.doctor}}'s Patients</span>
+        <div flex></div>
+        <md-button class="md-fab" ng-click="svc.onPatientEdit($event)">
+          <md-icon>add</md-icon>
+          <md-tooltip>Add Patient</md-tooltip>
+        </md-button>
+        <div ng-show="svc.patientList.length">
+          <md-button class="md-fab" ng-click="svc.onToggleFilterPatient()">
+            <md-icon>filter_list</md-icon>
+            <md-tooltip>Filter Patients</md-tooltip>
+          </md-button>
+          <md-button class="md-fab" href="v1/download-patients" ng-show="svc.patientList.length">
+            <md-icon>file_download</md-icon>
+            <md-tooltip>Export To Excel</md-tooltip>
+          </md-button>
+        </div>
+      </div>
+    </md-toolbar>
+
+    <md-toolbar class="md-table-toolbar md-default" ng-show="svc.filterMode">
+      <div class="md-toolbar-tools">
+        <form flex>
+          <input ng-model="svc.searchKeyword" placeholder="Search by Name or Phone">
+        </form>
+      </div>
+    </md-toolbar>
+
     <md-table-container>
       <table md-table md-progress="svc.patientListPromise">
         <thead md-head>
@@ -41,9 +54,9 @@
         </tr>
         </thead>
         <tbody md-body>
-        <tr md-row ng-repeat="p in svc.patientList track by $index" >
+        <tr md-row ng-repeat="p in svc.patientList | filter:svc.filterPatients track by $index">
           <td md-cell class="no-padding">
-            <div layout="column">
+            <div layout="row">
             <md-button class="md-icon-button md-raised" ng-click="svc.onPatientEdit($event, p, $index)">
               <md-icon>edit</md-icon>
               <md-tooltip md-direction="right">EDIT PATIENT</md-tooltip>

@@ -50,6 +50,13 @@ md-sidenav.md-closed.md-locked-open-add-active {
   max-width: 1024px;
 }
 
+md-toolbar.md-table-toolbar form > input {
+  width: 100%;
+  margin: 0;
+  border: none;
+  color: rgba(0, 0, 0, 0.87);
+}
+
 /*disable md-tabs content change animation*/
 [role="tabpanel"] {
   transition: none;
