@@ -1,6 +1,6 @@
 <md-content class="md-padding">
   <md-tabs md-selected="svc.selectedTabIndex" md-dynamic-height="true">
-    <md-tab ng-repeat="tag in svc.allTags" label="{{tag.cs}}">
+    <md-tab ng-repeat="tag in svc.allTags | filter:svc.filterTags" label="{{tag.cs}}">
       <md-button ng-click="svc.onBackoutWordExpand()" ng-show="svc.getPreviousTag()">
         <md-icon>arrow_back</md-icon>
         {{svc.getPreviousTag().cs}}

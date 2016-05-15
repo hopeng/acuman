@@ -154,10 +154,34 @@ angular.module('caseManagerApp.consults', ['ngResource'])
           });
       };
 
+      this.tagsToShow = [];
+
+      this.filterTags = function (tag) {
+        return !self.tagsToShow.length || self.tagsToShow.indexOf(tag.cs) >= 0;
+      };
+
+      // todo consult fiona this map 
+      var consultFieldsMap = {
+        chiefComplaint: [],
+        medicalHistory: [],
+        symptoms: [],
+        pulse: [],
+        tongue: [],
+        tcmDiagnosis: [],
+        tcmSyndromeDiff: [],
+        westernMedicineDiagnosis: ['症状', '诊断', '治法', '穴位', '中药'],
+        principleOfTreatment: [],
+        treatment: [],
+        acupoints: ['穴位'],
+        herbs: ['中药'],
+        advice: []
+      };
+
       this.editedInputName = null;
       this.onOpenSearchDictPane = function (ev, editedInputName, editedFieldLabel) {
         this.editedInputName = editedInputName;
         this.editedFieldLabel = editedFieldLabel;
+        this.tagsToShow = consultFieldsMap[editedInputName];
         $mdSidenav('searchDictPane').open();
       };
 
