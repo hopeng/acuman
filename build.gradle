@@ -60,6 +60,11 @@ task runJar(dependsOn:build) << {
     }
 }
 
+tasks.withType(JavaExec) {
+// Assign all Java system properties from
+// the command line to the JavaExec task.
+	systemProperties System.properties
+}
 
 task runMain(type: JavaExec) {
     classpath sourceSets.main.runtimeClasspath
