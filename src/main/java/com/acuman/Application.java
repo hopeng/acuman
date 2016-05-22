@@ -22,6 +22,8 @@ public class Application {
 // todo ssl  http://stackoverflow.com/a/36843005/843678
         if (Boolean.valueOf(System.getProperty("dev"))) {
             port(4568);
+        } else if (Boolean.valueOf(System.getProperty("prod"))) {
+            port(80);
         }
         externalStaticFileLocation("static/");
 
