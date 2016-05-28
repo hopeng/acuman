@@ -17,7 +17,7 @@ import com.couchbase.client.java.document.RawJsonDocument;
 import com.couchbase.client.java.document.json.JsonObject;
 import com.couchbase.client.java.query.Statement;
 import com.couchbase.client.java.query.dsl.Sort;
-import com.hankcs.hanlp.HanLP;
+import com.luhuiguo.chinese.ChineseUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import spark.utils.Assert;
@@ -32,6 +32,7 @@ import static com.acuman.CbDocType.ZhEnWord;
 import static com.couchbase.client.java.query.Select.select;
 import static com.couchbase.client.java.query.dsl.Expression.s;
 import static com.couchbase.client.java.query.dsl.Expression.x;
+import static com.luhuiguo.chinese.pinyin.PinyinFormat.TONELESS_PINYIN_FORMAT;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
@@ -40,7 +41,6 @@ public class CouchbaseTcmDictService implements TcmDictService {
 
     public static final String TAG_WORD_TYPE = "TAG-WORD";
     public static final String WORD_TYPE = "WORD";
-//    public static final String CUSTOM_WORD_TYPE = "CUSTOM-WORD";
     public static final String CUSTOM_WORD_ID_SEQ = "customWordIdSeq";
 
 
@@ -93,13 +93,13 @@ public class CouchbaseTcmDictService implements TcmDictService {
         Assert.isTrue(isNotEmpty(zhEnWord.getEng1()), "english must be provided for word " + zhEnWord);
 
         if (isEmpty(zhEnWord.getCc())) {
-            zhEnWord.setCc(HanLP.convertToTraditionalChinese(zhEnWord.getCs()));    // todo conversion is crap find another tool
+            zhEnWord.setCc(ChineseUtils.toTraditional(zhEnWord.getCs()));
         }
         if (isEmpty(zhEnWord.getCs())) {
-            zhEnWord.setCs(HanLP.convertToSimplifiedChinese(zhEnWord.getCc()));
+            zhEnWord.setCs(ChineseUtils.toSimplified(zhEnWord.getCc()));
         }
         if (isEmpty(zhEnWord.getPy3())) {
-            zhEnWord.setPy3(HanLP.convertToPinyinString(zhEnWord.getCs(), " ", false));
+            zhEnWord.setPy3(ChineseUtils.toPinyin(zhEnWord.getCs(), TONELESS_PINYIN_FORMAT));
         }
 
         ZhEnWord existing = exactWordMatch(zhEnWord.getCs());
@@ -273,12 +273,12 @@ public class CouchbaseTcmDictService implements TcmDictService {
             return null;
         }
         UiWordNode rootUiWordNode = UiWordNode.fromWord(rootWord);
-        populateChildNodes(rootNode, rootUiWordNode);
+        populateUiWordNodeChildren(rootNode, rootUiWordNode);
 
         return rootUiWordNode;
     }
 
-    private void populateChildNodes(WordNode parent, UiWordNode uiParent) {
+    private void populateUiWordNodeChildren(WordNode parent, UiWordNode uiParent) {
         for (String childWordId : parent.getChildWordId()) {
             ZhEnWord childWord = couchBaseQuery.getZhEnWord(childWordId);
             if (childWord == null) {
@@ -289,10 +289,13 @@ public class CouchbaseTcmDictService implements TcmDictService {
             uiParent.addChild(uiChildNode);
 
             // recurse
-            // todo break infinite recurse when parent has itself as child
             WordNode childNode = couchBaseQuery.getWordNode(wordNodeId(childWordId));
             if (childNode != null) {
-                populateChildNodes(childNode, uiChildNode);
+                if (parent.getWordId().equals(childWordId)) {
+                    log.debug("word mid {} is a child of itself. Stop recursing", parent.getWordId());
+                } else {
+                    populateUiWordNodeChildren(childNode, uiChildNode);
+                }
             }
         }
     }

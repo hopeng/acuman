@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class WordNode extends Auditable {
     private String type = CbDocType.WordNode;
-    private String wordId;
+    private String wordId;  // mid of ZhEnWord
 
     private List<String> childWordId = new LinkedList<>();
 

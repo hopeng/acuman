@@ -211,11 +211,11 @@ angular.module('caseManagerApp.consults', ['ngResource'])
       function appendToInput (word) {
         var appendedContent = '';
         if (self.currentConsult[self.editedInputName]) {
-          appendedContent += '\n';
+          appendedContent += '. ';
         }
         appendedContent += word.cs + ' ' + word.eng1;
         if (!self.currentConsult[self.editedInputName]) {
-          self.currentConsult[self.editedInputName] = '';
+          self.currentConsult[self.editedInputName] = ''; // initialize default value as ''
         }
         self.currentConsult[self.editedInputName] += appendedContent;
         showToast('Appended "' + appendedContent);

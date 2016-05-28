@@ -1,6 +1,7 @@
 package com.acuman.api;
 
 import com.acuman.domain.TagAndWords;
+import com.acuman.domain.UiWordNode;
 import com.acuman.domain.ZhEnWord;
 import com.acuman.service.TcmDictService;
 import com.acuman.service.couchbase.CouchbaseTcmDictService;
@@ -85,7 +86,9 @@ public class TcmDictLookupApi {
 
         get(API_TCM_ZhEn_WORD, (request, response) -> {
             log.info("getting wordTree");
-            return tcmDictService.buildWordTree();
+            UiWordNode uiWordNode = tcmDictService.buildWordTree();
+            log.info("got wordTree");
+            return uiWordNode;
         });
 
         // remove tag from a word

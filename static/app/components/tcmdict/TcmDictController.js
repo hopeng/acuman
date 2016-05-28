@@ -55,7 +55,7 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
               var row = rows[i];
               for (var fieldName in row) {
                 // removed columns which has no header
-                if (fieldName === "undefined") {
+                if (fieldName.trim() === "undefined" || fieldName.trim() === "") {
                   delete row[fieldName];
                 }
               }
