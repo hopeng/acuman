@@ -14,7 +14,7 @@ public class ChineseUtilTest {
         result = ChineseUtils.toSimplified("出發, 頭髮, 皇后, 後面, 乾燥, 精幹, 幹涉");
         System.out.println(result);
 
-        result = ChineseUtils.toTraditional("硬盘, 内存, 光驱, 硬件");
+        result = ChineseUtils.toTraditional("硬盘, 内存, 光驱, 硬件, 主板");
         System.out.println(result);
 
         result = ChineseUtils.toTraditional("解表法,黄子铭,黄靖媛");
