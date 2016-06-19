@@ -13,9 +13,11 @@ var caseManagerApp = angular.module('caseManagerApp', [
 ]);
 
 caseManagerApp.config(
-  function ($routeProvider, $mdThemingProvider, $logProvider) {
+  function ($routeProvider, $mdThemingProvider, $logProvider, $locationProvider) {
     var isProd = false; // todo get this from machine env variables
     $logProvider.debugEnabled(!isProd);
+
+    $locationProvider.html5Mode(true);
     
     $mdThemingProvider.theme('default')
       .primaryPalette('blue')
