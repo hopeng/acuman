@@ -5,37 +5,42 @@ import com.acuman.api.FileDownloadApi;
 import com.acuman.api.Oauth2Api;
 import com.acuman.api.PatientsApi;
 import com.acuman.api.TcmDictLookupApi;
+import com.acuman.pac4j.ExcludedPathsMatcher;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.pac4j.core.authorization.RequireAnyRoleAuthorizer;
 import org.pac4j.core.client.Clients;
 import org.pac4j.core.config.Config;
-import org.pac4j.core.matching.ExcludedPathMatcher;
+import org.pac4j.core.profile.ProfileManager;
+import org.pac4j.core.profile.UserProfile;
 import org.pac4j.oauth.client.FacebookClient;
 import org.pac4j.oauth.client.Google2Client;
 import org.pac4j.sparkjava.CallbackRoute;
 import org.pac4j.sparkjava.DefaultHttpActionAdapter;
 import org.pac4j.sparkjava.RequiresAuthenticationFilter;
+import org.pac4j.sparkjava.SparkWebContext;
 import spark.Route;
 
+import static com.acuman.ApiConstants.API_GET_USER;
 import static spark.Spark.before;
 import static spark.Spark.externalStaticFileLocation;
 import static spark.Spark.get;
-import static spark.Spark.halt;
 import static spark.Spark.port;
 import static spark.Spark.post;
 
 
 public class Application {
     private static final Logger log = LogManager.getLogger(Application.class);
-
+    private static String[] EXCLUDED_PATHS = new String[]{
+            "^/img/.*$",
+            "^" + ApiConstants.API_GET_USER + "$"};
 
     public static void main(String[] args) {
 // todo ssl  http://stackoverflow.com/a/36843005/843678
-        if (Boolean.valueOf(System.getProperty("dev"))) {
-            port(4568);
+        if ("root".equals(System.getProperty("user.name"))) {
+            port(80);
         }
-        
+
         externalStaticFileLocation("static/");
 
         final FacebookClient facebookClient = new FacebookClient(
@@ -47,16 +52,16 @@ public class Application {
         final Clients clients = new Clients("http://localhost:4568/callback", facebookClient, google2Client);
         final Config config = new Config(clients);
         config.addAuthorizer("admin", new RequireAnyRoleAuthorizer("ROLE_ADMIN"));
-        config.addMatcher("excludedPath", new ExcludedPathMatcher("^/facebook/notprotected$"));
+        config.addMatcher("excludedPath", new ExcludedPathsMatcher(EXCLUDED_PATHS));
         config.setHttpActionAdapter(new DefaultHttpActionAdapter());
         final Route callback = new CallbackRoute(config);
-        get("/callback", callback);
+        get("/callback", callback); // todo change to /login
         post("/callback", callback);
         final RequiresAuthenticationFilter googleFilter = new RequiresAuthenticationFilter(config, Google2Client.class.getSimpleName(), "", "excludedPath");
         final RequiresAuthenticationFilter facebookFilter = new RequiresAuthenticationFilter(config, FacebookClient.class.getSimpleName(), "", "excludedPath");
-        before("/facebook", facebookFilter);
-        before("/facebook/*", facebookFilter);
-        before("/google", googleFilter);
+//        before("/facebook", facebookFilter);
+//        before("/facebook/*", facebookFilter);
+        before("/*", googleFilter);
 
         PatientsApi.configure();
         ConsultationsApi.configure();
@@ -64,16 +69,12 @@ public class Application {
         Oauth2Api.configure();
         FileDownloadApi.configure();
 
-        before( (request, response) -> {
-            String uri = request.uri();
-            if (uri.startsWith("/img/") || uri.startsWith("/oauth2callback")) {
-                return;
-            }
+        get(API_GET_USER, (request, response) -> {
+            final SparkWebContext context = new SparkWebContext(request, response);
+            final ProfileManager manager = new ProfileManager(context);
+            final UserProfile profile = manager.get(true);
 
-            boolean authorized = true; // todo
-            if (!authorized) {
-                halt(401, "You are not authorized!");
-            }
+            return profile;
         });
     }
 }

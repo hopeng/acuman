@@ -1,0 +1,13 @@
+<div>
+  <a href="/">Login</a>
+
+  <div ng-if="svc.authenticated">
+    Welcome! {{svc.currentUser}}
+
+    <md-button class="md-icon-button md-primary" href="/patients" aria-label="Patients">
+      <md-icon md-svg-icon="img/icons/ic_people_white_24px.svg"></md-icon>
+      Enter Portal
+    </md-button>
+
+  </div>
+</div>

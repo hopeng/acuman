@@ -8,4 +8,5 @@ public interface ApiConstants {
     String API_TCM_DICT = API_VERSION + "/tcmdict";
     String API_TCM_ZhEn_WORD = API_VERSION + "/tcm-zh-en-words";
     String API_DOWNLOAD_PATIENTS = API_VERSION + "/download-patients";
+    String API_GET_USER = API_VERSION + "/user";
 }

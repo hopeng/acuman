@@ -6,6 +6,8 @@ var caseManagerApp = angular.module('caseManagerApp', [
   'ngRoute',
   'ngMaterial',
   'md.data.table',
+  'caseManagerApp.common',
+  'caseManagerApp.home',
   'caseManagerApp.patients',
   'caseManagerApp.consults',
   'caseManagerApp.tcmdict',
@@ -17,14 +19,16 @@ caseManagerApp.config(
     var isProd = false; // todo get this from machine env variables
     $logProvider.debugEnabled(!isProd);
 
-    $locationProvider.html5Mode(true);
-    
     $mdThemingProvider.theme('default')
       .primaryPalette('blue')
       .accentPalette('light-blue');
 
     $routeProvider
-      .when('/patients', {
+      .when('/home', {
+        templateUrl: 'app/components/home/home.html',
+        controller: 'HomeController as HomeCtrl'
+      })
+      .when('patients', {
         templateUrl: 'app/components/patients/patients.html',
         controller: 'PatientController as patientCtrl'
       })
@@ -40,5 +44,5 @@ caseManagerApp.config(
         templateUrl: 'app/components/profile/profile.html',
         controller: 'ProfileController as profileCtrl'
       })
-      .otherwise({redirectTo: '/patients'});
+      .otherwise({redirectTo: '/home'});
   });
