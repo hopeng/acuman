@@ -34,6 +34,8 @@ import static spark.Spark.post;
 
 public class Application {
     private static final Logger log = LogManager.getLogger(Application.class);
+    private static final String LOGIN_SUCCESS_REDIRECT = "/#/patients";
+
     private static String[] EXCLUDED_PATHS = new String[]{
             "^/img/.*$",
             "^" + ApiConstants.API_GET_USER + "$"};
@@ -78,8 +80,9 @@ public class Application {
         });
 
         get("/doAuth", (request, response) -> {
-            // todo throws java.lang.IllegalStateException: Committed
-            response.redirect("/");
+            if (getUserProfile(request, response) != null) {
+                response.redirect(LOGIN_SUCCESS_REDIRECT);
+            }
             return response;
         });
     }
