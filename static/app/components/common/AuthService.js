@@ -10,10 +10,12 @@ angular.module('caseManagerApp.common', ['ngResource'])
       return null;
     };
 
-    $http.get("/user").success(function(data) {
-      self.user = data.userAuthentication.details.name;
+    $http.get("/v1/user")
+      .success(function(data) {
+      self.userName = data.displayName;
       self.authenticated = true;
-    }).error(function() {
+    })
+      .error(function() {
       self.user = "N/A";
       self.authenticated = false;
     });

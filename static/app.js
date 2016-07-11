@@ -26,9 +26,9 @@ caseManagerApp.config(
     $routeProvider
       .when('/home', {
         templateUrl: 'app/components/home/home.html',
-        controller: 'HomeController as HomeCtrl'
+        controller: 'HomeController as homeCtrl'
       })
-      .when('patients', {
+      .when('/patients', {
         templateUrl: 'app/components/patients/patients.html',
         controller: 'PatientController as patientCtrl'
       })

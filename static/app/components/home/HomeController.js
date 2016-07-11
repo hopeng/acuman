@@ -6,6 +6,6 @@ angular.module('caseManagerApp.home', ['ngResource'])
     function ($resource, $mdMedia, $mdDialog, $mdToast, $filter, $log, AuthService) {
       var self = this;
       
-      this.authenticated = AuthService.authenticated;
+      this.AuthService = AuthService;
 
     });

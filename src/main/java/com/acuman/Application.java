@@ -6,6 +6,7 @@ import com.acuman.api.Oauth2Api;
 import com.acuman.api.PatientsApi;
 import com.acuman.api.TcmDictLookupApi;
 import com.acuman.pac4j.ExcludedPathsMatcher;
+import com.acuman.util.JsonUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.pac4j.core.authorization.RequireAnyRoleAuthorizer;
@@ -19,6 +20,8 @@ import org.pac4j.sparkjava.CallbackRoute;
 import org.pac4j.sparkjava.DefaultHttpActionAdapter;
 import org.pac4j.sparkjava.RequiresAuthenticationFilter;
 import org.pac4j.sparkjava.SparkWebContext;
+import spark.Request;
+import spark.Response;
 import spark.Route;
 
 import static com.acuman.ApiConstants.API_GET_USER;
@@ -39,6 +42,8 @@ public class Application {
 // todo ssl  http://stackoverflow.com/a/36843005/843678
         if ("root".equals(System.getProperty("user.name"))) {
             port(80);
+        } else {
+            port(4568);
         }
 
         externalStaticFileLocation("static/");
@@ -55,13 +60,11 @@ public class Application {
         config.addMatcher("excludedPath", new ExcludedPathsMatcher(EXCLUDED_PATHS));
         config.setHttpActionAdapter(new DefaultHttpActionAdapter());
         final Route callback = new CallbackRoute(config);
-        get("/callback", callback); // todo change to /login
+        get("/callback", callback);
         post("/callback", callback);
         final RequiresAuthenticationFilter googleFilter = new RequiresAuthenticationFilter(config, Google2Client.class.getSimpleName(), "", "excludedPath");
-        final RequiresAuthenticationFilter facebookFilter = new RequiresAuthenticationFilter(config, FacebookClient.class.getSimpleName(), "", "excludedPath");
-//        before("/facebook", facebookFilter);
-//        before("/facebook/*", facebookFilter);
-        before("/*", googleFilter);
+        before("/doAuth", googleFilter);
+        before(ApiConstants.API_VERSION + "/*", googleFilter);
 
         PatientsApi.configure();
         ConsultationsApi.configure();
@@ -70,11 +73,20 @@ public class Application {
         FileDownloadApi.configure();
 
         get(API_GET_USER, (request, response) -> {
-            final SparkWebContext context = new SparkWebContext(request, response);
-            final ProfileManager manager = new ProfileManager(context);
-            final UserProfile profile = manager.get(true);
-
-            return profile;
+            final UserProfile profile = getUserProfile(request, response);
+            return profile == null ? null : JsonUtils.toJson(profile);
         });
+
+        get("/doAuth", (request, response) -> {
+            // todo throws java.lang.IllegalStateException: Committed
+            response.redirect("/");
+            return response;
+        });
+    }
+
+    private static UserProfile getUserProfile(Request request, Response response) {
+        final SparkWebContext context = new SparkWebContext(request, response);
+        final ProfileManager manager = new ProfileManager(context);
+        return manager.get(true);
     }
 }

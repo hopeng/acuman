@@ -1,11 +1,14 @@
+<div ng-init="svc = homeCtrl"></div>
+
 <div>
-  <a href="/">Login</a>
+  <div ng-if="!svc.AuthService.authenticated">
+    <a href="/doAuth">Login</a>
+  </div>
 
-  <div ng-if="svc.authenticated">
-    Welcome! {{svc.currentUser}}
-
-    <md-button class="md-icon-button md-primary" href="/patients" aria-label="Patients">
-      <md-icon md-svg-icon="img/icons/ic_people_white_24px.svg"></md-icon>
+  <div ng-if="svc.AuthService.authenticated">
+    <h3>Welcome! {{svc.AuthService.userName}}</h3>
+    <p>
+    <md-button class="md-primary" href="#/patients" aria-label="Patients">
       Enter Portal
     </md-button>
 
