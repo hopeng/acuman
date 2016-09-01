@@ -45,6 +45,7 @@ dependencies {
     compile 'org.apache.poi:poi-ooxml:3.14'
     compile 'org.pac4j:spark-pac4j:1.1.0'
     compile 'org.pac4j:pac4j-oauth:1.8.8'
+    compile 'org.pac4j:pac4j-jwt:1.8.8'
 	compile 'com.luhuiguo:chinese-utils:1.0'
 
 	testCompile 'junit:junit:4.12'

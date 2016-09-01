@@ -19,16 +19,4 @@ angular.module('caseManagerApp.common', ['ngResource'])
       self.user = "N/A";
       self.authenticated = false;
     });
-
-    self.logout = function() {
-      $http.post('logout', {}).success(function() {
-        self.authenticated = false;
-        $location.path("/");
-      }).error(function(data) {
-        console.log("Logout failed")
-        self.authenticated = false;
-      });
-    };
-
-
   });

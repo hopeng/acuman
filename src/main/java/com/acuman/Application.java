@@ -16,6 +16,7 @@ import org.pac4j.core.profile.ProfileManager;
 import org.pac4j.core.profile.UserProfile;
 import org.pac4j.oauth.client.FacebookClient;
 import org.pac4j.oauth.client.Google2Client;
+import org.pac4j.sparkjava.ApplicationLogoutRoute;
 import org.pac4j.sparkjava.CallbackRoute;
 import org.pac4j.sparkjava.DefaultHttpActionAdapter;
 import org.pac4j.sparkjava.RequiresAuthenticationFilter;
@@ -34,7 +35,7 @@ import static spark.Spark.post;
 
 public class Application {
     private static final Logger log = LogManager.getLogger(Application.class);
-    private static final String LOGIN_SUCCESS_REDIRECT = "/#/patients";
+    private static final String LOGIN_SUCCESS_REDIRECT = "/";
 
     private static String[] EXCLUDED_PATHS = new String[]{
             "^/img/.*$",
@@ -85,6 +86,9 @@ public class Application {
             }
             return response;
         });
+
+        get("/logout", new ApplicationLogoutRoute(config));
+
     }
 
     private static UserProfile getUserProfile(Request request, Response response) {
