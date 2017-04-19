@@ -20,10 +20,10 @@ public class Application {
 
     public static void main(String[] args) {
 // todo ssl  http://stackoverflow.com/a/36843005/843678
-        if (Boolean.valueOf(System.getProperty("dev"))) {
-            port(4568);
-        }
-        
+        if ("root".equals(System.getProperty("user.name"))) {
+            port(80);        	
+        } 
+
         externalStaticFileLocation("static/");
 
 //        final FacebookClient facebookClient = new FacebookClient("145278422258960", "be21409ba8f39b5dae2a7de525484da8");
