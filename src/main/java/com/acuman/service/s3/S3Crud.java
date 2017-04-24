@@ -60,7 +60,7 @@ public class S3Crud {
     }
 
 
-    public PutObjectResult putObject(String key, String json) {
+    public PutObjectResult putJson(String key, String json) {
         byte[] bytes = json.getBytes(StandardCharsets.UTF_8);
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType(CONTENT_TYPE);

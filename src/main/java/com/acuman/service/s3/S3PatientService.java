@@ -23,21 +23,16 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 public class S3PatientService implements PatientService {
     private static final Logger log = LogManager.getLogger(S3PatientService.class);
 
-    private static final String patientBucket = "acuman-fiona-huang";
+    private static final String patientBucket = "acuman-" + AuthUtil.currentUser();
     private static final String patientDir = "patients/";
 
     private static final String PATIENT_ID_SEQ = "patientIdSeq";
-//    AmazonS3 s3 = new AmazonS3Client();
 
     private S3Crud patientsCrud = new S3Crud(patientBucket);
 
 
-
     public S3PatientService() {
         System.out.println("Listing buckets");
-//        for (com.amazonaws.services.s3.model.Bucket bucket : s3.listBuckets()) {
-//            System.out.println(" - " + bucket.getName());
-//        }
     }
 
     @Override
@@ -52,7 +47,7 @@ public class S3PatientService implements PatientService {
         DateUtils.convertISODateToLocalDateString(patient, "dob");
 
         System.out.println("Uploading a new object to S3 from a file\n");
-        PutObjectResult result = patientsCrud.putObject(patientDir + id, patient.toString());
+        PutObjectResult result = patientsCrud.putJson(patientDir + id, patient.toString());
         // todo how to ensure not update existing record?
         log.info("inserted patient, version=" + result.getVersionId());
 
@@ -61,9 +56,8 @@ public class S3PatientService implements PatientService {
 
     // maintain putObejct
     private String generateId() {
-        // https://forums.aws.amazon.com/thread.jspa?messageID=321320
-        long nextSequence = 1L;
-        String id = CbDocType.Patient + "-" + String.format("%07d", nextSequence);
+        long seq = SequenceGenerator.getNext(patientsCrud, PATIENT_ID_SEQ);
+        String id = CbDocType.Patient + "-" + String.format("%07d", seq);
 
         return id;
     }
@@ -79,7 +73,7 @@ public class S3PatientService implements PatientService {
 
         Auditable.preUpdate(patient);
         DateUtils.convertISODateToLocalDateString(patient, "dob");
-        PutObjectResult result = patientsCrud.putObject(patientDir + id, patient.toString());
+        PutObjectResult result = patientsCrud.putJson(patientDir + id, patient.toString());
         log.info("updated patient, version=" + result.getVersionId());
 
         return patient;

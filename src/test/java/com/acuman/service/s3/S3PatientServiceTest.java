@@ -34,7 +34,7 @@ public class S3PatientServiceTest {
 
     @Test
     public void getPatient() throws Exception {
-        JsonObject p = service.getPatient("PATIENT-0000001");
+        JsonObject p = service.getPatient("PATIENT-0000002");
         System.out.println(p);
     }
 

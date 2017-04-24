@@ -16,10 +16,15 @@ import static org.junit.Assert.*;
 public class S3CrudTest {
     private static S3Crud s3Crud;
     private static AmazonS3 s3 = new AmazonS3Client();
-    private static String bucketName = "testbucket-acuman";
+    private static String bucketName = "acuman-testbucket";
 
     @BeforeClass
     public static void beforeClass() {
+        s3.listObjects(bucketName).getObjectSummaries().forEach(
+                obj -> s3.deleteObject(bucketName, obj.getKey())
+        );
+        s3.deleteBucket(bucketName);
+
         s3Crud = new S3Crud(bucketName);
         assertTrue(s3.doesBucketExist(bucketName));
     }
@@ -35,7 +40,7 @@ public class S3CrudTest {
 //                "  \"dob\": \"1980-03-02\",\n" +
                 "  \"healthFund\": \"HIF\"\n" +
                 "}";
-        PutObjectResult result = s3Crud.putObject("key1", json);
+        PutObjectResult result = s3Crud.putJson("key1", json);
         System.out.println(result);
 
         String obj = s3Crud.getString("key1");
@@ -49,5 +54,26 @@ public class S3CrudTest {
         assertNull(s3Crud.getStringNoException("key1"));
 
         s3.deleteBucket(bucketName);
+    }
+
+    @Test
+    public void testSeq() {
+        long seq = SequenceGenerator.getNext(s3Crud, "testSeq");
+        assertEquals(1, seq);
+
+        seq = SequenceGenerator.getNext(s3Crud, "testSeq");
+        assertEquals(2, seq);
+
+        seq = SequenceGenerator.getNext(s3Crud, "testSeq");
+        assertEquals(3, seq);
+
+        seq = SequenceGenerator.getCurrent(s3Crud, "testSeq");
+        assertEquals(3, seq);
+
+
+        seq = SequenceGenerator.getNext(s3Crud, "anotherNewSeq");
+        assertEquals(1, seq);
+
+        assertNull(SequenceGenerator.getCurrent(s3Crud, "nonExistingSeq"));
     }
 }
