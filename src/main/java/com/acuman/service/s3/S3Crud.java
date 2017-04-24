@@ -28,15 +28,32 @@ public class S3Crud {
         }
     }
 
-    public String getObject(String key) {
+    public String getString(String key) {
         String result = null;
-        S3Object obj = s3.getObject(bucketName, key);
 
         try {
+            S3Object obj = s3.getObject(bucketName, key);
             result = IOUtils.toString(obj.getObjectContent());
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public String getStringNoException(String key) {
+        String result = null;
+
+        try {
+            result = getString(key);
+
+        } catch (AmazonS3Exception e) {
+            if ("NoSuchKey".equals(e.getErrorCode())) {
+                // ignore
+            } else {
+                e.printStackTrace();
+            }
         }
 
         return result;
@@ -65,7 +82,7 @@ public class S3Crud {
         );
 
         for (S3ObjectSummary objectSummary : list.getObjectSummaries()) {
-            String json = getObject(objectSummary.getKey());
+            String json = getString(objectSummary.getKey());
             if (json != null) {
                 result.add(json);
             }

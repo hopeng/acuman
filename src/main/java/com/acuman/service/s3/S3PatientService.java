@@ -89,7 +89,7 @@ public class S3PatientService implements PatientService {
     public JsonObject getPatient(String id) {
         JsonObject result = null;
 
-        String json = patientsCrud.getObject(patientDir + id);
+        String json = patientsCrud.getString(patientDir + id);
 
         if (StringUtils.isNotEmpty(json)) {
             result = JsonObject.fromJson(json);
