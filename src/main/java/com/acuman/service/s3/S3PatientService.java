@@ -19,6 +19,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
  * Create index before query: CREATE PRIMARY INDEX on acuman using VIEW
+ * todo handle multiple buckets, one per doctor
  */
 public class S3PatientService implements PatientService {
     private static final Logger log = LogManager.getLogger(S3PatientService.class);

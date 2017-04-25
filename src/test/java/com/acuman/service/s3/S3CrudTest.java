@@ -8,7 +8,10 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by hopeng on 22/4/17.
@@ -20,11 +23,13 @@ public class S3CrudTest {
 
     @BeforeClass
     public static void beforeClass() {
+        // clean up
         s3.listObjects(bucketName).getObjectSummaries().forEach(
                 obj -> s3.deleteObject(bucketName, obj.getKey())
         );
         s3.deleteBucket(bucketName);
 
+        // create bucket
         s3Crud = new S3Crud(bucketName);
         assertTrue(s3.doesBucketExist(bucketName));
     }
