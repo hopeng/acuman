@@ -31,7 +31,7 @@ public class ExcelExportService {
         Workbook wb = new XSSFWorkbook();
         Sheet patientSheet = wb.createSheet(doctor + " Patient List");
 
-        List<JsonObject> patients = patientService.getPatients(doctor);
+        List<JsonObject> patients = patientService.getPatients();
         if (patients.size() == 0) {
             return wb;
         }

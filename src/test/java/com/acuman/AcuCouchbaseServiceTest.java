@@ -2,7 +2,6 @@ package com.acuman;
 
 import com.acuman.service.PatientService;
 import com.acuman.service.couchbase.CouchbasePatientService;
-import com.acuman.util.AuthUtil;
 import com.couchbase.client.java.document.json.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +20,7 @@ public class AcuCouchbaseServiceTest {
         JsonObject result = patientService.getPatient("HFANG-PATIENT-14");
         log.info("one: " + result);
 
-        List<JsonObject> searchResult = patientService.getPatients(AuthUtil.currentUser());
+        List<JsonObject> searchResult = patientService.getPatients();
         log.info("search: " + searchResult);
     }
 
@@ -33,7 +32,7 @@ public class AcuCouchbaseServiceTest {
         log.info(p);
         log.info(retrievedP);
         Assert.isTrue(p.toString().equals(retrievedP.toString()), "not the same?!");
-        List<JsonObject> result = acuService.getPatients(AuthUtil.currentUser());
+        List<JsonObject> result = acuService.getPatients();
 
         log.info("search: " + result);
     }

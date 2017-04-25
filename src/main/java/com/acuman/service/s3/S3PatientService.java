@@ -7,7 +7,6 @@ import com.acuman.util.AuthUtil;
 import com.acuman.util.DateUtils;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import com.couchbase.client.java.document.json.JsonObject;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import spark.utils.Assert;
@@ -15,26 +14,22 @@ import spark.utils.Assert;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.acuman.service.s3.S3CrudRepo.currentUserS3Crud;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
  * Create index before query: CREATE PRIMARY INDEX on acuman using VIEW
- * todo handle multiple buckets, one per doctor
  */
 public class S3PatientService implements PatientService {
     private static final Logger log = LogManager.getLogger(S3PatientService.class);
 
-    private static final String patientBucket = "acuman-" + AuthUtil.currentUser();
-    private static final String patientDir = "patients/";
+    private static final String PATIENTS_PATH = "patients/";
 
     private static final String PATIENT_ID_SEQ = "patientIdSeq";
 
-    private S3Crud patientsCrud = new S3Crud(patientBucket);
-
-
     public S3PatientService() {
-        System.out.println("Listing buckets");
     }
+
 
     @Override
     public JsonObject newPatient(String json) {
@@ -48,19 +43,18 @@ public class S3PatientService implements PatientService {
         DateUtils.convertISODateToLocalDateString(patient, "dob");
 
         System.out.println("Uploading a new object to S3 from a file\n");
-        PutObjectResult result = patientsCrud.putJson(patientDir + id, patient.toString());
+        PutObjectResult result = currentUserS3Crud().putJson(PATIENTS_PATH + id, patient.toString());
         // todo how to ensure not update existing record?
-        log.info("inserted patient, version=" + result.getVersionId());
+        log.info("inserted patient: " + PATIENTS_PATH + id);
 
         return patient;
     }
 
     // maintain putObejct
     private String generateId() {
-        long seq = SequenceGenerator.getNext(patientsCrud, PATIENT_ID_SEQ);
-        String id = CbDocType.Patient + "-" + String.format("%07d", seq);
+        long nextSeq = SequenceGenerator.getNext(currentUserS3Crud(), PATIENT_ID_SEQ);
 
-        return id;
+        return CbDocType.Patient + "-" + String.format("%07d", nextSeq);
     }
 
     @Override
@@ -74,29 +68,22 @@ public class S3PatientService implements PatientService {
 
         Auditable.preUpdate(patient);
         DateUtils.convertISODateToLocalDateString(patient, "dob");
-        PutObjectResult result = patientsCrud.putJson(patientDir + id, patient.toString());
-        log.info("updated patient, version=" + result.getVersionId());
+        PutObjectResult result = currentUserS3Crud().putJson(PATIENTS_PATH + id, patient.toString());
+        log.info("updated patient:" + PATIENTS_PATH + id);
 
         return patient;
     }
 
     @Override
     public JsonObject getPatient(String id) {
-        JsonObject result = null;
+        String json = currentUserS3Crud().getString(PATIENTS_PATH + id);
 
-        String json = patientsCrud.getString(patientDir + id);
-
-        if (StringUtils.isNotEmpty(json)) {
-            result = JsonObject.fromJson(json);
-
-        }
-
-        return result;
+        return JsonObject.fromJson(json);
     }
 
     @Override
     public JsonObject deletePatient(String id) {
-        patientsCrud.deleteObject(patientDir + id);
+        currentUserS3Crud().deleteObject(PATIENTS_PATH + id);
 
         log.info("deleted patient: " + id);
 
@@ -104,10 +91,10 @@ public class S3PatientService implements PatientService {
     }
 
     @Override
-    public List<JsonObject> getPatients(String doctor) {
+    public List<JsonObject> getPatients() {
         List<JsonObject> result = new ArrayList<>();
 
-        List<String> list = patientsCrud.listNonFolderObjects(patientDir);
+        List<String> list = currentUserS3Crud().listNonFolderObjects(PATIENTS_PATH);
         list.forEach(json -> result.add(JsonObject.fromJson(json)));
 
         return result;

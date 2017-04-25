@@ -1,7 +1,6 @@
 package com.acuman.service.s3;
 
 import com.acuman.service.PatientService;
-import com.acuman.util.AuthUtil;
 import com.couchbase.client.java.document.json.JsonObject;
 import org.junit.Test;
 
@@ -45,7 +44,7 @@ public class S3PatientServiceTest {
 
     @Test
     public void getPatients() throws Exception {
-        List<JsonObject> result = service.getPatients(AuthUtil.currentUser());
+        List<JsonObject> result = service.getPatients();
         System.out.println(result);
     }
 }

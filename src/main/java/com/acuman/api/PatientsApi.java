@@ -2,7 +2,6 @@ package com.acuman.api;
 
 import com.acuman.service.PatientService;
 import com.acuman.service.s3.S3PatientService;
-import com.acuman.util.AuthUtil;
 import com.couchbase.client.java.document.json.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -64,7 +63,7 @@ public class PatientsApi {
         });
 
         get(API_PATIENTS, (request, response) -> {
-            List<JsonObject> result = patientService.getPatients(AuthUtil.currentUser());
+            List<JsonObject> result = patientService.getPatients();
             return result;
         });
     }

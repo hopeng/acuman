@@ -14,5 +14,5 @@ public interface PatientService {
 
     JsonObject deletePatient(String id);
 
-    List<JsonObject> getPatients(String doctor);
+    List<JsonObject> getPatients();
 }

@@ -93,9 +93,9 @@ public class CouchbasePatientService implements PatientService {
     }
 
     @Override
-    public List<JsonObject> getPatients(String doctor) {
+    public List<JsonObject> getPatients() {
         List<JsonObject> result;
-        String condition = String.format("type='PATIENT' and doctor='%s' order by createdDate desc", doctor);
+        String condition = String.format("type='PATIENT' and doctor='%s' order by createdDate desc", AuthUtil.currentUser());
         Statement statement = select("*").from(bucket.name()).where(condition).limit(1000); // todo paging
 
         result = couchBaseQuery.query(statement);
