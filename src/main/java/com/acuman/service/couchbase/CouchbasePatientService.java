@@ -20,6 +20,7 @@ import static com.couchbase.client.java.query.Select.select;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
+ * @deprecated use s3
  * Create index before query: CREATE PRIMARY INDEX on acuman using VIEW
  */
 public class CouchbasePatientService implements PatientService {

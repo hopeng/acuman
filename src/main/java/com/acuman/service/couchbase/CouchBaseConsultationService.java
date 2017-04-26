@@ -19,6 +19,9 @@ import java.util.List;
 import static com.couchbase.client.java.query.Select.select;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
+/**
+ * @deprecated use s3
+ */
 public class CouchBaseConsultationService implements ConsultationService {
     private static final Logger log = LogManager.getLogger(CouchBaseConsultationService.class);
 

@@ -1,8 +1,15 @@
 package com.acuman.service.s3;
 
+import com.acuman.util.JsonUtils;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.*;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
+import com.amazonaws.services.s3.model.ListObjectsRequest;
+import com.amazonaws.services.s3.model.ObjectListing;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectResult;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.amazonaws.util.IOUtils;
 
 import java.io.ByteArrayInputStream;
@@ -42,6 +49,12 @@ public class S3Crud {
         return result;
     }
 
+    public <T> T getObject(String key, Class<T> clazz) {
+        String json = getString(key);
+
+        return JsonUtils.fromJson(json, clazz);
+    }
+
     public String getStringNoException(String key) {
         String result = null;
 
@@ -59,7 +72,7 @@ public class S3Crud {
         return result;
     }
 
-
+    // print logging if put operation updates existing record (check version)
     public PutObjectResult putJson(String key, String json) {
         byte[] bytes = json.getBytes(StandardCharsets.UTF_8);
         ObjectMetadata metadata = new ObjectMetadata();
@@ -93,5 +106,14 @@ public class S3Crud {
 
     public List<String> listNonFolderObjects(String prefix) {
         return listObjects(prefix, "/");
+    }
+
+    public <T> List<T> listNonFolderObjects(String prefix, Class<T> type) {
+        List<String> jsonList = listObjects(prefix, "/");
+        List<T> result = new ArrayList<>(jsonList.size());
+
+        jsonList.forEach(e -> result.add(JsonUtils.fromJson(e, type)));
+
+        return result;
     }
 }

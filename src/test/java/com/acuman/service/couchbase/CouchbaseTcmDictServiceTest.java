@@ -22,7 +22,7 @@ public class CouchbaseTcmDictServiceTest {
         zhEnWord.setCc("滋陰解表");
         zhEnWord.setCs("滋阴解表");
         zhEnWord.setEng1("nourishing yin to relieve superficies syndrome");
-        tcmDictService.newZhEnWord(zhEnWord);
+        tcmDictService.enrichAndSaveZhEnWord(zhEnWord);
     }
 
     @Test
@@ -31,7 +31,7 @@ public class CouchbaseTcmDictServiceTest {
         System.out.println(content);
 
 //        Map<String, List<ZhEnWord>> map = JsonUtils.fromJson(content, new TypeReference<Map<String, List<ZhEnWord>>>() {});
-//        map.entrySet().forEach(tcmDictService::newZhEnWords);
+//        map.entrySet().forEach(tcmDictService::newWordNode);
 //        System.out.println(JsonUtils.toJson(map.entrySet()));
     }
 
