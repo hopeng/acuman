@@ -44,7 +44,7 @@ public class S3ConsultationService implements ConsultationService {
         consultation.put("consultId", id);
         consultation.put("type", CbDocType.Consult);
         Auditable.preInsert(consultation);
-        DateUtils.convertISODateToLocalDateString(consultation, "visitedOn");
+        DateUtils.convertISODateTimeToDateString(consultation, "visitedOn");
 
         String fullPath = format(CONSULTS_PATH, patientId, id);
         S3CrudRepo.currentUserS3Crud().putJson(fullPath, consultation.toString());
@@ -74,7 +74,7 @@ public class S3ConsultationService implements ConsultationService {
         String patientId = consultation.getString("patientId");
 
         Auditable.preUpdate(consultation);
-        DateUtils.convertISODateToLocalDateString(consultation, "visitedOn");
+        DateUtils.convertISODateTimeToDateString(consultation, "visitedOn");
 
         String fullPath = format(CONSULTS_PATH, patientId, id);
         PutObjectResult result = currentUserS3Crud().putJson(fullPath, consultation.toString());

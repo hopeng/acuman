@@ -55,6 +55,12 @@ public class S3Crud {
         return JsonUtils.fromJson(json, clazz);
     }
 
+    public <T> T getObjectNoException(String key, Class<T> clazz) {
+        String json = getStringNoException(key);
+
+        return json == null ? null : JsonUtils.fromJson(json, clazz);
+    }
+
     public String getStringNoException(String key) {
         String result = null;
 

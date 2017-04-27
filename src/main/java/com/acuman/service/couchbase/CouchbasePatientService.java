@@ -45,7 +45,7 @@ public class CouchbasePatientService implements PatientService {
         patient.put("patientId", id);
         patient.put("type", "PATIENT");
         Auditable.preInsert(patient);
-        DateUtils.convertISODateToLocalDateString(patient, "dob");
+        DateUtils.convertISODateTimeToDateString(patient, "dob");
         JsonDocument result = bucket.insert(JsonDocument.create(id, patient));
 
         log.info("inserted patient: " + result.content());
@@ -70,7 +70,7 @@ public class CouchbasePatientService implements PatientService {
         Assert.notNull(getPatient(id));
 
         Auditable.preUpdate(patient);
-        DateUtils.convertISODateToLocalDateString(patient, "dob");
+        DateUtils.convertISODateTimeToDateString(patient, "dob");
         JsonDocument result = bucket.upsert(JsonDocument.create(id, patient));
 
         log.info("updated patient: " + result.content());

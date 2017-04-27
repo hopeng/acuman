@@ -40,7 +40,7 @@ public class S3PatientService implements PatientService {
         patient.put("patientId", id);
         patient.put("type", "PATIENT");
         Auditable.preInsert(patient);
-        DateUtils.convertISODateToLocalDateString(patient, "dob");
+        DateUtils.convertISODateTimeToDateString(patient, "dob");
 
         System.out.println("Uploading a new object to S3 from a file\n");
         PutObjectResult result = currentUserS3Crud().putJson(PATIENTS_PATH + id, patient.toString());
@@ -67,7 +67,7 @@ public class S3PatientService implements PatientService {
         Assert.notNull(getPatient(id));
 
         Auditable.preUpdate(patient);
-        DateUtils.convertISODateToLocalDateString(patient, "dob");
+        DateUtils.convertISODateTimeToDateString(patient, "dob");
         PutObjectResult result = currentUserS3Crud().putJson(PATIENTS_PATH + id, patient.toString());
         log.info("updated patient:" + PATIENTS_PATH + id);
 

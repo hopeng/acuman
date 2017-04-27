@@ -8,7 +8,7 @@ import java.time.ZonedDateTime;
 
 public final class DateUtils {
 
-    public static void convertISODateToLocalDateString(JsonObject obj, String fieldName) {
+    public static void convertISODateTimeToDateString(JsonObject obj, String fieldName) {
         String dateString = obj.getString(fieldName);
         if (StringUtils.isNotEmpty(dateString)) {
             ZonedDateTime dateTime = ZonedDateTime.parse(dateString).withZoneSameInstant(ZoneId.systemDefault());

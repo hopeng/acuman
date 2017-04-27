@@ -32,7 +32,7 @@ public class S3TcmDictService implements TcmDictService {
     public static final String WORD_TYPE = "WORD";
     public static final String ZH_EN_WORD_ID_SEQ = "zhEnWordIdSeq";
 
-    private static final String WORD_NODES_PREFIX = "wordNodes/";
+    private static final String WORD_NODES_PREFIX = "WordNodes/";
     private static final String ZH_EN_WORDS_PREFIX = "ZhEnWords/";
 
 // todo not safe for distributed system
@@ -138,8 +138,10 @@ public class S3TcmDictService implements TcmDictService {
 
 
     public void buildZhEnWordIndex() {
+        log.info("retrieving list of ZhEnWords from s3");
         List<ZhEnWord> list = tcmDict.listNonFolderObjects(ZH_EN_WORDS_PREFIX, ZhEnWord.class);
         list.forEach(w -> zhEnWordMap.putIfAbsent(w.getCs(), w));
+        log.info("finished building word index");
     }
 
     @Override
@@ -157,13 +159,14 @@ public class S3TcmDictService implements TcmDictService {
     @Override
     public UiWordNode buildWordTree() {
         WordNode rootNode=null;
-        rootNode = tcmDict.getObject(WORD_NODES_PREFIX + generateWordNodeId(rootWord), WordNode.class);
+        rootNode = tcmDict.getObjectNoException(WORD_NODES_PREFIX + generateWordNodeId(rootWord), WordNode.class);
 //        rootNode = couchBaseQuery.get(generateWordNodeId(rootWord), WordNode.class);
-        if (rootNode == null) {
-            log.fatal("root WordNode doesn't exist for rootWord: " + rootWord.getCc());
-            return null;
-        }
         UiWordNode rootUiWordNode = UiWordNode.fromWord(rootWord);
+        if (rootNode == null) {
+            log.warn("root WordNode doesn't exist for rootWord: " + rootWord.getCc());
+            return rootUiWordNode;
+        }
+
         populateUiWordNodeChildren(rootNode, rootUiWordNode);
 
         return rootUiWordNode;
@@ -171,7 +174,7 @@ public class S3TcmDictService implements TcmDictService {
 
     private void populateUiWordNodeChildren(WordNode parent, UiWordNode uiParent) {
         for (String childWordId : parent.getChildWordId()) {
-            ZhEnWord childWord = tcmDict.getObject(ZH_EN_WORDS_PREFIX + childWordId, ZhEnWord.class);
+            ZhEnWord childWord = tcmDict.getObjectNoException(ZH_EN_WORDS_PREFIX + childWordId, ZhEnWord.class);
 //            ZhEnWord childWord = couchBaseQuery.getZhEnWord(childWordId);
             if (childWord == null) {
                 log.fatal("childWordId {} doesn't exist for parent {}", childWordId, parent.getWordNodeId());
@@ -181,7 +184,7 @@ public class S3TcmDictService implements TcmDictService {
             uiParent.addChild(uiChildNode);
 
             // recurse
-            WordNode childNode = tcmDict.getObject(wordNodeId(childWordId), WordNode.class);
+            WordNode childNode = tcmDict.getObjectNoException(WORD_NODES_PREFIX + wordNodeId(childWordId), WordNode.class);
 //            WordNode childNode = couchBaseQuery.getWordNode(wordNodeId(childWordId));
             if (childNode != null) {
                 if (parent.getWordId().equals(childWordId)) {
