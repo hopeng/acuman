@@ -4,7 +4,6 @@ sudo add-apt-repository ppa:webupd8team/java
 sudo apt-get update
 sudo apt-get install git
 sudo apt-get install oracle-java8-installer
-sudo apt-get install gradle
 
 # append this to /etc/environment
 JAVA_HOME=/usr/lib/jvm/default-java

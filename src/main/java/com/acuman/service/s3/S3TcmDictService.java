@@ -34,9 +34,11 @@ public class S3TcmDictService implements TcmDictService {
 
     private static final String WORD_NODES_PREFIX = "WordNodes/";
     private static final String ZH_EN_WORDS_PREFIX = "ZhEnWords/";
+    private static final String CACHED_WORD_TREE_KEY = "cachedUiWordNode";
 
-// todo not safe for distributed system
-    private static Map<String, ZhEnWord> zhEnWordMap = new ConcurrentHashMap<>();
+    // todo not safe for distributed system. make service singleton
+    private UiWordNode cachedUiWordNode;
+    private Map<String, ZhEnWord> cachedZhEnWordMap = new ConcurrentHashMap<>();
 
     private S3Crud tcmDict = new S3Crud("tcmdict");
 
@@ -94,7 +96,7 @@ public class S3TcmDictService implements TcmDictService {
         tcmDict.putJson(ZH_EN_WORDS_PREFIX + wordId, json);
 
         // todo build the index while adding new words into dict. Any better idea?
-        zhEnWordMap.put(zhEnWord.getCs(), zhEnWord);
+        cachedZhEnWordMap.put(zhEnWord.getCs(), zhEnWord);
 //        Document rawJsonDocument = RawJsonDocument.create(wordId, JsonUtils.toJson(zhEnWord));
 //        Document result = bucket.insert(rawJsonDocument);
 
@@ -116,6 +118,11 @@ public class S3TcmDictService implements TcmDictService {
         WordNode wordNode = new WordNode(tag.getMid(), children);
         tcmDict.putJson(WORD_NODES_PREFIX + wordNode.getWordNodeId(), wordNode.toString());
 //        WordNode result = couchBaseQuery.upsert(wordNode.getWordNodeId(), wordNode);
+
+        // clear cache to force word tree rebuild
+        cachedUiWordNode = null;
+        tcmDict.deleteObject(CACHED_WORD_TREE_KEY);
+
         return wordNode;
     }
 
@@ -140,13 +147,13 @@ public class S3TcmDictService implements TcmDictService {
     public void buildZhEnWordIndex() {
         log.info("retrieving list of ZhEnWords from s3");
         List<ZhEnWord> list = tcmDict.listNonFolderObjects(ZH_EN_WORDS_PREFIX, ZhEnWord.class);
-        list.forEach(w -> zhEnWordMap.putIfAbsent(w.getCs(), w));
+        list.forEach(w -> cachedZhEnWordMap.putIfAbsent(w.getCs(), w));
         log.info("finished building word index");
     }
 
     @Override
     public ZhEnWord exactWordMatch(String csOrCcWord) {
-        return zhEnWordMap.get(csOrCcWord);
+        return cachedZhEnWordMap.get(csOrCcWord);
 //        String whereClause = String.format("type='%s' and (cs='%s' or cc='%s')", ZhEnWord, csOrCcWord, csOrCcWord);
 //        Statement statement = select("*").from(bucket.name()).where(whereClause);
 //        List<JsonObject> result = couchBaseQuery.query(statement);
@@ -158,7 +165,15 @@ public class S3TcmDictService implements TcmDictService {
 
     @Override
     public UiWordNode buildWordTree() {
-        WordNode rootNode=null;
+        if (cachedUiWordNode == null) {
+            cachedUiWordNode = tcmDict.getObjectNoException(CACHED_WORD_TREE_KEY, UiWordNode.class);
+        }
+        if (cachedUiWordNode != null) {
+            log.info("got UiWordNode from cache");
+            return cachedUiWordNode;
+        }
+
+        WordNode rootNode;
         rootNode = tcmDict.getObjectNoException(WORD_NODES_PREFIX + generateWordNodeId(rootWord), WordNode.class);
 //        rootNode = couchBaseQuery.get(generateWordNodeId(rootWord), WordNode.class);
         UiWordNode rootUiWordNode = UiWordNode.fromWord(rootWord);
@@ -168,7 +183,8 @@ public class S3TcmDictService implements TcmDictService {
         }
 
         populateUiWordNodeChildren(rootNode, rootUiWordNode);
-
+        tcmDict.putJson(CACHED_WORD_TREE_KEY, JsonUtils.toJson(rootUiWordNode));
+        cachedUiWordNode = rootUiWordNode;
         return rootUiWordNode;
     }
 

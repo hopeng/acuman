@@ -5,20 +5,21 @@ buildscript {
 	repositories {
 	 	mavenLocal()
 		mavenCentral()
-	}
+        jcenter()
+    }
 	dependencies {
-//		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
 	}
 }
 
-
-
-
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.5' //we want gradle 2.10 to run this project
+}
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'idea'
-//apply plugin: 'spring-boot'
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -27,6 +28,12 @@ jar {
 	baseName = 'acuman'
 	version =  '0.1.0'
 }
+
+jar.enabled = false
+jar.dependsOn shadowJar
+
+mainClassName = 'com.acuman.Application'
+
 
 repositories {
 	mavenCentral()
@@ -50,10 +57,6 @@ dependencies {
 	compile 'com.amazonaws:aws-java-sdk:1.9.6'
 
 	testCompile 'junit:junit:4.12'
-}
-
-task wrapper(type: Wrapper) {
-	gradleVersion = '2.10'
 }
 
 task runJar(dependsOn:build) << {
