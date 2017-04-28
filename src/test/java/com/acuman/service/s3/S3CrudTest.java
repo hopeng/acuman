@@ -55,7 +55,7 @@ public class S3CrudTest {
         System.out.println(result);
 
         List<String> list = s3Crud.listObjects("", "");
-        assertEquals(1, list.size());
+        assertTrue(list.size() > 0);
 
         s3Crud.deleteObject("key1");
         assertNull(s3Crud.getStringNoException("key1"));

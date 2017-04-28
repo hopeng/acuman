@@ -5,6 +5,7 @@ import com.acuman.domain.ZhEnWord;
 import com.acuman.service.TcmDictService;
 import com.couchbase.client.java.Bucket;
 import org.apache.commons.io.IOUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.InputStreamReader;
@@ -12,6 +13,7 @@ import java.io.InputStreamReader;
 /**
  * Created by hopeng on 3/05/2016.
  */
+@Ignore
 public class CouchbaseTcmDictServiceTest {
     
     TcmDictService tcmDictService = new CouchbaseTcmDictService();
