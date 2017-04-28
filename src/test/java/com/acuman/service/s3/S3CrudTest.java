@@ -24,10 +24,12 @@ public class S3CrudTest {
     @BeforeClass
     public static void beforeClass() {
         // clean up
-        s3.listObjects(bucketName).getObjectSummaries().forEach(
-                obj -> s3.deleteObject(bucketName, obj.getKey())
-        );
-        s3.deleteBucket(bucketName);
+        if (s3.doesBucketExist(bucketName)) {
+            s3.listObjects(bucketName).getObjectSummaries().forEach(
+                    obj -> s3.deleteObject(bucketName, obj.getKey())
+            );
+            s3.deleteBucket(bucketName);
+        }
 
         // create bucket
         s3Crud = new S3Crud(bucketName);
@@ -59,8 +61,6 @@ public class S3CrudTest {
 
         s3Crud.deleteObject("key1");
         assertNull(s3Crud.getStringNoException("key1"));
-
-        s3.deleteBucket(bucketName);
     }
 
     @Test

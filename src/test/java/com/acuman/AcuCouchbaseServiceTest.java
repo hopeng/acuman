@@ -5,11 +5,13 @@ import com.acuman.service.couchbase.CouchbasePatientService;
 import com.couchbase.client.java.document.json.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.Ignore;
 import org.junit.Test;
 import spark.utils.Assert;
 
 import java.util.List;
 
+@Ignore
 public class AcuCouchbaseServiceTest {
     private static final Logger log = LogManager.getLogger(AcuCouchbaseServiceTest.class);
 
