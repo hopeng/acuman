@@ -77,7 +77,6 @@ public class TcmDictLookupApi {
         get(API_TCM_ZhEn_WORD, (request, response) -> {
             log.info("getting wordTree");
             UiWordNode uiWordNode = tcmDictService.buildWordTree();
-            log.info("got wordTree");
             return uiWordNode;
         });
 
