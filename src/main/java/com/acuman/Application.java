@@ -22,7 +22,11 @@ public class Application {
 // todo ssl  http://stackoverflow.com/a/36843005/843678
         if ("root".equals(System.getProperty("user.name"))) {
             port(80);        	
-        } 
+        }
+
+        if (args != null && args.length >= 1) {
+            port(Integer.valueOf(args[0]));
+        }
 
         externalStaticFileLocation("static/");
 
