@@ -61,7 +61,7 @@ angular.module('caseManagerApp.patients', ['ngResource', 'focus-if'])
             showToast('Successfully deleted patient ' + id);
           },
           function (response) {
-            showToast('Failed to delete patient ' + id);
+            showToast('Failed to delete patient ' + id + '. ' + response.data);
           }
         );
       };

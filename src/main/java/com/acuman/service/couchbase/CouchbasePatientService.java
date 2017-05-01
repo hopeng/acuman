@@ -2,6 +2,7 @@ package com.acuman.service.couchbase;
 
 import com.acuman.CbDocType;
 import com.acuman.CouchBaseQuery;
+import com.acuman.domain.ActionResult;
 import com.acuman.domain.Auditable;
 import com.acuman.service.PatientService;
 import com.acuman.util.AuthUtil;
@@ -85,12 +86,12 @@ public class CouchbasePatientService implements PatientService {
     }
 
     @Override
-    public JsonObject deletePatient(String id) {
+    public ActionResult deletePatient(String id) {
         JsonObject result = bucket.remove(id).content();
 
         log.info("deleted patient: " + result);
 
-        return result;
+        return new ActionResult(204, "");
     }
 
     @Override

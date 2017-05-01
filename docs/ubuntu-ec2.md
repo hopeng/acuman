@@ -11,6 +11,8 @@ JAVA_HOME=/usr/lib/jvm/default-java
 source /etc/environment
 sudo ln -s /usr/lib/jvm/java-8-oracle/ /usr/lib/jvm/default-java
 
+iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 4567
+
 # reference
 http://ajgupta.github.io/ubuntu/2014/09/18/Completely-uninstall-Java-from-Ubuntu-14.04/
 http://tecadmin.net/install-oracle-java-8-jdk-8-ubuntu-via-ppa/

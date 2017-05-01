@@ -1,14 +1,16 @@
 package com.acuman.service.s3;
 
 import com.acuman.CbDocType;
+import com.acuman.domain.ActionResult;
 import com.acuman.domain.Auditable;
+import com.acuman.service.ConsultationService;
 import com.acuman.service.PatientService;
 import com.acuman.util.AuthUtil;
 import com.acuman.util.DateUtils;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import com.couchbase.client.java.document.json.JsonObject;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.utils.Assert;
 
 import java.util.ArrayList;
@@ -21,11 +23,13 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
  * Create index before query: CREATE PRIMARY INDEX on acuman using VIEW
  */
 public class S3PatientService implements PatientService {
-    private static final Logger log = LogManager.getLogger(S3PatientService.class);
+    private static final Logger log = LoggerFactory.getLogger(S3PatientService.class);
 
     private static final String PATIENTS_PATH = "patients/";
 
     private static final String PATIENT_ID_SEQ = "patientIdSeq";
+
+    private ConsultationService consultationService = new S3ConsultationService();
 
     public S3PatientService() {
     }
@@ -82,12 +86,16 @@ public class S3PatientService implements PatientService {
     }
 
     @Override
-    public JsonObject deletePatient(String id) {
-        currentUserS3Crud().deleteObject(PATIENTS_PATH + id);
+    public ActionResult deletePatient(String id) {
+        if (consultationService.getConsultations(id).size() > 0) {
+            log.warn("unable to delete patient {} because there are consultation history", id);
+            return new ActionResult(404, "There are consultation history");
+        }
 
+        currentUserS3Crud().deleteObject(PATIENTS_PATH + id);
         log.info("deleted patient: " + id);
 
-        return null;
+        return new ActionResult(204, "");
     }
 
     @Override

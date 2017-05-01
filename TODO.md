@@ -8,4 +8,7 @@ traditional chinese conversion sucks
 add close button for md-sidenav
 add search and add word feature
 add export dictionary feature
+
+### Urgent
+bug that patients automatically created somehow
 use grey for cancel button

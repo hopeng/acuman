@@ -1,5 +1,6 @@
 package com.acuman.api;
 
+import com.acuman.domain.ActionResult;
 import com.acuman.service.PatientService;
 import com.acuman.service.s3.S3PatientService;
 import com.couchbase.client.java.document.json.JsonObject;
@@ -57,9 +58,10 @@ public class PatientsApi {
 
         delete(API_PATIENTS + "/:id", (request, response) -> {
             String id = request.params(":id");
-            patientService.deletePatient(id);
-            response.status(204);
-            return "";
+            ActionResult result = patientService.deletePatient(id);
+            response.status(result.getHttpCode());
+
+            return result.getMessage();
         });
 
         get(API_PATIENTS, (request, response) -> {
