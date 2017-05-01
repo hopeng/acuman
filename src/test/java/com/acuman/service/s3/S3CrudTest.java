@@ -65,6 +65,9 @@ public class S3CrudTest {
 
     @Test
     public void testSeq() {
+        SequenceGenerator.reset(s3Crud, "testSeq");
+        SequenceGenerator.reset(s3Crud, "anotherNewSeq");
+
         long seq = SequenceGenerator.getNext(s3Crud, "testSeq");
         assertEquals(1, seq);
 

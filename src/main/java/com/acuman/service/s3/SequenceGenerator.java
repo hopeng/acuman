@@ -24,4 +24,9 @@ public class SequenceGenerator {
 
         return current == null ? null : Long.valueOf(current);
     }
+
+    public synchronized static void reset(S3Crud bucket, String sequenceName) {
+        bucket.putJson(SEQ_PREFIX + sequenceName, String.valueOf(0));
+
+    }
 }
