@@ -77,3 +77,9 @@ task runMain(type: JavaExec) {
     classpath sourceSets.main.runtimeClasspath
     main = "com.acuman.Application"
 }
+
+task repackExecJar(type:Exec) {
+	commandLine projectDir.path + '/support/repack-exec-jar.sh'
+	args buildDir.path + "/libs/" + shadowJar.archiveName
+}
+shadowJar.finalizedBy repackExecJar

@@ -12,3 +12,4 @@ add export dictionary feature
 ### Urgent
 bug that patients automatically created somehow
 use grey for cancel button
+archive s3 to glacier
