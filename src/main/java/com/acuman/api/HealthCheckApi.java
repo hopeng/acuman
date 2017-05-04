@@ -12,6 +12,7 @@ public class HealthCheckApi {
     public static void configure() {
 
         get(API_HEALTHCHECK, (request, response) -> {
+            log.info("health check success");
             return "OK";
         });
     }
