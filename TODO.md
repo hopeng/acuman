@@ -10,6 +10,6 @@ add search and add word feature
 add export dictionary feature
 
 ### Urgent
-bug that patients automatically created somehow
+build cloudformation and init script
 use grey for cancel button
 archive s3 to glacier

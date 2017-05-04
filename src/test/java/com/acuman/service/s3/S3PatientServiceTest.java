@@ -2,13 +2,15 @@ package com.acuman.service.s3;
 
 import com.acuman.service.PatientService;
 import com.couchbase.client.java.document.json.JsonObject;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
 
 /**
- * Created by hopeng on 22/4/17.
+ * todo mock it. danger this will modify the prod s3 rigt now
  */
+@Ignore
 public class S3PatientServiceTest {
     PatientService service = new S3PatientService();
 

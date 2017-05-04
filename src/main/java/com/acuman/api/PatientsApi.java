@@ -32,6 +32,7 @@ public class PatientsApi {
         get(API_PATIENTS + "/:id", (request, response) -> {
             String id = request.params(":id");
             JsonObject result = patientService.getPatient(id);
+            log.info("Got patient '{}'", id);
 
             if (result == null) {
                 response.status(404);
@@ -52,6 +53,7 @@ public class PatientsApi {
                 return "Cannot find patient by ID " + id;
 
             } else {
+                log.info("Updating patient '{}'", id);
                 return patientService.updatePatient(id, json);
             }
         });
@@ -59,6 +61,8 @@ public class PatientsApi {
         delete(API_PATIENTS + "/:id", (request, response) -> {
             String id = request.params(":id");
             ActionResult result = patientService.deletePatient(id);
+            log.info("Removed patient '{}'", id);
+
             response.status(result.getHttpCode());
 
             return result.getMessage();
@@ -66,6 +70,7 @@ public class PatientsApi {
 
         get(API_PATIENTS, (request, response) -> {
             List<JsonObject> result = patientService.getPatients();
+            log.info("Retrieved patient list, size={}", result.size());
             return result;
         });
     }
