@@ -2,6 +2,7 @@ package com.acuman;
 
 import com.acuman.api.ConsultationsApi;
 import com.acuman.api.FileDownloadApi;
+import com.acuman.api.HealthCheckApi;
 import com.acuman.api.Oauth2Api;
 import com.acuman.api.PatientsApi;
 import com.acuman.api.TcmDictLookupApi;
@@ -48,6 +49,7 @@ public class Application {
 //        before("/facebook/*", facebookFilter);
 //        before("/google", googleFilter);
 
+        HealthCheckApi.configure();
         PatientsApi.configure();
         ConsultationsApi.configure();
         TcmDictLookupApi.configure();
