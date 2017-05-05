@@ -10,8 +10,6 @@ echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-
 echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
 apt -y install oracle-java8-installer
 
-apt install git
-
 apt -y install nodejs
 ln -s /usr/bin/nodejs /usr/bin/node
 apt -y install npm
