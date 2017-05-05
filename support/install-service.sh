@@ -3,6 +3,7 @@ set -e
 
 basedir=`dirname "$0"`
 
+mkdir -p /usr/lib/systemd/system/
 cp $basedir/acuman.service /usr/lib/systemd/system/
 mkdir -p /var/log/acuman/
 systemctl daemon-reload
