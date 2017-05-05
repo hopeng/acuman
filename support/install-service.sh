@@ -1,3 +1,5 @@
+#!/bin/bash
+
 cp acuman.service /usr/lib/systemd/system/
 mkdir -p /var/log/acuman/
 systemctl daemon-reload
