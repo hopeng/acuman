@@ -1,8 +1,17 @@
 #!/bin/bash
 set -e
 
+basedir=`dirname "$0"`/..
+
+cd $basedir
 git pull
-../gradlew clean build
+
+# build jar
+./gradlew clean build
+
+# build web
 cd static
+npm install
+bower install
 grunt
 cd -

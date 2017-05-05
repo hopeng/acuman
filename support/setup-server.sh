@@ -12,6 +12,8 @@ apt -y install oracle-java8-installer
 
 apt install git
 
+apt -y install nodejs
+ln -s /usr/bin/nodejs /usr/bin/node
 apt -y install npm
 
 npm install bower -g

@@ -1,7 +1,9 @@
 #!/bin/bash
 set -e
 
-cp acuman.service /usr/lib/systemd/system/
+basedir=`dirname "$0"`
+
+cp $basedir/acuman.service /usr/lib/systemd/system/
 mkdir -p /var/log/acuman/
 systemctl daemon-reload
 systemctl enable acuman
