@@ -1,7 +1,5 @@
 #!/bin/bash
-
-git clone -b s3 https://github.com/hopeng/acuman.git
-cd acuman
+set -e
 
 git pull
 ../gradlew clean build

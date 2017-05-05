@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 basedir=`dirname "$0"`
 
