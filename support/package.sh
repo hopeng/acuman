@@ -7,11 +7,5 @@ cd $basedir
 git pull
 
 # build jar
-./gradlew clean build
+./gradlew clean build -x test
 
-# build web
-cd static
-npm install
-bower install
-grunt
-cd -
