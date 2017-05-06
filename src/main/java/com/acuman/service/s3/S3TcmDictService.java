@@ -48,7 +48,7 @@ public class S3TcmDictService implements TcmDictService {
 
     private Thread initThread = new Thread();
 
-    private S3Crud tcmDict = new S3Crud("tcmdict");
+    private S3Crud tcmDict = new S3Crud("acuman-tcmdict");
 
     private ZhEnWord rootWord;
 
