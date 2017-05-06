@@ -28,7 +28,6 @@ public class S3CrudTest {
             s3.listObjects(bucketName).getObjectSummaries().forEach(
                     obj -> s3.deleteObject(bucketName, obj.getKey())
             );
-            s3.deleteBucket(bucketName);
         }
 
         // create bucket
@@ -36,6 +35,15 @@ public class S3CrudTest {
         assertTrue(s3.doesBucketExist(bucketName));
     }
 
+    /**
+     * default listObjects() method only get 1000 record at a time. make sure this gets t
+     */
+    @Test
+    public void testLongList() {
+        S3Crud s3Crud = new S3Crud("tcmdict");
+        List<String> list = s3Crud.listNonFolderObjects("ZhEnWords/");
+        assertTrue(list.size() > 1000);
+    }
 
     @Test
     public void TestPutObject() throws Exception {

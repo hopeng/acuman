@@ -9,7 +9,6 @@ import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.amazonaws.util.IOUtils;
 
 import java.io.ByteArrayInputStream;
@@ -91,18 +90,25 @@ public class S3Crud {
         s3.deleteObject(bucketName, key);
     }
 
-//    todo improve performance. can it list object content in one go?
+    //    todo improve performance. can it list object content in one go?
     public List<String> listObjects(String prefix, String delimiter) {
         List<String> result = new ArrayList<>();
+        List<String> keyList = new ArrayList<>();
 
         ObjectListing list = s3.listObjects(new ListObjectsRequest()
                 .withBucketName(bucketName)
                 .withPrefix(prefix)
                 .withDelimiter(delimiter)
         );
+        list.getObjectSummaries().forEach(s -> keyList.add(s.getKey()));
 
-        for (S3ObjectSummary objectSummary : list.getObjectSummaries()) {
-            String json = getString(objectSummary.getKey());
+        while (list.isTruncated()) {
+            list = s3.listNextBatchOfObjects(list);
+            list.getObjectSummaries().forEach(s -> keyList.add(s.getKey()));
+        }
+
+        for (String key : keyList) {
+            String json = getString(key);
             if (json != null) {
                 result.add(json);
             }
