@@ -1,6 +1,7 @@
 'use strict';
 
 var APP_HOST = 'http://acuman-lb-304446328.us-east-1.elb.amazonaws.com/';
+// var APP_HOST = '';
 
 var CONF = {
   URL: {

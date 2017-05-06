@@ -10,6 +10,7 @@ import com.acuman.service.TcmDictService;
 import com.acuman.util.JsonUtils;
 import com.acuman.util.StringUtils;
 import com.couchbase.client.java.document.json.JsonObject;
+import com.google.common.base.Stopwatch;
 import com.luhuiguo.chinese.ChineseUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,6 +24,7 @@ import java.util.Map;
 
 import static com.acuman.util.JsonUtils.toJson;
 import static com.luhuiguo.chinese.pinyin.PinyinFormat.TONELESS_PINYIN_FORMAT;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
@@ -32,6 +34,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 public class S3TcmDictService implements TcmDictService {
     private static final Logger log = LogManager.getLogger(S3TcmDictService.class);
 
+    public static final String DICT_BUCKET = "acuman-tcmdict";
     public static final String TAG_WORD_TYPE = "TAG-WORD";
     public static final String WORD_TYPE = "WORD";
     public static final String ZH_EN_WORD_ID_SEQ = "zhEnWordIdSeq";
@@ -50,7 +53,7 @@ public class S3TcmDictService implements TcmDictService {
 
     private Thread initThread = new Thread();
 
-    private S3Crud tcmDict = new S3Crud("tcmdict");
+    private S3Crud tcmDict = new S3Crud(DICT_BUCKET);
 
     private ZhEnWord rootWord;
 
@@ -69,6 +72,7 @@ public class S3TcmDictService implements TcmDictService {
             rootWord = tcmDict.getObjectNoException(ZH_EN_WORDS_PREFIX + "ZhEnWord-000001", ZhEnWord.class);
             if (rootWord != null && "Traditional Chinese Medicine".equals(rootWord.getEng1()) &&
                     "中医".equals(rootWord.getCs())) {
+                buildWordTree();
                 buildZhEnWordIndex();
 
             } else {
@@ -210,6 +214,7 @@ public class S3TcmDictService implements TcmDictService {
         }
 
         buildingWordTree = true;
+        Stopwatch watch = Stopwatch.createStarted();
         log.info("building wordTree");
         try {
             WordNode rootNode;
@@ -232,7 +237,7 @@ public class S3TcmDictService implements TcmDictService {
             return null;
 
         } finally {
-            log.info("setting buildingWordTree flag to false");
+            log.info("finished building wordTree in {}s", watch.elapsed(SECONDS));
             buildingWordTree = false;
         }
     }
