@@ -6,6 +6,6 @@ basedir=`dirname "$0"`
 cd $basedir
 git pull
 
-$basedir/package.sh
+$basedir/support/package.sh
 
 sudo systemctl restart acuman
