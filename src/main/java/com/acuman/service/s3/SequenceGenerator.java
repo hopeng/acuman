@@ -1,7 +1,7 @@
 package com.acuman.service.s3;
 
 /**
- * WARNING: not safe in distributed environment
+ * CRITICAL: not safe with S3! fix it. Not safe in distributed environment
  */
 public class SequenceGenerator {
     private static String SEQ_PREFIX = "sequences/";

@@ -50,7 +50,7 @@ public class S3TcmDictService implements TcmDictService {
 
     private Thread initThread = new Thread();
 
-    private S3Crud tcmDict = new S3Crud("acuman-tcmdict");
+    private S3Crud tcmDict = new S3Crud("tcmdict");
 
     private ZhEnWord rootWord;
 
@@ -81,6 +81,7 @@ public class S3TcmDictService implements TcmDictService {
                 rootWord.preInsert();
                 tcmDict.putJson(ZH_EN_WORDS_PREFIX + ROOT_WORD_ID, toJson(rootWord));
                 cachedZhEnWordMap.put(rootWord.getCs(), rootWord);
+                log.info("inserted rootNode as it didn't exist");
             }
         });
 
@@ -226,7 +227,12 @@ public class S3TcmDictService implements TcmDictService {
             log.info("finished building wordTree");
             return rootUiWordNode;
 
+        } catch (Exception e) {
+            log.error("failed building wordTree", e);
+            return null;
+
         } finally {
+            log.info("setting buildingWordTree flag to false");
             buildingWordTree = false;
         }
     }

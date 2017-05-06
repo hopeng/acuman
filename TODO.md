@@ -9,7 +9,11 @@ add close button for md-sidenav
 add search and add word feature
 add export dictionary feature
 
-### Urgent
+## 
 build cloudformation and init script
 use grey for cancel button
 archive s3 to glacier
+
+### Urgent
+add version number
+the SequenceGenerator not safe!
