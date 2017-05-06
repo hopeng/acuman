@@ -1,10 +1,8 @@
-/* xlsx.js (C) 2013-2015 SheetJS -- http://sheetjs.com */
+/* xlsx.js (C) 2013-present SheetJS -- http://sheetjs.com */
 /* uncomment the next line for encoding support */
-//importScripts('dist/cpexcel.js');
+importScripts('dist/cpexcel.js');
 importScripts('jszip.js');
 importScripts('xlsx.js');
-/* uncomment the next line for ODS support */
-importScripts('dist/ods.js');
 postMessage({t:"ready"});
 
 function ab2str(data) {
@@ -27,5 +25,5 @@ onmessage = function (oEvent) {
   } catch(e) { postMessage({t:"e",d:e.stack}); }
   var res = {t:"xlsx", d:JSON.stringify(v)};
   var r = s2ab(res.d)[1];
-  postMessage(r, [r]);
+postMessage(r, [r]);
 };
