@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static com.acuman.util.JsonUtils.toJson;
 import static com.luhuiguo.chinese.pinyin.PinyinFormat.TONELESS_PINYIN_FORMAT;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -38,6 +39,7 @@ public class S3TcmDictService implements TcmDictService {
     private static final String WORD_NODES_PREFIX = "WordNodes/";
     private static final String ZH_EN_WORDS_PREFIX = "ZhEnWords/";
     private static final String CACHED_WORD_TREE_KEY = "cachedUiWordNode";
+    private static final String ROOT_WORD_ID = "ZhEnWord-000001";
 
     // todo not safe for distributed system. make service singleton
     private UiWordNode cachedUiWordNode;
@@ -64,17 +66,21 @@ public class S3TcmDictService implements TcmDictService {
     public S3TcmDictService() {
         // initData in a new thread since it takes a long time
         initThread = new Thread(() -> {
-            rootWord = tcmDict.getObject(ZH_EN_WORDS_PREFIX + "ZhEnWord-000001", ZhEnWord.class);
+            rootWord = tcmDict.getObjectNoException(ZH_EN_WORDS_PREFIX + "ZhEnWord-000001", ZhEnWord.class);
             if (rootWord != null && "Traditional Chinese Medicine".equals(rootWord.getEng1()) &&
                     "中医".equals(rootWord.getCs())) {
                 buildZhEnWordIndex();
 
             } else {
-                throw new IllegalArgumentException("no root node");
-//                rootWord = new ZhEnWord();
-//                rootWord.setCs("中医");
-//                rootWord.setEng1("Traditional Chinese Medicine");
-//                rootWord = enrichAndSaveZhEnWord(rootWord);
+                rootWord = new ZhEnWord();
+                rootWord.setCs("中医");
+                rootWord.setCc("中醫");
+                rootWord.setPy3("Zhong Yi");
+                rootWord.setEng1("Traditional Chinese Medicine");
+                rootWord.setMid(ROOT_WORD_ID);
+                rootWord.preInsert();
+                tcmDict.putJson(ZH_EN_WORDS_PREFIX + ROOT_WORD_ID, toJson(rootWord));
+                cachedZhEnWordMap.put(rootWord.getCs(), rootWord);
             }
         });
 
@@ -110,7 +116,7 @@ public class S3TcmDictService implements TcmDictService {
         zhEnWord.setMid(wordId);
         zhEnWord.preInsert();
 
-        String json = JsonUtils.toJson(zhEnWord);
+        String json = toJson(zhEnWord);
         tcmDict.putJson(ZH_EN_WORDS_PREFIX + wordId, json);
 
         // todo build the index while adding new words into dict. Any better idea?
@@ -215,7 +221,7 @@ public class S3TcmDictService implements TcmDictService {
             }
 
             populateUiWordNodeChildren(rootNode, rootUiWordNode);
-            tcmDict.putJson(CACHED_WORD_TREE_KEY, JsonUtils.toJson(rootUiWordNode));
+            tcmDict.putJson(CACHED_WORD_TREE_KEY, toJson(rootUiWordNode));
             cachedUiWordNode = rootUiWordNode;
             log.info("finished building wordTree");
             return rootUiWordNode;
