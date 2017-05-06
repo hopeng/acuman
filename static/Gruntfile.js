@@ -25,18 +25,26 @@ module.exports = function (grunt) {
           expand: true,
           dot: true,
           cwd: '.',
-          src: ['app/**', 'img/**', 'app.css', 'app.js', 'favicon.ico', 'index.html',
+          src: ['app/**', 'img/**', 'app.css', 'app.js', 'favicon.ico', '*.html',
             '!app/bower_components/**', '!node_modules'],
           dest: 'dist'
         }]
       }
     },
+
+    clean: {
+      build: ['dist']
+    }
   });
 
   // copy distribution to ./dist/ dir with bower dependencies
-  grunt.registerTask('default', [
+  grunt.registerTask('build', [
     'wiredep',
     'copy',
     'wiredepCopy'
+  ]);
+
+  grunt.registerTask('default', [
+    'build'
   ]);
 };

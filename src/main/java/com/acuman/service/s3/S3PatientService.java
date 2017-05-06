@@ -101,10 +101,11 @@ public class S3PatientService implements PatientService {
     @Override
     public List<JsonObject> getPatients() {
         List<JsonObject> result = new ArrayList<>();
-
+        long start = System.currentTimeMillis();
         List<String> list = currentUserS3Crud().listNonFolderObjects(PATIENTS_PATH);
         list.forEach(json -> result.add(JsonObject.fromJson(json)));
 
+        log.info("it took {}ms to get patient list", System.currentTimeMillis() - start);
         return result;
     }
 }

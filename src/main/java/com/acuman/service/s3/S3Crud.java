@@ -91,6 +91,7 @@ public class S3Crud {
         s3.deleteObject(bucketName, key);
     }
 
+//    todo improve performance. can it list object content in one go?
     public List<String> listObjects(String prefix, String delimiter) {
         List<String> result = new ArrayList<>();
 

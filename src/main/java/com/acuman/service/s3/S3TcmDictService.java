@@ -164,7 +164,10 @@ public class S3TcmDictService implements TcmDictService {
 
     public void buildZhEnWordIndex() {
         log.info("building ZhEnWords cs index from s3");
+        long start = System.currentTimeMillis();
+
         List<ZhEnWord> list = tcmDict.listNonFolderObjects(ZH_EN_WORDS_PREFIX, ZhEnWord.class);
+        log.info("it took {}ms to get word list, size={}", System.currentTimeMillis() - start, list.size());
 
         list.forEach(w -> cachedZhEnWordMap.putIfAbsent(w.getCs(), w));
 

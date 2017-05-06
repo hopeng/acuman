@@ -1,11 +1,13 @@
 #!/bin/bash
 set -e
 
+basedir=`dirname "$0"`
+
 # build web
-cd static
+cd $basedir/static
 npm install
 bower install
-grunt
-# todo upload to s3://acuman-web
-aws cp dist/* s3://acuman-web/
+grunt clean build
+aws s3 rm s3://acuman-web/ --recursive
+aws s3 cp dist/ s3://acuman-web/ --recursive
 cd -

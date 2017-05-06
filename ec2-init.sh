@@ -4,4 +4,4 @@ set -e
 
 git clone -b s3 https://github.com/hopeng/acuman.git
 
-acuman/support/all.sh
+acuman/support/all.sh 2>&1 > /tmp/init.log
