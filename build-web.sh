@@ -5,6 +5,7 @@ basedir=`dirname "$0"`
 
 # build web
 cd $basedir/static
+git pull
 npm install
 bower install
 grunt clean build
