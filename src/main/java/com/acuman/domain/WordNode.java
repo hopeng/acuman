@@ -1,12 +1,14 @@
 package com.acuman.domain;
 
 import com.acuman.CbDocType;
-import com.acuman.service.couchbase.CouchbaseTcmDictService;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import static com.acuman.service.s3.S3TcmDictService.wordNodeId;
+
 /**
+ * Represents parent-children relationships between ZhEnWords.
  * WordNode is persisted to DB, while UiWordNode is used for UI display
  */
 public class WordNode extends Auditable {
@@ -32,7 +34,7 @@ public class WordNode extends Auditable {
     }
 
     public String getWordNodeId() {
-        return CouchbaseTcmDictService.wordNodeId(wordId);
+        return wordNodeId(wordId);
     }
 
     public void setWordNodeId(String ignored) {

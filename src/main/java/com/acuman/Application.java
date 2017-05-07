@@ -2,6 +2,7 @@ package com.acuman;
 
 import com.acuman.api.ConsultationsApi;
 import com.acuman.api.FileDownloadApi;
+import com.acuman.api.HealthCheckApi;
 import com.acuman.api.Oauth2Api;
 import com.acuman.api.PatientsApi;
 import com.acuman.api.TcmDictLookupApi;
@@ -11,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import static spark.Spark.before;
 import static spark.Spark.externalStaticFileLocation;
 import static spark.Spark.halt;
+import static spark.Spark.options;
 import static spark.Spark.port;
 
 
@@ -22,7 +24,11 @@ public class Application {
 // todo ssl  http://stackoverflow.com/a/36843005/843678
         if ("root".equals(System.getProperty("user.name"))) {
             port(80);        	
-        } 
+        }
+
+        if (args != null && args.length >= 1) {
+            port(Integer.valueOf(args[0]));
+        }
 
         externalStaticFileLocation("static/");
 
@@ -44,11 +50,34 @@ public class Application {
 //        before("/facebook/*", facebookFilter);
 //        before("/google", googleFilter);
 
+        HealthCheckApi.configure();
         PatientsApi.configure();
         ConsultationsApi.configure();
         TcmDictLookupApi.configure();
         Oauth2Api.configure();
         FileDownloadApi.configure();
+
+        options("/*",
+                (request, response) -> {
+
+                    String accessControlRequestHeaders = request
+                            .headers("Access-Control-Request-Headers");
+                    if (accessControlRequestHeaders != null) {
+                        response.header("Access-Control-Allow-Headers",
+                                accessControlRequestHeaders);
+                    }
+
+                    String accessControlRequestMethod = request
+                            .headers("Access-Control-Request-Method");
+                    if (accessControlRequestMethod != null) {
+                        response.header("Access-Control-Allow-Methods",
+                                accessControlRequestMethod);
+                    }
+
+                    return "OK";
+                });
+
+        before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
 
         before( (request, response) -> {
             String uri = request.uri();

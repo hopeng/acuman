@@ -1,7 +1,10 @@
 node_modules/
-.idea
+.idea/*
+!.idea/codeStyleSettings.xml
+!.idea/runConfigurations/
 *.iml
 /build/
+classes/
 /bin/
 *.log
 .classpath
@@ -9,4 +12,4 @@ node_modules/
 .project
 .settings/
 ~$*
-
+static/dist/

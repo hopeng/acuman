@@ -2,6 +2,7 @@ package com.acuman.service.couchbase;
 
 import com.acuman.CbDocType;
 import com.acuman.CouchBaseQuery;
+import com.acuman.domain.ActionResult;
 import com.acuman.domain.Auditable;
 import com.acuman.service.PatientService;
 import com.acuman.util.AuthUtil;
@@ -20,6 +21,7 @@ import static com.couchbase.client.java.query.Select.select;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
+ * @deprecated use s3
  * Create index before query: CREATE PRIMARY INDEX on acuman using VIEW
  */
 public class CouchbasePatientService implements PatientService {
@@ -44,7 +46,7 @@ public class CouchbasePatientService implements PatientService {
         patient.put("patientId", id);
         patient.put("type", "PATIENT");
         Auditable.preInsert(patient);
-        DateUtils.convertISODateToLocalDateString(patient, "dob");
+        DateUtils.convertISODateTimeToDateString(patient, "dob");
         JsonDocument result = bucket.insert(JsonDocument.create(id, patient));
 
         log.info("inserted patient: " + result.content());
@@ -69,7 +71,7 @@ public class CouchbasePatientService implements PatientService {
         Assert.notNull(getPatient(id));
 
         Auditable.preUpdate(patient);
-        DateUtils.convertISODateToLocalDateString(patient, "dob");
+        DateUtils.convertISODateTimeToDateString(patient, "dob");
         JsonDocument result = bucket.upsert(JsonDocument.create(id, patient));
 
         log.info("updated patient: " + result.content());
@@ -84,18 +86,18 @@ public class CouchbasePatientService implements PatientService {
     }
 
     @Override
-    public JsonObject deletePatient(String id) {
+    public ActionResult deletePatient(String id) {
         JsonObject result = bucket.remove(id).content();
 
         log.info("deleted patient: " + result);
 
-        return result;
+        return new ActionResult(204, "");
     }
 
     @Override
-    public List<JsonObject> getPatients(String doctor) {
+    public List<JsonObject> getPatients() {
         List<JsonObject> result;
-        String condition = String.format("type='PATIENT' and doctor='%s' order by createdDate desc", doctor);
+        String condition = String.format("type='PATIENT' and doctor='%s' order by createdDate desc", AuthUtil.currentUser());
         Statement statement = select("*").from(bucket.name()).where(condition).limit(1000); // todo paging
 
         result = couchBaseQuery.query(statement);

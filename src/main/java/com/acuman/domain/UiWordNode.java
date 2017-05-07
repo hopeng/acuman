@@ -12,7 +12,7 @@ import java.util.Set;
 public class UiWordNode extends ZhEnWord {
 
     // not persisted to DB
-    private Set<ZhEnWord> children = new LinkedHashSet<>();
+    private Set<UiWordNode> children = new LinkedHashSet<>();
 
     public UiWordNode() {
     }
@@ -27,15 +27,15 @@ public class UiWordNode extends ZhEnWord {
         return result;
     }
 
-    public Set<ZhEnWord> getChildren() {
+    public Set<UiWordNode> getChildren() {
         return children;
     }
 
-    public void setChildren(Set<ZhEnWord> children) {
+    public void setChildren(Set<UiWordNode> children) {
         this.children = children;
     }
 
-    public void addChild(ZhEnWord word) {
+    public void addChild(UiWordNode word) {
         children.add(word);
     }
 }

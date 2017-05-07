@@ -7,6 +7,7 @@ angular.module('caseManagerApp.tcmdict', ['ngResource'])
 
       // region local var
       var self = this;
+      // @deprecated
       var tcmDictResource = $resource(CONF.URL.TCMDICT);
       var zhEnWordsResource = $resource(CONF.URL.ZH_EN_WORDS);
 

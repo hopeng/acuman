@@ -5,28 +5,35 @@ buildscript {
 	repositories {
 	 	mavenLocal()
 		mavenCentral()
-	}
+        jcenter()
+    }
 	dependencies {
-//		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
 	}
 }
 
-
-
-
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.5' //we want gradle 2.10 to run this project
+}
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'idea'
-//apply plugin: 'spring-boot'
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 jar {
 	baseName = 'acuman'
-	version =  '0.1.0'
+	version =  '1.0.0'
 }
+
+jar.enabled = false
+jar.dependsOn shadowJar
+
+mainClassName = 'com.acuman.Application'
+
 
 repositories {
 	mavenCentral()
@@ -38,21 +45,19 @@ dependencies {
 	compile 'commons-beanutils:commons-beanutils:1.9.2'
 	compile 'com.couchbase.client:java-client:2.4.4'
 	compile 'com.sparkjava:spark-core:2.3'
-	compile 'org.apache.logging.log4j:log4j-api:2.5'
-	compile 'org.apache.logging.log4j:log4j-core:2.5'
-	compile 'com.mashape.unirest:unirest-java:1.4.9'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.8.2'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.8.2'
+    compile 'com.mashape.unirest:unirest-java:1.4.9'
 //    compile 'com.hankcs:hanlp:portable-1.2.9'
     compile 'com.google.guava:guava:19.0'
     compile 'org.apache.poi:poi-ooxml:3.14'
     compile 'org.pac4j:spark-pac4j:1.1.0'
     compile 'org.pac4j:pac4j-oauth:1.8.8'
 	compile 'com.luhuiguo:chinese-utils:1.0'
+	compile 'com.amazonaws:aws-java-sdk:1.9.6'
 
 	testCompile 'junit:junit:4.12'
-}
-
-task wrapper(type: Wrapper) {
-	gradleVersion = '2.10'
 }
 
 task runJar(dependsOn:build) << {
@@ -72,3 +77,9 @@ task runMain(type: JavaExec) {
     classpath sourceSets.main.runtimeClasspath
     main = "com.acuman.Application"
 }
+
+task repackExecJar(type:Exec) {
+	commandLine projectDir.path + '/support/repack-exec-jar.sh'
+	args buildDir.path + "/libs/" + shadowJar.archiveName
+}
+shadowJar.finalizedBy repackExecJar

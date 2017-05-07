@@ -1,5 +1,6 @@
 package com.acuman.service;
 
+import com.acuman.domain.ActionResult;
 import com.couchbase.client.java.document.json.JsonObject;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public interface PatientService {
 
     JsonObject getPatient(String id);
 
-    JsonObject deletePatient(String id);
+    ActionResult deletePatient(String id);
 
-    List<JsonObject> getPatients(String doctor);
+    List<JsonObject> getPatients();
 }

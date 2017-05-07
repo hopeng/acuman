@@ -4,13 +4,14 @@ sudo add-apt-repository ppa:webupd8team/java
 sudo apt-get update
 sudo apt-get install git
 sudo apt-get install oracle-java8-installer
-sudo apt-get install gradle
 
 # append this to /etc/environment
 JAVA_HOME=/usr/lib/jvm/default-java
 ##################################
 source /etc/environment
 sudo ln -s /usr/lib/jvm/java-8-oracle/ /usr/lib/jvm/default-java
+
+iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 4567
 
 # reference
 http://ajgupta.github.io/ubuntu/2014/09/18/Completely-uninstall-Java-from-Ubuntu-14.04/

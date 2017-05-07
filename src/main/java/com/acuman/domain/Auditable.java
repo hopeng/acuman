@@ -4,12 +4,13 @@ import com.acuman.util.AuthUtil;
 import com.acuman.util.JsonUtils;
 import com.couchbase.client.java.document.json.JsonObject;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  * Created by hopeng on 8/05/2016.
  */
-public class Auditable {
+public class Auditable implements Serializable {
 
     private String createdBy;
     private String createdDate; // todo use LocalDateTime

@@ -36,6 +36,9 @@ import static com.luhuiguo.chinese.pinyin.PinyinFormat.TONELESS_PINYIN_FORMAT;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
+/**
+ * @deprecated use s3
+ */
 public class CouchbaseTcmDictService implements TcmDictService {
     private static final Logger log = LogManager.getLogger(CouchbaseTcmDictService.class);
 
@@ -57,7 +60,7 @@ public class CouchbaseTcmDictService implements TcmDictService {
         rootWord = new ZhEnWord();
         rootWord.setCs("中医");
         rootWord.setEng1("Traditional Chinese Medicine");
-        rootWord = newZhEnWord(rootWord);
+        rootWord = enrichAndSaveZhEnWord(rootWord);
     }
 
     @Override
@@ -86,7 +89,7 @@ public class CouchbaseTcmDictService implements TcmDictService {
 
 //    todo map IllegalArgumentException to HTTP 400
     @Override
-    public ZhEnWord newZhEnWord(ZhEnWord zhEnWord) {
+    public ZhEnWord enrichAndSaveZhEnWord(ZhEnWord zhEnWord) {
         zhEnWord.trimFields();
         Assert.isTrue(isNotEmpty(zhEnWord.getCs()) || isNotEmpty(zhEnWord.getCc()),
                 "chinese must be provided for word: " + zhEnWord);
@@ -120,11 +123,11 @@ public class CouchbaseTcmDictService implements TcmDictService {
     }
 
     @Override
-    public WordNode newZhEnWords(String tagName, List<ZhEnWord> childWords) {
+    public WordNode newWordNode(String tagName, List<ZhEnWord> childWords) {
 
         List<String> children = new LinkedList<>();
         childWords.forEach(word -> {
-            ZhEnWord newWord = this.newZhEnWord(word);
+            ZhEnWord newWord = this.enrichAndSaveZhEnWord(word);
             children.add(newWord.getMid());
         });
 
@@ -138,12 +141,12 @@ public class CouchbaseTcmDictService implements TcmDictService {
 
 
     @Override
-    public ZhEnWord newZhEnWord(String chineseSimplified, String english) {
+    public ZhEnWord enrichAndSaveZhEnWord(String chineseSimplified, String english) {
         ZhEnWord zhEnWord = new ZhEnWord();
         zhEnWord.setCs(chineseSimplified);
         zhEnWord.setEng1(english);
 
-        return newZhEnWord(zhEnWord);
+        return enrichAndSaveZhEnWord(zhEnWord);
     }
 
     private String generateWordNodeId(ZhEnWord word) {
@@ -188,22 +191,22 @@ public class CouchbaseTcmDictService implements TcmDictService {
         return result.isEmpty() ? null : JsonUtils.fromJson(result.get(0), ZhEnWord.class);
     }
 
-    @Override
-    public List<JsonObject> lookupCustomWord(String word, int limit) {
-//        String condition = "type = 'CUSTOM-WORD' and cs like '%" + word + "%' or eng1 like '%" + word + "%' or py3 like '%" + word + "%' order by py3";
-//        N1qlQueryResult query = bucket.query(select("*").from(bucket.name()).where(condition).limit(limit));
-        // todo use raw string condition, or is not wrapped
-        String wordLike = "%" + word + "%";
-        Statement statement = select("*").from(bucket.name()).where(x("type").eq(s(ZhEnWord))
-                .and((x("cs").like(s(wordLike)
-                        .or(x("cc").like(s(wordLike)))
-                        .or(x("py3").like(s(wordLike)))
-                ))))
-                .limit(limit);
-        List<JsonObject> result = couchBaseQuery.query(statement);
-
-        return result;
-    }
+//    @Override
+//    public List<JsonObject> lookupCustomWord(String word, int limit) {
+////        String condition = "type = 'CUSTOM-WORD' and cs like '%" + word + "%' or eng1 like '%" + word + "%' or py3 like '%" + word + "%' order by py3";
+////        N1qlQueryResult query = bucket.query(select("*").from(bucket.name()).where(condition).limit(limit));
+//        // todo use raw string condition, or is not wrapped
+//        String wordLike = "%" + word + "%";
+//        Statement statement = select("*").from(bucket.name()).where(x("type").eq(s(ZhEnWord))
+//                .and((x("cs").like(s(wordLike)
+//                        .or(x("cc").like(s(wordLike)))
+//                        .or(x("py3").like(s(wordLike)))
+//                ))))
+//                .limit(limit);
+//        List<JsonObject> result = couchBaseQuery.query(statement);
+//
+//        return result;
+//    }
 
     @Override
     public void addWordTag(String wordId, String tag) {

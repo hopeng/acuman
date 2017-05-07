@@ -1,0 +1,10 @@
+[Unit]
+Description = acuman application
+
+[Service]
+ExecStart = /bin/bash -c '/home/ubuntu/acuman/build/libs/acuman-all.jar >> /var/log/acuman/server.log 2>&1'
+User = ubuntu
+Group = ubuntu
+
+[Install]
+WantedBy = multi-user.target

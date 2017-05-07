@@ -6,6 +6,9 @@ import com.couchbase.client.java.CouchbaseCluster;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * @deprecated use s3
+ */
 public final class CouchBaseClient {
     private static final Logger log = LogManager.getLogger(CouchBaseClient.class);
 

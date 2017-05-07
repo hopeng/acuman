@@ -17,11 +17,11 @@ public interface TcmDictService {
 
     JsonObject newWord(JsonObject word);
 
-    ZhEnWord newZhEnWord(String chinese, String english);
+    ZhEnWord enrichAndSaveZhEnWord(String chinese, String english);
 
-    ZhEnWord newZhEnWord(ZhEnWord zhEnWord);
+    ZhEnWord enrichAndSaveZhEnWord(ZhEnWord zhEnWord);
 
-    WordNode newZhEnWords(String tagName, List<ZhEnWord> childWords);
+    WordNode newWordNode(String tagName, List<ZhEnWord> childWords);
 
     JsonObject getWord(String mid);
 
@@ -31,7 +31,7 @@ public interface TcmDictService {
 
     JsonObject deleteWord(String mid);
 
-    List<JsonObject> lookupCustomWord(String word, int limit);
+//    List<JsonObject> lookupCustomWord(String word, int limit);
 
     void addWordTag(String id, String tag);
 

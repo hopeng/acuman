@@ -4,7 +4,7 @@ import com.acuman.CbDocType;
 import com.acuman.util.StringUtils;
 
 /**
- * Created by hopeng on 8/05/2016.
+ * The word entity storing the actual English-Chinese definitions
  */
 public class ZhEnWord extends Auditable {
 

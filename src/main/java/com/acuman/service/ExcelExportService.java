@@ -1,7 +1,7 @@
 package com.acuman.service;
 
-import com.acuman.service.couchbase.CouchBaseConsultationService;
-import com.acuman.service.couchbase.CouchbasePatientService;
+import com.acuman.service.s3.S3ConsultationService;
+import com.acuman.service.s3.S3PatientService;
 import com.acuman.util.AuthUtil;
 import com.couchbase.client.java.document.json.JsonObject;
 import org.apache.logging.log4j.LogManager;
@@ -22,8 +22,8 @@ import java.util.Set;
 public class ExcelExportService {
     private static final Logger log = LogManager.getLogger(ExcelExportService.class);
 
-    private PatientService patientService = new CouchbasePatientService();
-    private ConsultationService consultationService = new CouchBaseConsultationService();
+    private PatientService patientService = new S3PatientService();
+    private ConsultationService consultationService = new S3ConsultationService();
 
     public Workbook buildPatientsExcel() {
         String doctor = AuthUtil.currentUser();
@@ -31,7 +31,7 @@ public class ExcelExportService {
         Workbook wb = new XSSFWorkbook();
         Sheet patientSheet = wb.createSheet(doctor + " Patient List");
 
-        List<JsonObject> patients = patientService.getPatients(doctor);
+        List<JsonObject> patients = patientService.getPatients();
         if (patients.size() == 0) {
             return wb;
         }

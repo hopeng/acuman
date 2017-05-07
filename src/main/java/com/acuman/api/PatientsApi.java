@@ -1,10 +1,9 @@
 package com.acuman.api;
 
+import com.acuman.domain.ActionResult;
 import com.acuman.service.PatientService;
-import com.acuman.service.couchbase.CouchbasePatientService;
-import com.acuman.util.AuthUtil;
+import com.acuman.service.s3.S3PatientService;
 import com.couchbase.client.java.document.json.JsonObject;
-import com.couchbase.client.java.error.DocumentDoesNotExistException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,7 +19,7 @@ public class PatientsApi {
     private static final Logger log = LogManager.getLogger(PatientsApi.class);
 
     public static void configure() {
-        PatientService patientService = new CouchbasePatientService();
+        PatientService patientService = new S3PatientService();
         post(API_PATIENTS, (request, response) -> {
             String patientJson = request.body();
             log.info("creating new patient {}", patientJson);
@@ -33,6 +32,7 @@ public class PatientsApi {
         get(API_PATIENTS + "/:id", (request, response) -> {
             String id = request.params(":id");
             JsonObject result = patientService.getPatient(id);
+            log.info("Got patient '{}'", id);
 
             if (result == null) {
                 response.status(404);
@@ -53,25 +53,24 @@ public class PatientsApi {
                 return "Cannot find patient by ID " + id;
 
             } else {
+                log.info("Updating patient '{}'", id);
                 return patientService.updatePatient(id, json);
             }
         });
 
         delete(API_PATIENTS + "/:id", (request, response) -> {
             String id = request.params(":id");
+            ActionResult result = patientService.deletePatient(id);
+            log.info("Removed patient '{}'", id);
 
-            try {
-                patientService.deletePatient(id);
-                response.status(204);
+            response.status(result.getHttpCode());
 
-            } catch (DocumentDoesNotExistException e) {
-                response.status(404);
-            }
-            return "";
+            return result.getMessage();
         });
 
         get(API_PATIENTS, (request, response) -> {
-            List<JsonObject> result = patientService.getPatients(AuthUtil.currentUser());
+            List<JsonObject> result = patientService.getPatients();
+            log.info("Retrieved patient list, size={}", result.size());
             return result;
         });
     }

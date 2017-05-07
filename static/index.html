@@ -7,10 +7,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ETCM</title>
   <meta name="description" content="">
-  <link href="app/bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+  <link href="app/bower_components/bootstrap/less/bootstrap.less" rel="stylesheet/less" type="text/css"/>
   <link href="app/bower_components/angular-material/angular-material.css" rel="stylesheet">
+  <link href="app/bower_components/angular-material-data-table/dist/md-data-table.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="app/bower_components/angular-material-data-table/dist/md-data-table.min.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="app.css">
 </head>
 <body>
@@ -21,39 +21,39 @@
 <![endif]-->
 
 <!--<div ng-cloak>-->
-  <!--<div ui-view="menu"></div>-->
+<!--<div ui-view="menu"></div>-->
 
-  <!--&lt;!&ndash; body &ndash;&gt;-->
-  <!--<div>-->
-    <!--<div>-->
+<!--&lt;!&ndash; body &ndash;&gt;-->
+<!--<div>-->
+<!--<div>-->
 
-      <!--&lt;!&ndash; content view begin &ndash;&gt;-->
-      <!--<div ui-view="content"></div>-->
-      <!--&lt;!&ndash; content view end &ndash;&gt;-->
+<!--&lt;!&ndash; content view begin &ndash;&gt;-->
+<!--<div ui-view="content"></div>-->
+<!--&lt;!&ndash; content view end &ndash;&gt;-->
 
-      <!--<div ui-view="footer"></div>-->
-    <!--</div>-->
-  <!--</div>-->
+<!--<div ui-view="footer"></div>-->
+<!--</div>-->
+<!--</div>-->
 <!--</div>-->
 
 <div ng-cloak ng-view></div>
 
-<!--bower dependencies-->
-<script src="app/bower_components/sprintf/dist/sprintf.min.js"></script>
+<!-- bower:js -->
 <script src="app/bower_components/angular/angular.js"></script>
-<script src="app/bower_components/angular-route/angular-route.min.js"></script>
-<!--<script src="app/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>-->
+<script src="app/bower_components/angular-route/angular-route.js"></script>
 <script src="app/bower_components/angular-resource/angular-resource.js"></script>
-<script src="app/bower_components/angular-messages/angular-messages.min.js"></script>
-<script src="app/bower_components/angular-animate/angular-animate.min.js"></script>
-<script src="app/bower_components/angular-aria/angular-aria.min.js"></script>
-<script src="app/bower_components/angular-material/angular-material.min.js"></script>
-<script src="app/bower_components/angular-material-data-table/dist/md-data-table.min.js"></script>
-<script src="app/bower_components/js-xlsx/shim.js"></script>
-<script src="app/bower_components/js-xlsx/jszip.js"></script>
-<script src="app/bower_components/js-xlsx/xlsx.js"></script>
-<script src="app/bower_components/js-xlsx/ods.js"></script>
+<script src="app/bower_components/angular-animate/angular-animate.js"></script>
+<script src="app/bower_components/angular-aria/angular-aria.js"></script>
+<script src="app/bower_components/angular-messages/angular-messages.js"></script>
+<script src="app/bower_components/angular-material/angular-material.js"></script>
+<script src="app/bower_components/angular-material-data-table/dist/md-data-table.js"></script>
+<script src="app/bower_components/sprintf/src/sprintf.js"></script>
 <script src="app/bower_components/ng-focus-if/focusIf.js"></script>
+<script src="app/bower_components/jquery/dist/jquery.js"></script>
+<script src="app/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script src="app/bower_components/js-xlsx/dist/xlsx.core.min.js"></script>
+<!-- endbower -->
+
 
 <!--in-house sources-->
 <script src="app/components/common/Constants.js"></script>

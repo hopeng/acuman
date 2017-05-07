@@ -1,7 +1,7 @@
 package com.acuman.api;
 
 import com.acuman.service.ConsultationService;
-import com.acuman.service.couchbase.CouchBaseConsultationService;
+import com.acuman.service.s3.S3ConsultationService;
 import com.couchbase.client.java.document.json.JsonObject;
 import com.couchbase.client.java.error.DocumentDoesNotExistException;
 import org.apache.commons.lang3.StringUtils;
@@ -21,7 +21,7 @@ public class ConsultationsApi {
     private static final Logger log = LogManager.getLogger(ConsultationsApi.class);
 
     public static void configure() {
-        ConsultationService service = new CouchBaseConsultationService();
+        ConsultationService service = new S3ConsultationService();
 
         post(API_CONSULTATIONS, (request, response) -> {
             String patientId = request.queryParams("patientId");
@@ -38,6 +38,7 @@ public class ConsultationsApi {
         get(API_CONSULTATIONS + "/:id", (request, response) -> {
             String id = request.params(":id");
             JsonObject result = service.getConsultation(id);
+            log.info("Got consultation '{}'", id);
 
             if (result == null) {
                 response.status(404);
@@ -58,6 +59,7 @@ public class ConsultationsApi {
                 return "Cannot find consultation by ID " + id;
 
             } else {
+                log.info("Updating consultation '{}'", id);
                 return service.updateConsultation(id, json);
             }
         });
@@ -80,6 +82,7 @@ public class ConsultationsApi {
             Assert.isTrue(StringUtils.isNotEmpty(patientId), "patientId query param is required");
 
             List<JsonObject> result = service.getConsultations(patientId);
+            log.info("Retrieved consultation list, size={}", result.size());
             return result;
         });
     }

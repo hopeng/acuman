@@ -19,6 +19,9 @@ import java.util.List;
 import static com.couchbase.client.java.query.Select.select;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
+/**
+ * @deprecated use s3
+ */
 public class CouchBaseConsultationService implements ConsultationService {
     private static final Logger log = LogManager.getLogger(CouchBaseConsultationService.class);
 
@@ -43,7 +46,7 @@ public class CouchBaseConsultationService implements ConsultationService {
         consultation.put("consultId", id);
         consultation.put("type", CbDocType.Consult);
         Auditable.preInsert(consultation);
-        DateUtils.convertISODateToLocalDateString(consultation, "visitedOn");
+        DateUtils.convertISODateTimeToDateString(consultation, "visitedOn");
         JsonDocument result = bucket.insert(JsonDocument.create(id, consultation));
 
         log.info("inserted consultation: " + result.content());
@@ -68,7 +71,7 @@ public class CouchBaseConsultationService implements ConsultationService {
         Assert.notNull(getConsultation(id));
 
         Auditable.preUpdate(consultation);
-        DateUtils.convertISODateToLocalDateString(consultation, "visitedOn");
+        DateUtils.convertISODateTimeToDateString(consultation, "visitedOn");
         JsonDocument result = bucket.upsert(JsonDocument.create(id, consultation));
 
         log.info("updated consultation: " + result.content());
