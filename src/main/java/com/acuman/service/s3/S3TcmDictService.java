@@ -229,7 +229,6 @@ public class S3TcmDictService implements TcmDictService {
             populateUiWordNodeChildren(rootNode, rootUiWordNode);
             tcmDict.putJson(CACHED_WORD_TREE_KEY, toJson(rootUiWordNode));
             cachedUiWordNode = rootUiWordNode;
-            log.info("finished building wordTree");
             return rootUiWordNode;
 
         } catch (Exception e) {

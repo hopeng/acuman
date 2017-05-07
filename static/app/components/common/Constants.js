@@ -1,7 +1,7 @@
 'use strict';
 
-var APP_HOST = 'http://acuman-lb-304446328.us-east-1.elb.amazonaws.com/';
-// var APP_HOST = '';
+var APP_HOST = 'https://api.etcm.com.au/';
+// var APP_HOST = ''; // uncomment this for running local instance
 
 var CONF = {
   URL: {

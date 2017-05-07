@@ -1,0 +1,58 @@
+﻿; Domain: etcm.com.au
+; Exported (y-m-d hh:mm:ss): 2017-05-01 03:51:14
+;
+; This file is intended for use for informational and archival
+; purposes ONLY and MUST be edited before use on a production
+; DNS server.
+;
+; In particular, you must update the SOA record with the correct
+; authoritative name server and contact e-mail address information,
+; and add the correct NS records for the name servers which will
+; be authoritative for this domain.
+;
+; For further information, please consult the BIND documentation
+; located on the following website:
+;
+; http://www.isc.org/
+;
+; And RFC 1035:
+;
+; http://www.ietf.org/rfc/rfc1035.txt
+;
+; Please note that we do NOT offer technical support for any use
+; of this zone data, the BIND name server, or any other third-
+; party DNS software.
+;
+; Use at your own risk.
+
+; Route 53 will remove the NS records while importing.
+; Also need to remove the etcm.com.au suffix on every record set
+
+; SOA Record
+etcm.com.au.	600	IN	SOA	ns31.domaincontrol.com.	dns.jomax.net (
+				2016110800
+				28800
+				7200
+				604800
+				600
+				)
+
+; A Records
+@	3600	IN	A	ALIAS d1u7u1wwoozzdc.cloudfront.net. (z2fdtndataqyw2)
+
+; CNAME Records
+email	3600	IN	CNAME	email.secureserver.net
+_domainconnect	3600	IN	CNAME	_domainconnect.gd.domaincontrol.com
+www	3600	IN	CNAME	@
+ftp	3600	IN	CNAME	@
+
+; MX Records
+@	3600	IN	MX	0	smtp.secureserver.net
+@	3600	IN	MX	10	mailstore1.secureserver.net
+
+; TXT Records
+@	3600	IN	TXT	"google-site-verification=Gg3Xa7X48-ZheWbvuNivnXv0F4Mo_6AMe1XbtVAs_7s"
+
+; NS Records
+@	3600	IN	NS	ns32.domaincontrol.com
+@	3600	IN	NS	ns31.domaincontrol.com
